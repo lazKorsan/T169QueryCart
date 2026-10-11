@@ -63,7 +63,7 @@ configuration.properties
 src/test/java/runner
 
 ###Apps####
-#src/test/java/Apps
+src/test/java/Apps/
 
 ###account.properties###
 src/main/java/enev/accountInfo
