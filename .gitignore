@@ -60,7 +60,7 @@ configuration.properties
 /Documents/
 
 ###runner###
-src/test/java/runner
+###src/test/java/runner
 
 ###Apps####
 src/test/java/Apps
