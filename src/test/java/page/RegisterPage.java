@@ -67,8 +67,8 @@ public class RegisterPage extends BasePage {
         String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HHmmss"));
         String email = name + ".customer." + timestamp + "@QueryCart.com";
 
-        AndroidClickUtils.clickByDescription(driver, "Sign Up");
-        AndroidClickUtils.clickByDescription(driver, "*Use Email Instead");
+        AndroidClickUtils.clickByDescription("Sign Up");
+        AndroidClickUtils.clickByDescription("*Use Email Instead");
         AndroidClickUtils.sendKeysToTextBoxByIndex(name, 0);
         AndroidClickUtils.sendKeysToTextBoxByIndex(email, 1);
         AndroidClickUtils.sendKeysToTextBoxByIndex(password, 2);
@@ -95,10 +95,10 @@ public class RegisterPage extends BasePage {
         }
 
         try {
-            AndroidClickUtils.clickByDescription(driver, "Profile");
+            AndroidClickUtils.clickByDescription("Profile");
             logger.info("Profile butonuna tıklandı");
 
-            AndroidClickUtils.clickByDescription(driver, "Sign Up");
+            AndroidClickUtils.clickByDescription("Sign Up");
             logger.info("Sign Up butonuna tıklandı");
 
             AndroidClickUtils.sendKeysToTextBoxByIndex(name, 0);
@@ -130,10 +130,10 @@ public class RegisterPage extends BasePage {
     }
 
     public void loginWithPhoneNumber(String phoneNumber, String password) {
-        AndroidClickUtils.clickByDescription(driver, "Profile");
+        AndroidClickUtils.clickByDescription("Profile");
         logger.info("Student kullanicisi uzerinde {} yazan butonuna tiklar", "Profile");
 
-        AndroidClickUtils.clickByDescription(driver, "Sign In");
+        AndroidClickUtils.clickByDescription("Sign In");
         logger.info("Student kullanicisi uzerinde {} yazan butonuna tiklar", "Sign In");
 
         AndroidClickUtils.sendKeysToTextBoxByIndex(phoneNumber, 0);
@@ -151,9 +151,9 @@ public class RegisterPage extends BasePage {
     }
 
     public void loginWithMail(String email, String password) {
-        AndroidClickUtils.clickByDescription(driver, "Sign In");
+        AndroidClickUtils.clickByDescription("Sign In");
 
-        AndroidClickUtils.clickByDescription(driver, "*Use Email Instead");
+        AndroidClickUtils.clickByDescription("*Use Email Instead");
         logger.info("Student kullanicisi uzerinde {} yazan butonuna tiklar", "*Use Email Instead");
 
         AndroidClickUtils.sendKeysToTextBoxByIndex(email, 0);
