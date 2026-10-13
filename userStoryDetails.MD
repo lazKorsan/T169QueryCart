@@ -58,7 +58,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 **Açıklama:** Bir kullanici olarak site ana sayfasina erisim saglayabilmek istiyorum.
 
 - **Öncelik:** 🔴 Highest
-- **Sorumlu:** Kerim
+- **Sorumlu:**
 
 **Kabul Kriterleri (Acceptance Criteria):**
 
@@ -71,7 +71,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 **Açıklama:** Bir kullanici olarak site ici islemlerini kolaylikla yapabilmek icin ana sayfa altbarında kolay linklerin bulunmasını istiyorum
 
 - **Öncelik:** 🟡 Medium
-- **Sorumlu:** Elif
+- **Sorumlu:**
 
 **Kabul Kriterleri (Acceptance Criteria):**
 
@@ -86,7 +86,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 **Açıklama:** Bir kullanici olarak sitede kayıt olmadan urunleri inceleyip urun secebilmek ve sepete ekleyebilmek istiyorum
 
 - **Öncelik:** 🟠 High
-- **Sorumlu:** Elif
+- **Sorumlu:**
 
 **Kabul Kriterleri (Acceptance Criteria):**
 
@@ -101,7 +101,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 **Açıklama:** Bir kullanici olarak anasayfada categories baslıgı altında kategorileri görüp istediğim kategoriden ürün secebilmek istiyorum
 
 - **Öncelik:** 🟠 High
-- **Sorumlu:** Elif
+- **Sorumlu:**
 
 **Kabul Kriterleri (Acceptance Criteria):**
 
@@ -114,7 +114,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 **Açıklama:** Bir kullanici olarak anasayfada sitenin popular markalarını görebilmek istiyorum
 
 - **Öncelik:** 🟠 High
-- **Sorumlu:** Bekir
+- **Sorumlu:**
 
 **Kabul Kriterleri (Acceptance Criteria):**
 
@@ -127,7 +127,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 **Açıklama:** Kayıtlı bir kullanici olarak şifremi unuttugumda şifre değiştirme işlemi yapabilmek istiyorum
 
 - **Öncelik:** 🟠 High
-- **Sorumlu:** Bekir
+- **Sorumlu:**
 
 **Kabul Kriterleri (Acceptance Criteria):**
 
@@ -181,7 +181,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 **Açıklama:** Bir kullanici olarak Kategoriler basligi altinda sitede bulunan tum kategorileri gorebilmek istiyorum.
 
 - **Öncelik:** 🟠 High
-- **Sorumlu:** Fatih
+- **Sorumlu:**
 
 **Kabul Kriterleri (Acceptance Criteria):**
 
@@ -196,7 +196,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 **Açıklama:** Bir kullanici olarak alisveris yaptigim sitede guncel urunleri takip edebilecegim bir sayfanin olmasini istiyorum.
 
 - **Öncelik:** 🟡 Medium
-- **Sorumlu:** Beril
+- **Sorumlu:**
 
 **Kabul Kriterleri (Acceptance Criteria):**
 
@@ -212,7 +212,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 **Açıklama:** Kayıtlı bir kullanıcı olarak sitede favori listesi oluşturabilmek istiyorum
 
 - **Öncelik:** 🟡 Medium
-- **Sorumlu:** Beril
+- **Sorumlu:**
 
 **Kabul Kriterleri (Acceptance Criteria):**
 
@@ -226,7 +226,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 **Açıklama:** Bir kullanıcı olarak sayfada sectigim urun ile ilgili detaylı bilgilere ulasabilmek istiyorum
 
 - **Öncelik:** 🟡 Medium
-- **Sorumlu:** Beril
+- **Sorumlu:**
 
 **Kabul Kriterleri (Acceptance Criteria):**
 
@@ -244,7 +244,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 **Açıklama:** Kayıtlı bir kullanici olarak ana sayfada Men menusune ait kategorileri ve urunleri gorebilmek istiyorum.
 
 - **Öncelik:** 🟠 High
-- **Sorumlu:** Fatih
+- **Sorumlu:**
 
 **Kabul Kriterleri (Acceptance Criteria):**
 
@@ -259,7 +259,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 **Açıklama:** Kayıtlı bir kullanici olarak ana sayfada Juniors menusune ait kategorileri ve urunleri gorebilmek istiyorum.
 
 - **Öncelik:** 🟡 Medium
-- **Sorumlu:** Kerim
+- **Sorumlu:**
 
 **Kabul Kriterleri (Acceptance Criteria):**
 
@@ -274,7 +274,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 **Açıklama:** Kayıtlı bir  kullanici olarak ana sayfada Women menusune ait kategorileri ve urunleri gorebilmek istiyorum.
 
 - **Öncelik:** 🟡 Medium
-- **Sorumlu:** Atanmamış
+- **Sorumlu:**
 
 **Kabul Kriterleri (Acceptance Criteria):**
 
@@ -289,7 +289,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 **Açıklama:** Kayitli bir kullanici olarak sitedeki islemlerimi ve ayarlarimi kontrol etmek icin sitede bana özel bir dashboard sayfasinin olmasini istiyorum.
 
 - **Öncelik:** 🟡 Medium
-- **Sorumlu:** Bekir
+- **Sorumlu:**
 
 **Kabul Kriterleri (Acceptance Criteria):**
 
@@ -305,7 +305,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 **Açıklama:** Kayıtlı bir kullanıcı olarak sitede adres bilgilerimi yönetebilecegim bir sayfa olmasını istiyorum
 
 - **Öncelik:** 🟠 High
-- **Sorumlu:** Fatih
+- **Sorumlu:**
 
 **Kabul Kriterleri (Acceptance Criteria):**
 
@@ -321,7 +321,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 **Açıklama:** Kayitli bir kullanici olarak Dashboard panelimde alisveris gecmisimi goruntuleyebilecegim bir sayfanin olmasini istiyorum
 
 - **Öncelik:** 🟠 High
-- **Sorumlu:** Atanmamış
+- **Sorumlu:**
 
 **Kabul Kriterleri (Acceptance Criteria):**
 
@@ -337,7 +337,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 **Açıklama:** Kayıtlı bir kullanıcı olarak sitede odemeyi tamamlamadan önce adres bilgilerimi secip yonetebilecegim bir sayfa olmasını istiyorum
 
 - **Öncelik:** 🟠 High
-- **Sorumlu:** Atanmamış
+- **Sorumlu:**
 
 **Kabul Kriterleri (Acceptance Criteria):**
 
@@ -353,7 +353,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 **Açıklama:** Kayıtlı bir kullanıcı olarak dashboard sayfamda sifre degistirme islemlerimi gerceklestirmek istiyorum
 
 - **Öncelik:** 🟠 High
-- **Sorumlu:** Ahmet
+- **Sorumlu:**
 
 **Kabul Kriterleri (Acceptance Criteria):**
 
@@ -369,7 +369,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 **Açıklama:** Kayıtlı bir kullanıcı olarak sitede kendi profil bilgilerimi duzenleyebilmek istiyorum
 
 - **Öncelik:** 🟠 High
-- **Sorumlu:** Ahmet
+- **Sorumlu:**
 
 **Kabul Kriterleri (Acceptance Criteria):**
 
@@ -385,7 +385,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 **Açıklama:** Kayıtlı bir kullanıcı olarak sistemden guvenli bir sekilde cıkıs yapabilmek istiyorum
 
 - **Öncelik:** 🔴 Highest
-- **Sorumlu:** Mfatih
+- **Sorumlu:**
 
 **Kabul Kriterleri (Acceptance Criteria):**
 
@@ -400,7 +400,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 **Açıklama:** Bir kullanıcı olarak kayıt olmamis kisilerin begendiği urunlerle favori listesi olusturmak icin kayıt sayfasına yonlenmesini istiyorum
 
 - **Öncelik:** 🟡 Medium
-- **Sorumlu:** Mfatih
+- **Sorumlu:**
 
 **Kabul Kriterleri (Acceptance Criteria):**
 
@@ -414,7 +414,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 **Açıklama:** Kayitli bir kullanici olarak kontrollerini sagladigim siparislerimin odemesini gerceklestirebilecegim bir odeme sayfasi olmasini istiyorum.
 
 - **Öncelik:** 🔴 Highest
-- **Sorumlu:** Mfatih
+- **Sorumlu:**
 
 **Kabul Kriterleri (Acceptance Criteria):**
 
@@ -432,7 +432,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 **Açıklama:** Kayıtlı bir kullanici olarak iade etmek istedigim siparisler ile ilgili bir sayfa olmasını ve urun iade islemlerimi yonetebilmeyi istiyorum
 
 - **Öncelik:** 🟡 Medium
-- **Sorumlu:** Ahmet
+- **Sorumlu:**
 
 **Kabul Kriterleri (Acceptance Criteria):**
 
@@ -449,7 +449,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 **Açıklama:** Kayıtlı bir kullanıcı olarak sitede favori urunlerim sayfası olmasını ve bu sayfayı yonetebilmeyi istiyorum
 
 - **Öncelik:** 🟠 High
-- **Sorumlu:** Ahmet
+- **Sorumlu:**
 
 **Kabul Kriterleri (Acceptance Criteria):**
 
@@ -465,7 +465,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 **Açıklama:** Kayıtlı bir kullanıcı olarak sitede bir sepetim olmasını ve bu sepet işlemlerimi yönetebilmeyi istiyorum
 
 - **Öncelik:** 🔴 Highest
-- **Sorumlu:** Mfatih
+- **Sorumlu:**
 
 **Kabul Kriterleri (Acceptance Criteria):**
 
