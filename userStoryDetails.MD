@@ -18,7 +18,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 | US-008 | Kayıtlı bir kullanici olarak siteye kaydoldugum (email/telefon ve password) bilgileriml... | Highest | Ahmet | 7 |
 | US-009 | Bir kullanici olarak Kategoriler basligi altinda sitede bulunan tum kategorileri gorebi... | High |  | 3 |
 | US-010 | Bir kullanici olarak alisveris yaptigim sitede guncel urunleri takip edebilecegim bir s... | Medium |  | 4 |
-| US-011 | Kayıtlı bir kullanıcı olarak sitede favori listesi oluşturabilmek istiyorum | Medium | Beril | 2 |
+| US-011 | Kayıtlı bir kullanıcı olarak sitede favori listesi oluşturabilmek istiyorum | Medium |  | 2 |
 | US-012 | Bir kullanıcı olarak sayfada sectigim urun ile ilgili detaylı bilgilere ulasabilmek ist... | Medium | Aybeniz | 6 |
 | US-013 | Kayıtlı bir kullanici olarak ana sayfada Men menusune ait kategorileri ve urunleri gore... | High |  | 3 |
 | US-014 | Kayıtlı bir kullanici olarak ana sayfada Juniors menusune ait kategorileri ve urunleri ... | Medium |  | 3 |
@@ -31,7 +31,7 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 | US-021 | Kayıtlı bir kullanıcı olarak sitede kendi profil bilgilerimi duzenleyebilmek istiyorum | High | Aybeniz | 4 |
 | US-022 | Kayıtlı bir kullanıcı olarak sistemden guvenli bir sekilde cıkıs yapabilmek istiyorum | Highest | Aybeniz  | 3 |
 | US-023 | Bir kullanıcı olarak kayıt olmamis kisilerin begendiği urunlerle favori listesi olustur... | Medium | Omer  | 2 |
-| US-24 | Kayitli bir kullanici olarak kontrollerini sagladigim siparislerimin odemesini gercekle... | Highest |  | 6 |
+| US-24 | Kayitli bir kullanici olarak kontrollerini sagladigim siparislerimin odemesini gercekle... | Highest | Omer  | 6 |
 | US-025 | Kayıtlı bir kullanici olarak iade etmek istedigim siparisler ile ilgili bir sayfa olmas... | Medium | MFatih | 5 |
 | US-026 | Kayıtlı bir kullanıcı olarak sitede favori urunlerim sayfası olmasını ve bu sayfayı yon... | High |  | 4 |
 | US-027 | Kayıtlı bir kullanıcı olarak sitede bir sepetim olmasını ve bu sepet işlemlerimi yönete... | Highest |  | 5 |
@@ -40,14 +40,14 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 
 | Takım Üyesi | Atanan User Story'ler | Toplam |
 |---|---|---|
-| Ahmet | US-007, US-008, US-020, US-021, US-025, US-026, US-18, US-19, US-17  | 9 |
-| Atanmamış | US-015, US-018, US-019 | 3 |
-| Bekir | US-005, US-006, US-016 | 3 |
-| Beril | US-010, US-0011, US-0012 | 3 |
-| Elif | US-002, US-003, US-004 | 3 |
-| Fatih | US-009, US-013, US-017 | 3 |
-| Kerim | US-001, US-014 | 2 |
-| Mfatih | US-022, US-023, US-24, US-027 | 4 |
+| Ahmet | US-007, US-008, US-019,  | 3 |
+| Atanmamış | US-001, US-009, US-010, US-013, US-014,  | 9 |
+| MFatih | US-025, US-015, US-003 | 3 |
+| Kadriye | US-006, US-020, US-002 | 3 |
+| Omer | US-017, US-024, US-004 | 3 |
+| Huseyin | US-018, US-016, US-005 | 3 |
+| Aybeniz | US-021, US-022, US-012 | 3 |
+
 
 ---
 
