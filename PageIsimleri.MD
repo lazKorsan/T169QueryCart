@@ -2,7 +2,7 @@
 
 2 : UserPage
 
-3 Fatih  : CategoriesPage
+3 CategoriesPage
 
 4  : WishlistPage
 
@@ -27,3 +27,14 @@
 13: Ahmet : StudentPage
 
 15: : StudentPage
+
+Manager
+Customer
+Student
+Instructor
+Teacher
+Admin
+Categories
+Junior
+Whishlist
+

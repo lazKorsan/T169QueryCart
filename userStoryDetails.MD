@@ -9,30 +9,30 @@ Bu doküman, mobil uygulamanın UI (kullanıcı arayüzü) gereksinimlerini kull
 | US ID | Açıklama | Öncelik | Sorumlu | Kriter Sayısı |
 |---|---|---|---|---|
 | US-001 | Bir kullanici olarak site ana sayfasina erisim saglayabilmek istiyorum. | Highest |  | 1 |
-| US-002 | Bir kullanici olarak site ici islemlerini kolaylikla yapabilmek icin ana sayfa altbarın... | Medium |  | 3 |
-| US-003 | Bir kullanici olarak sitede kayıt olmadan urunleri inceleyip urun secebilmek ve sepete ... | High |  | 3 |
-| US-004 | Bir kullanici olarak anasayfada categories baslıgı altında kategorileri görüp istediğim... | High |  | 1 |
-| US-005 | Bir kullanici olarak anasayfada sitenin popular markalarını görebilmek istiyorum | High | Bekir | 1 |
-| US-006 | Kayıtlı bir kullanici olarak şifremi unuttugumda şifre değiştirme işlemi yapabilmek ist... | High |  | 4 |
+| US-002 | Bir kullanici olarak site ici islemlerini kolaylikla yapabilmek icin ana sayfa altbarın... | Medium | Kadriye  | 3 |
+| US-003 | Bir kullanici olarak sitede kayıt olmadan urunleri inceleyip urun secebilmek ve sepete ... | High | MFatih | 3 |
+| US-004 | Bir kullanici olarak anasayfada categories baslıgı altında kategorileri görüp istediğim... | High | Omer | 1 |
+| US-005 | Bir kullanici olarak anasayfada sitenin popular markalarını görebilmek istiyorum | High | Huseyin | 1 |
+| US-006 | Kayıtlı bir kullanici olarak şifremi unuttugumda şifre değiştirme işlemi yapabilmek ist... | High | Kadriye | 4 |
 | US-007 | Bir kullanici olarak sitenin fonksiyonlarindan faydalanabilmek icin siteye kayit olabil... | Highest | Ahmet | 7 |
 | US-008 | Kayıtlı bir kullanici olarak siteye kaydoldugum (email/telefon ve password) bilgileriml... | Highest | Ahmet | 7 |
 | US-009 | Bir kullanici olarak Kategoriler basligi altinda sitede bulunan tum kategorileri gorebi... | High |  | 3 |
 | US-010 | Bir kullanici olarak alisveris yaptigim sitede guncel urunleri takip edebilecegim bir s... | Medium |  | 4 |
 | US-011 | Kayıtlı bir kullanıcı olarak sitede favori listesi oluşturabilmek istiyorum | Medium | Beril | 2 |
-| US-012 | Bir kullanıcı olarak sayfada sectigim urun ile ilgili detaylı bilgilere ulasabilmek ist... | Medium |  | 6 |
+| US-012 | Bir kullanıcı olarak sayfada sectigim urun ile ilgili detaylı bilgilere ulasabilmek ist... | Medium | Aybeniz | 6 |
 | US-013 | Kayıtlı bir kullanici olarak ana sayfada Men menusune ait kategorileri ve urunleri gore... | High |  | 3 |
 | US-014 | Kayıtlı bir kullanici olarak ana sayfada Juniors menusune ait kategorileri ve urunleri ... | Medium |  | 3 |
-| US-015 | Kayıtlı bir  kullanici olarak ana sayfada Women menusune ait kategorileri ve urunleri g... | Medium | — | 3 |
-| US-016 | Kayitli bir kullanici olarak sitedeki islemlerimi ve ayarlarimi kontrol etmek icin site... | Medium |  | 4 |
-| US-017 | Kayıtlı bir kullanıcı olarak sitede adres bilgilerimi yönetebilecegim bir sayfa olmasın... | High |  | 4 |
-| US-018 | Kayitli bir kullanici olarak Dashboard panelimde alisveris gecmisimi goruntuleyebileceg... | High |  | 4 |
-| US-019 | Kayıtlı bir kullanıcı olarak sitede odemeyi tamamlamadan önce adres bilgilerimi secip y... | High |  | 4 |
-| US-020 | Kayıtlı bir kullanıcı olarak dashboard sayfamda sifre degistirme islemlerimi gerceklest... | High |  | 4 |
-| US-021 | Kayıtlı bir kullanıcı olarak sitede kendi profil bilgilerimi duzenleyebilmek istiyorum | High |  | 4 |
-| US-022 | Kayıtlı bir kullanıcı olarak sistemden guvenli bir sekilde cıkıs yapabilmek istiyorum | Highest |  | 3 |
-| US-023 | Bir kullanıcı olarak kayıt olmamis kisilerin begendiği urunlerle favori listesi olustur... | Medium |  | 2 |
+| US-015 | Kayıtlı bir  kullanici olarak ana sayfada Women menusune ait kategorileri ve urunleri g... | Medium | MFatih | 3 |
+| US-016 | Kayitli bir kullanici olarak sitedeki islemlerimi ve ayarlarimi kontrol etmek icin site... | Medium | Huseyin | 4 |
+| US-017 | Kayıtlı bir kullanıcı olarak sitede adres bilgilerimi yönetebilecegim bir sayfa olmasın... | High | Omer  | 4 |
+| US-018 | Kayitli bir kullanici olarak Dashboard panelimde alisveris gecmisimi goruntuleyebileceg... | High | Huseyin | 4 |
+| US-019 | Kayıtlı bir kullanıcı olarak sitede odemeyi tamamlamadan önce adres bilgilerimi secip y... | High | Ahmet | 4 |
+| US-020 | Kayıtlı bir kullanıcı olarak dashboard sayfamda sifre degistirme islemlerimi gerceklest... | High | Kadriye | 4 |
+| US-021 | Kayıtlı bir kullanıcı olarak sitede kendi profil bilgilerimi duzenleyebilmek istiyorum | High | Aybeniz | 4 |
+| US-022 | Kayıtlı bir kullanıcı olarak sistemden guvenli bir sekilde cıkıs yapabilmek istiyorum | Highest | Aybeniz  | 3 |
+| US-023 | Bir kullanıcı olarak kayıt olmamis kisilerin begendiği urunlerle favori listesi olustur... | Medium | Omer  | 2 |
 | US-24 | Kayitli bir kullanici olarak kontrollerini sagladigim siparislerimin odemesini gercekle... | Highest |  | 6 |
-| US-025 | Kayıtlı bir kullanici olarak iade etmek istedigim siparisler ile ilgili bir sayfa olmas... | Medium |  | 5 |
+| US-025 | Kayıtlı bir kullanici olarak iade etmek istedigim siparisler ile ilgili bir sayfa olmas... | Medium | MFatih | 5 |
 | US-026 | Kayıtlı bir kullanıcı olarak sitede favori urunlerim sayfası olmasını ve bu sayfayı yon... | High |  | 4 |
 | US-027 | Kayıtlı bir kullanıcı olarak sitede bir sepetim olmasını ve bu sepet işlemlerimi yönete... | Highest |  | 5 |
 
