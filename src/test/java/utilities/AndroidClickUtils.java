@@ -9,6 +9,8 @@ import io.appium.java_client.android.nativekey.KeyEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
@@ -17,9 +19,11 @@ import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import page.RegisterPage;
 
 import java.time.Duration;
 import java.util.Collections;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,18 +48,21 @@ public class AndroidClickUtils {
     }
 
 
-    public static void clickByDescription(AndroidDriver driver, String buttonName) {
+    public static void clickByDescription(String buttonName) {
         // Yıldız (*) veya tırnak işaretlerinden arındırma
         logger.info("Student kullanıcısı üzerinde '{}' yazan butona tıklıyor", buttonName);
 
         try {
 
-
+            AndroidDriver driver = (AndroidDriver) getAppiumDriver();
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
 
-            WebElement button = driver.findElement(AppiumBy.androidUIAutomator(
-                    "new UiSelector().description(\"" + buttonName + "\")"));
+            WebElement button = wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(
+                            AppiumBy.androidUIAutomator("new UiSelector().description(\"" + buttonName + "\")")
+                    )
+            );
 
             logger.info("'{}' butonu görünür olana kadar bekleniyor...", buttonName);
             wait.until(ExpectedConditions.visibilityOf(button));
@@ -117,7 +124,7 @@ public class AndroidClickUtils {
 
         // Page class'ta yoksa description ile tıkla
         logger.info("🔍 '{}' page class'ta bulunamadı, description ile tıklanıyor...", buttonName);
-        clickByDescription(driver, buttonName);
+        clickByDescription(buttonName);
     }
 
     public static void smartSendKeys(AndroidDriver driver, String elementName,
@@ -240,6 +247,7 @@ public class AndroidClickUtils {
 
     }
 
+
     public static void clickOnCenterOfBounds(AppiumDriver driver, String bounds) {
         // "[112,725][188,801]" formatını ayrıştırmak için bir regex deseni
         Pattern pattern = Pattern.compile("\\[(\\d+),(\\d+)\\]\\[(\\d+),(\\d+)\\]");
@@ -304,6 +312,71 @@ public class AndroidClickUtils {
     public static void hideKeyboard() {
         AndroidDriver driver = (AndroidDriver) getAppiumDriver();
         driver.hideKeyboard(); // Klavyeyi kapatma komutu
+    }
+
+    public static void clickButtonByIndex(String buttonDescription, int index) {
+        // Örn: Ekranda aynı description'a sahip butonlardan index'inci olana tıklar
+        AndroidDriver driver = (AndroidDriver) getAppiumDriver();
+        WebElement button = driver.findElement(
+                AppiumBy.androidUIAutomator(
+                        "new UiSelector().description(\"" + buttonDescription + "\").instance(" + index + ")"
+                )
+        );
+        button.click();
+    }
+
+    /*
+            // 1. AppiumBy.androidUIAutomator ile:
+          clickButtonByListIndex(AppiumBy.androidUIAutomator("new UiSelector().className(\"android.widget.Button\")"), 0);
+
+           // 2. AppiumBy.accessibilityId ile:
+          clickButtonByListIndex(AppiumBy.accessibilityId("Sign In"), 1);
+
+          // 3. By.className veya By.xpath ile:
+           clickButtonByListIndex(By.className("android.widget.Button"), 0);
+     */
+    public static void clickButtonByListIndex(By locator, int index) {
+        AndroidDriver driver = (AndroidDriver) getAppiumDriver();
+        List<WebElement> buttons = driver.findElements(locator);
+
+        if (index < buttons.size()) {
+            buttons.get(index).click();
+        } else {
+            throw new IndexOutOfBoundsException("Aranan index (" + index + ") listedeki eleman sayısından (" + buttons.size() + ") büyük!");
+        }
+    }
+
+    /**
+     * Belirtilen class name ve index numarasına sahip elemente tıklar.
+     *
+     * @param className Örn: "android.widget.Button" veya "android.widget.TextView"
+     * @param index     İstenen elementin index numarası (0'dan başlar)
+     */
+    public static void clickByClassNameAndIndex(String className, int index) {
+        try {
+            AndroidDriver driver = (AndroidDriver) Driver.getAppiumDriver(); // Projenizdeki Driver sınıfına göre güncelleyin
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+            logger.info("📱 Class: '{}' - Index: {} olan elemente tıkkanıyor...", className, index);
+
+            WebElement element = wait.until(
+                    ExpectedConditions.elementToBeClickable(
+                            AppiumBy.androidUIAutomator(
+                                    "new UiSelector().className(\"" + className + "\").instance(" + index + ")"
+                            )
+                    )
+            );
+
+            element.click();
+            logger.info("✅ Class: '{}' - Index: {} elementine başarıyla tıklandı.", className, index);
+
+        } catch (TimeoutException e) {
+            logger.error("⏰ Class: '{}' - Index: {} elementine belirtilen sürede ulaşılamadı!", className, index);
+            Assert.fail("Element bulunamadı veya tıklanabilir değil (Class: " + className + ", Index: " + index + ")");
+        } catch (Exception e) {
+            logger.error("💥 Class: '{}' - Index: {} elementine tıklanırken hata: {}", className, index, e.getMessage());
+            Assert.fail("Tıklama işlemi sırasında hata oluştu: " + e.getMessage());
+        }
     }
 
 
