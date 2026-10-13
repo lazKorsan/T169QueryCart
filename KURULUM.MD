@@ -5,7 +5,7 @@ Bu belge, projenin yerel geliştirme ortamınızda sorunsuz bir şekilde çalı�
 ## 1. Projeyi Klonlama
 Öncelikle projeyi GitHub üzerinden bilgisayarınıza klonlayın:
 ```bash
-git clone https://github.com/[kullanici-adi]/T167QueryCart.git
+git clone https://github.com/[kullanici-adi]/T169QueryCart.git
 ```
 
 ## 2. Konfigürasyon Dosyası
