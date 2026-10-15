@@ -1,14 +1,21 @@
 package stepdefinitions;
 
 import io.cucumber.java.en.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import utilities.Driver;
+
+import static utilities.Driver.getAppiumDriver;
 
 public class ManagerSteps {
 
+    private static final Logger logger = LogManager.getLogger(ManagerSteps.class);
+
     @Given("Manager kullanicisi uygulamayi acar")
     public void manager_kullanicisi_uygulamayi_acar() {
-        Driver.getAppiumDriver();
+        getAppiumDriver();
     }
+
     @Given("Manager kullanicisi sayfa alt barinda {string} ikonunun gorunur oldugunu dogrular")
     public void manager_kullanicisi_sayfa_alt_barinda_ikonunun_gorunur_oldugunu_dogrular(String string) {
 
@@ -37,5 +44,46 @@ public class ManagerSteps {
     public void manager_kullanicisi_arama_sonuclarinin_ekranda_listelendigini_dogrular() {
 
     }
+
+    @Given("Manager kullanicisi Forgot Password sayfasini goruntulendigini dogrular")
+    public void manager_kullanicisi_forgot_password_sayfasini_goruntulendigini_dogrular() {
+
+    }
+
+    @Given("Manager kullanicisi dogrulama yontemi olarak {string} secenegini secer")
+    public void manager_kullanicisi_dogrulama_yontemi_olarak_secenegini_secer(String string) {
+
+    }
+    @Given("Manager kullanicisi ilgili alana {string} bilgisini girer")
+    public void manager_kullanicisi_ilgili_alana_bilgisini_girer(String string) {
+
+    }
+    @Given("Manager kullanicisi Get OTP butonuna tiklar")
+    public void manager_kullanicisi_get_otp_butonuna_tiklar() {
+
+    }
+    @Given("Manager kullanicisi {string} kutusuna yeni sifreyi yazar")
+    public void manager_kullanicisi_kutusuna_yeni_sifreyi_yazar(String string) {
+
+    }
+    @Given("Manager kullanicisi {string} kutusuna yeni sifreyi tekrar yazar")
+    public void manager_kullanicisi_kutusuna_yeni_sifreyi_tekrar_yazar(String string) {
+
+    }
+
+    @Given("Manager kullanicisi {string} yazisini goruntuler ve islemin basariyla gerceklestigini dogrular")
+    public void manager_kullanicisi_yazisini_goruntuler_ve_islemin_basariyla_gerceklestigini_dogrular(String string) {
+
+    }
+    @Given("Manager kullanicisi {string} butonunun gorunur ve aktif oldugunu dogrular")
+    public void manager_kullanicisi_butonunun_gorunur_ve_aktif_oldugunu_dogrular(String string) {
+
+    }
+    @Given("Manager kullanicisi {string} butonuna tiklar")
+    public void manager_kullanicisi_butonuna_tiklar(String string) {
+
+    }
+
+
 
 }
