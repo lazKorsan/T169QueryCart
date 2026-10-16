@@ -22,6 +22,7 @@ Feature: Bir kullanici olarak site ici islemlerini kolaylikla yapabilmek
     Examples:
 
       | buton    | sayfa    |
+      | Home     | Home     |
       | Category | Category |
       | Wishlist | Wishlist |
       | Cart     | Cart     |
