@@ -1,16 +1,24 @@
 package stepdefinitions;
 
+import io.appium.java_client.android.AndroidDriver;
 import io.cucumber.java.en.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import page.ManagerPage;
 import utilities.AndroidClickUtils;
 import utilities.Driver;
+
+import java.time.Duration;
 
 import static utilities.Driver.getAppiumDriver;
 
 public class ManagerSteps {
 
     private static final Logger logger = LogManager.getLogger(ManagerSteps.class);
+    private final ManagerPage managerPage = new ManagerPage();
+    private final AndroidDriver driver = (AndroidDriver) Driver.getAppiumDriver();
+    private final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
     @Given("Manager kullanicisi uygulamayi acar")
     public void manager_kullanicisi_uygulamayi_acar() {
@@ -20,12 +28,13 @@ public class ManagerSteps {
     }
 
     @Given("Manager kullanicisi sayfa alt barinda {string} ikonunun gorunur oldugunu dogrular")
-    public void manager_kullanicisi_sayfa_alt_barinda_ikonunun_gorunur_oldugunu_dogrular(String string) {
+    public void manager_kullanicisi_sayfa_alt_barinda_ikonunun_gorunur_oldugunu_dogrular(String textName) {
+        managerPage.altBarIkonuGoruntulemeVeTiklama(textName,false);
 
     }
     @Given("Manager kullanicisi alt bardaki {string} ikonuna tiklar")
-    public void manager_kullanicisi_alt_bardaki_ikonuna_tiklar(String string) {
-
+    public void manager_kullanicisi_alt_bardaki_ikonuna_tiklar(String ikon) {
+        managerPage.altBarIkonuGoruntulemeVeTiklama(ikon,true);
     }
     @Given("Manager kullanicisi ilgili {string} basligina yonlendirildigini dogrular")
     public void manager_kullanicisi_ilgili_basligina_yonlendirildigini_dogrular(String string) {
