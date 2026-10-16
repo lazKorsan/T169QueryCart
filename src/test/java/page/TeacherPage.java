@@ -58,4 +58,26 @@ public class TeacherPage extends BasePage {
                 "percent", 0.8));
         return Boolean.TRUE.equals(canScrollMore);
     }
+
+    public void selectCategory(String categoryName) {
+        By category = AppiumBy.accessibilityId(categoryName);
+        boolean canScrollMore = true;
+        while (driver.findElements(category).isEmpty() && canScrollMore) {
+            canScrollMore = scrollCategoryListRight();
+        }
+        wait.until(ExpectedConditions.elementToBeClickable(category)).click();
+    }
+
+    @AndroidFindBy(uiAutomator = "new UiSelector().descriptionContains(\"Products Found\")")
+    private WebElement productsFoundLabel;
+
+    public boolean isProductListDisplayed() {
+        return wait.until(ExpectedConditions.visibilityOf(productsFoundLabel)).isDisplayed();
+    }
+
+    public void selectProduct(String productName) {
+        By product = AppiumBy.androidUIAutomator(
+                "new UiSelector().descriptionStartsWith(\"" + productName + "\").clickable(true)");
+        wait.until(ExpectedConditions.elementToBeClickable(product)).click();
+    }
 }
