@@ -13,8 +13,6 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import utilities.AndroidClickUtils;
-import utilities.ConfigReader;
 import utilities.ReusableMethods;
 import utilities.TouchMethods;
 
@@ -276,12 +274,10 @@ public class HistoryPage extends BasePage {
         // 3) E-posta ve sifreyi yaz
         WebElement emailField = wait.until(ExpectedConditions.visibilityOfElementLocated(emailBox));
         emailField.click();
-        emailField.clear();
         emailField.sendKeys(email);
 
         WebElement passwordField = wait.until(ExpectedConditions.visibilityOfElementLocated(passwordBox));
         passwordField.click();
-        passwordField.clear();
         passwordField.sendKeys(password);
 
         hideKeyboardIfOpen();
@@ -323,27 +319,6 @@ public class HistoryPage extends BasePage {
         }
 
         throw new RuntimeException("Giris " + maxAttempts + " denemede yapilamadi. Uygulamanin son hatasi: " + lastError);
-    }
-
-    public void loginWithMailMethod2() {
-
-        AndroidClickUtils.clickByDescription("Profile");
-        ReusableMethods.wait(1);
-        AndroidClickUtils.clickByDescription("Sign In");
-        ReusableMethods.wait(1);
-        AndroidClickUtils.clickByDescription("*Use Email Instead");
-        ReusableMethods.wait(1);
-        AndroidClickUtils.sendKeysToTextBoxByIndex("huseyinyurttepe.user@querycart.com", 0);
-        ReusableMethods.wait(1);
-        AndroidClickUtils.sendKeysToTextBoxByIndex("Learn.123", 1);
-        WebElement submitButton = wait.until(ExpectedConditions.presenceOfElementLocated(
-                AppiumBy.androidUIAutomator("new UiSelector().description(\"Sign In\").instance(1)")
-        ));
-        submitButton.click();
-
-
-
-
     }
 
     /**

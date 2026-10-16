@@ -1,33 +1,24 @@
 package stepdefinitions;
 
-import io.appium.java_client.android.AndroidDriver;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import page.HistoryPage;
-import utilities.AndroidClickUtils;
 import utilities.ConfigReader;
 import utilities.Driver;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-
-import static utilities.Driver.getAppiumDriver;
 
 public class HistorySteps {
 
     private static final Logger logger = LogManager.getLogger(HistorySteps.class);
-    private final HistoryPage historyPage = new HistoryPage();
-    private final AndroidDriver driver = (AndroidDriver) Driver.getAppiumDriver();
-    private final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
     // Her senaryonun ilk adiminda olusturulur (driver yeniden acildiktan sonra)
-    // private HistoryPage historyPage;
+    private HistoryPage historyPage;
 
     // =====================================================================
     // ===== ORTAK =====
@@ -39,11 +30,9 @@ public class HistorySteps {
         // Her senaryo cikis yapilmis temiz uygulamayla baslasin diye driver'i kapatip yeniden aciyoruz.
         // (noReset=false oldugu icin yeni oturumda uygulama sifirlanir.)
         logger.info("History kullanicisi uygulamayi sifirdan aciyor");
-        //Driver.quitAppiumDriver();
-        //Driver.getAppiumDriver();
-        getAppiumDriver();
-        AndroidClickUtils.verifyButtonByName("Profile");
-        // historyPage = new HistoryPage();
+        Driver.quitAppiumDriver();
+        Driver.getAppiumDriver();
+        historyPage = new HistoryPage();
     }
 
     @Then("History kullanicisi {string} basliginin gorunur oldugunu dogrular")
@@ -106,8 +95,7 @@ public class HistorySteps {
 
     @When("History kullanicisi e-posta ile giris yapar")
     public void historyKullanicisiEPostaIleGirisYapar() {
-      //  historyPage.loginWithEmail(getConfig("historyEmail"), getConfig("historyPassword"));
-        historyPage.loginWithMailMethod2();
+        historyPage.loginWithEmail(getConfig("historyEmail"), getConfig("historyPassword"));
     }
 
     @When("History kullanicisi Profile ikonuna tiklar")
@@ -252,12 +240,11 @@ public class HistorySteps {
         Assert.assertTrue("❌ Goz ikonuna basildi ama Order Details sayfasi acilmadi!",
                 historyPage.isOrderDetailsPageOpened());
 
-        // Dogru siparisin acildigini once toplam tutarla, sonra Order ID ile kanitliyoruz
         String detailsTotal = historyPage.getRowValue("Total");
         Assert.assertEquals("❌ Order Details'teki Total, secilen siparisin kartindaki Total ile ayni degil!",
                 selectedOrderTotal, detailsTotal);
 
-        // Sayfanin ustundeki Order ID, secilen siparisin numarasi olmali (dogru siparisin acildiginin kesin kaniti)
+        // Order ID, secilen siparisin numarasi olmali (dogru siparisin acildiginin kesin kaniti)
         String detailsOrderId = historyPage.getDetailsFieldValue("Order ID:");
         Assert.assertEquals("❌ Order Details'teki Order ID, secilen siparisin numarasi ile ayni degil!",
                 selectedOrderNo, detailsOrderId);
