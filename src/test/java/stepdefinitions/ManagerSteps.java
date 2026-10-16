@@ -3,6 +3,7 @@ package stepdefinitions;
 import io.cucumber.java.en.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import utilities.AndroidClickUtils;
 import utilities.Driver;
 
 import static utilities.Driver.getAppiumDriver;
@@ -14,6 +15,8 @@ public class ManagerSteps {
     @Given("Manager kullanicisi uygulamayi acar")
     public void manager_kullanicisi_uygulamayi_acar() {
         getAppiumDriver();
+
+        AndroidClickUtils.verifyButtonByName("Profile");
     }
 
     @Given("Manager kullanicisi sayfa alt barinda {string} ikonunun gorunur oldugunu dogrular")
@@ -83,7 +86,21 @@ public class ManagerSteps {
     public void manager_kullanicisi_butonuna_tiklar(String string) {
 
     }
+    @Given("Manager kullanicisi password kutusuna {string} bilgisini girer")
+    public void manager_kullanicisi_password_kutusuna_bilgisini_girer(String string) {
 
+    }
+    @Given("Manager kullanicisi acilan dashboardda {string} linkini goruntuler ve tiklar")
+    public void manager_kullanicisi_acilan_dashboardda_linkini_goruntuler_ve_tiklar(String string) {
 
+    }
+    @Given("Manager kullanicisi old password alanina {string}, new password alanina {string} ve confirm alanina {string} yazar")
+    public void manager_kullanicisi_old_password_alanina_new_password_alanina_ve_confirm_alanina_yazar(String string, String string2, String string3) {
+
+    }
+    @Given("Manager kullanicisi {string} butonunu goruntuler ve tiklar")
+    public void manager_kullanicisi_butonunu_goruntuler_ve_tiklar(String string) {
+
+    }
 
 }

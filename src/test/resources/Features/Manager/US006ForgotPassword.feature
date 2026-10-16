@@ -21,7 +21,7 @@ Feature: Kayıtlı bir kullanici olarak şifremi unuttugumda şifre değiştirme
     * Manager kullanicisi Get OTP butonuna tiklar
     * Manager kullanicisi "New Password" kutusuna yeni sifreyi yazar
     * Manager kullanicisi "Confirm Password" kutusuna yeni sifreyi tekrar yazar
-    * Manager kullanicisi "Submit" butonuna basar
+    * Manager kullanicisi "Submit" butonuna tiklar
     * Manager kullanicisi "Success" yazisini goruntuler ve islemin basariyla gerceklestigini dogrular
 
 
