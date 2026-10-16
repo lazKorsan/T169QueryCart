@@ -3,6 +3,7 @@ package page;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -19,8 +20,12 @@ public class TeacherPage extends BasePage {
     // ===================== Common =====================
 
     public boolean isHeadingDisplayed(String heading) {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(AppiumBy.accessibilityId(heading)))
-                .isDisplayed();
+        try {
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(AppiumBy.accessibilityId(heading)))
+                    .isDisplayed();
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 
     // ===================== Categories (US-004) =====================
@@ -72,7 +77,11 @@ public class TeacherPage extends BasePage {
     private WebElement productsFoundLabel;
 
     public boolean isProductListDisplayed() {
-        return wait.until(ExpectedConditions.visibilityOf(productsFoundLabel)).isDisplayed();
+        try {
+            return wait.until(ExpectedConditions.visibilityOf(productsFoundLabel)).isDisplayed();
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 
     public void selectProduct(String productName) {
