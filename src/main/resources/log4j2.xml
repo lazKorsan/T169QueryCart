@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
     <Appenders>
-        <!-- Konsola log yazan appender -->
+        <!-- Konsola log yazan appender (renkler olduğu gibi kalır) -->
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n" />
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
 
-        <!-- Dosyaya log yazan appender -->
+        <!-- Dosyaya log yazan appender (ANSI kodları temizlenir) -->
         <File name="FileLogger" fileName="logs/test-log.log">
-            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n" />
+            <PatternLayout charset="UTF-8"
+                           pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %replace{%msg}{\x1b\[[;\d]*m}{}%n"/>
         </File>
     </Appenders>
     <Loggers>
         <Root level="info">
-            <AppenderRef ref="Console" />
-            <AppenderRef ref="FileLogger" />
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileLogger"/>
         </Root>
     </Loggers>
 </Configuration>

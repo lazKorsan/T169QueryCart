@@ -33,7 +33,6 @@ Feature: Uygulama icinde alis-veris yapabilmek icin dogru bilgilerle giris yapab
   Scenario: Dogru mail ve sifre bilgileri ile uygulamaya giris yapabilmeliyim
     * Register kullanicisi uyugulamayi acar
     * Register kullanicisi "Profile" butona tiklar
-    #* Register kullanicisi "Sign In" butona tiklar
     * Register kullanicisi "ahmet.customer.141248@QueryCart.com" mail adresi ve "Query.2026!" sifresi ile uyuglamaya giris yapar
     * Register kullanicisi "Profile" butonunun gornurlugu ile giris yapildigini dogrular
 
