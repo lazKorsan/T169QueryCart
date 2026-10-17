@@ -42,7 +42,7 @@ public class TeacherSteps {
 
     @When("Teacher kullanicisi {string} sayfasina gider")
     public void goToBottomTab(String tabName) {
-        teacherPage.clickBottomTab(tabName);
+        teacherPage.clickElement(tabName);
     }
 
     @Then("Teacher kullanicisi {string} menusunun gorunur ve aktif oldugunu dogrular")
@@ -92,6 +92,11 @@ public class TeacherSteps {
 
     @When("Teacher kullanicisi {string} menusune tiklar")
     public void clickProfileMenuItem(String menuName) {
-        teacherPage.clickProfileMenuItem(menuName);
+        teacherPage.clickElement(menuName);
+    }
+
+    @When("Teacher kullanicisi {string} butonuna tiklar")
+    public void clickButton(String buttonName) {
+        teacherPage.clickElement(buttonName);
     }
 }

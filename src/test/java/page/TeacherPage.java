@@ -38,6 +38,10 @@ public class TeacherPage extends BasePage {
         }
     }
 
+    public void clickElement(String accessibilityId) {
+        wait.until(ExpectedConditions.elementToBeClickable(AppiumBy.accessibilityId(accessibilityId))).click();
+    }
+
     // ===================== Categories (US-004) =====================
 
     @AndroidFindBy(xpath = "//android.view.View[@content-desc='Categories']"
@@ -98,17 +102,5 @@ public class TeacherPage extends BasePage {
         By product = AppiumBy.androidUIAutomator(
                 "new UiSelector().descriptionStartsWith(\"" + productName + "\").clickable(true)");
         wait.until(ExpectedConditions.elementToBeClickable(product)).click();
-    }
-
-    // ===================== Bottom Navigation (Common) =====================
-
-    public void clickBottomTab(String tabName) {
-        wait.until(ExpectedConditions.elementToBeClickable(AppiumBy.accessibilityId(tabName))).click();
-    }
-
-    // ===================== Profile Menu (Common) =====================
-
-    public void clickProfileMenuItem(String menuName) {
-        wait.until(ExpectedConditions.elementToBeClickable(AppiumBy.accessibilityId(menuName))).click();
     }
 }
