@@ -28,6 +28,16 @@ public class TeacherPage extends BasePage {
         }
     }
 
+    public boolean isElementDisplayedAndEnabled(String accessibilityId) {
+        try {
+            WebElement element = wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(AppiumBy.accessibilityId(accessibilityId)));
+            return element.isDisplayed() && element.isEnabled();
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
     // ===================== Categories (US-004) =====================
 
     @AndroidFindBy(xpath = "//android.view.View[@content-desc='Categories']"
@@ -98,13 +108,7 @@ public class TeacherPage extends BasePage {
 
     // ===================== Profile Menu (Common) =====================
 
-    public boolean isProfileMenuDisplayedAndEnabled(String menuName) {
-        try {
-            WebElement menu = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(AppiumBy.accessibilityId(menuName)));
-            return menu.isDisplayed() && menu.isEnabled();
-        } catch (TimeoutException e) {
-            return false;
-        }
+    public void clickProfileMenuItem(String menuName) {
+        wait.until(ExpectedConditions.elementToBeClickable(AppiumBy.accessibilityId(menuName))).click();
     }
 }

@@ -48,7 +48,13 @@ public class TeacherSteps {
     @Then("Teacher kullanicisi {string} menusunun gorunur ve aktif oldugunu dogrular")
     public void verifyProfileMenuIsActive(String menuName) {
         Assert.assertTrue(menuName + " menusu gorunur ve aktif degil",
-                teacherPage.isProfileMenuDisplayedAndEnabled(menuName));
+                teacherPage.isElementDisplayedAndEnabled(menuName));
+    }
+
+    @Then("Teacher kullanicisi {string} butonunun gorunur ve aktif oldugunu dogrular")
+    public void verifyButtonIsActive(String buttonName) {
+        Assert.assertTrue(buttonName + " butonu gorunur ve aktif degil",
+                teacherPage.isElementDisplayedAndEnabled(buttonName));
     }
 
     @Then("Teacher kullanicisi anasayfada {string} basliginin gorunur oldugunu dogrular")
@@ -82,5 +88,10 @@ public class TeacherSteps {
     @Then("Teacher kullanicisi {string} urununun detay sayfasinin acildigini dogrular")
     public void verifyProductDetailPageIsOpened(String productName) {
         Assert.assertTrue(productName + " detay sayfasi acilmadi", teacherPage.isHeadingDisplayed(productName));
+    }
+
+    @When("Teacher kullanicisi {string} menusune tiklar")
+    public void clickProfileMenuItem(String menuName) {
+        teacherPage.clickProfileMenuItem(menuName);
     }
 }
