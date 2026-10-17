@@ -3,6 +3,7 @@ package page;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -19,8 +20,12 @@ public class TeacherPage extends BasePage {
     // ===================== Common =====================
 
     public boolean isHeadingDisplayed(String heading) {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(AppiumBy.accessibilityId(heading)))
-                .isDisplayed();
+        try {
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(AppiumBy.accessibilityId(heading)))
+                    .isDisplayed();
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 
     // ===================== Categories (US-004) =====================
@@ -57,5 +62,49 @@ public class TeacherPage extends BasePage {
                 "direction", "right",
                 "percent", 0.8));
         return Boolean.TRUE.equals(canScrollMore);
+    }
+
+    public void selectCategory(String categoryName) {
+        By category = AppiumBy.accessibilityId(categoryName);
+        boolean canScrollMore = true;
+        while (driver.findElements(category).isEmpty() && canScrollMore) {
+            canScrollMore = scrollCategoryListRight();
+        }
+        wait.until(ExpectedConditions.elementToBeClickable(category)).click();
+    }
+
+    @AndroidFindBy(uiAutomator = "new UiSelector().descriptionContains(\"Products Found\")")
+    private WebElement productsFoundLabel;
+
+    public boolean isProductListDisplayed() {
+        try {
+            return wait.until(ExpectedConditions.visibilityOf(productsFoundLabel)).isDisplayed();
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
+    public void selectProduct(String productName) {
+        By product = AppiumBy.androidUIAutomator(
+                "new UiSelector().descriptionStartsWith(\"" + productName + "\").clickable(true)");
+        wait.until(ExpectedConditions.elementToBeClickable(product)).click();
+    }
+
+    // ===================== Bottom Navigation (Common) =====================
+
+    public void clickBottomTab(String tabName) {
+        wait.until(ExpectedConditions.elementToBeClickable(AppiumBy.accessibilityId(tabName))).click();
+    }
+
+    // ===================== Profile Menu (Common) =====================
+
+    public boolean isProfileMenuDisplayedAndEnabled(String menuName) {
+        try {
+            WebElement menu = wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(AppiumBy.accessibilityId(menuName)));
+            return menu.isDisplayed() && menu.isEnabled();
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 }
