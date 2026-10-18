@@ -103,7 +103,9 @@ public class StudentPage extends BasePage {
     public By addToCartButton = AppiumBy.androidUIAutomator(
             "new UiSelector().descriptionContains(\"Add to Cart\")");
 
-
+@AndroidFindBy(uiAutomator = "new UiSelector().description(\"Change Password\n" +
+        "Password Updated Successfully\")")
+public WebElement successChangePasswordMessage; // success change password
 
 
     public WebElement getElementByName(String elementName) {
@@ -127,6 +129,7 @@ public class StudentPage extends BasePage {
             case "old password" -> oldPasswordBox;
             case "new  password" -> newPasswordBox;
             case "comfirm password" -> comfirmPasswordBox;
+            case "success change password" -> successChangePasswordMessage;
             default -> null;
         };
     }
