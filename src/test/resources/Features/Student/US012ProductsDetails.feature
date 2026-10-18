@@ -1,12 +1,12 @@
-@US012ProductsDetails
+@US012ProductsDetailsSt
 Feature: Bir kullanıcı olarak sayfada sectigim urun ile ilgili detaylı bilgilere ulasabilmek istiyorum
 
-  @US012ProductsDetailsTC01
+  @US012ProductsDetailsTC01St
   Scenario: Anasayfadan secilen urun sayfasına gecilebilmeli
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "Flower Print Foil T" butona tiklar
 
-  @US012ProductsDetailsTC02
+  @US012ProductsDetailsTC02St
   Scenario: Urun sayfasına gecildiginde Details,Videos,Review,Shipping&Return baslıkları görünür ve aktif olmalı
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "Flower Print Foil T" butona tiklar
@@ -16,14 +16,14 @@ Feature: Bir kullanıcı olarak sayfada sectigim urun ile ilgili detaylı bilgil
     * Student kullanicisi "Review" butonun gorunur ve aktif oldugunu dogrular
     * Student kullanicisi "Shipping & Return" butonun gorunur ve aktif oldugunu dogrular
 
-  @US012ProductsDetailsTC03
+  @US012ProductsDetailsTC03St
   Scenario: Urun sayfasına gecildiginde Details,Videos,Review,Shipping&Return baslıkları görünür ve aktif olmalı
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "Flower Print Foil T" butona tiklar
     * Student kullanicisi "Details" butonunu bulur
     * Student kullanicisi urun detayinin "Flower Print Foil T-shirt" oldugunu dogrular
 
-  @US012ProductsDetailsTC04
+  @US012ProductsDetailsTC04St
   Scenario: Urun sayfasına gecildiginde Details,Videos,Review,Shipping&Return baslıkları görünür ve aktif olmalı
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "Flower Print Foil T" butona tiklar

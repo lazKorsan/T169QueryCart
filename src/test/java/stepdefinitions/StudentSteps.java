@@ -11,9 +11,11 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -22,6 +24,8 @@ import utilities.*;
 
 import java.time.Duration;
 import javax.sound.midi.InvalidMidiDataException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 
@@ -1018,6 +1022,96 @@ public class StudentSteps {
     public void studentKullanicisiToasterMesajininGorunurlugunuDogrular(String toasterMessageName) {
 
 
+    }
+
+    @When("Student kullanicisi {string} ismi ile profil degisikligini dogrular")
+    public void studentKullanicisiIsmiIleProfilDegisikliginiDogrular(String expectedValue) {
+
+        WebElement nameContainer = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                AppiumBy.androidUIAutomator("new UiSelector().description(\"" + expectedValue + "\")")
+        ));
+
+        // Elementin content-desc (accessibility label) degerini alıp dogruluyoruz
+        String actualValue = nameContainer.getAttribute("content-desc");
+
+        Assert.assertEquals(actualValue, expectedValue);
+    }
+
+    @When("Student kullanicisi {string} box kutusuna index {int} ile {string} mail adresini degistirir")
+    public void studentKullanicisiBoxKutusunaIndexIleMailAdresiniDegistirir(String boxName, int index, String rawEmail) {
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HHmmss"));
+
+        // Feature dosyasından gelen "{timeStamp}" placeholder'ını dinamik zaman bilgisiyle değiştiriyoruz
+        String formattedEmail = rawEmail.contains("{timeStamp}")
+                ? rawEmail.replace("{timeStamp}", timestamp)
+                : rawEmail;
+
+        AndroidClickUtils.sendKeysToTextBoxByIndex(formattedEmail, index);
+
+        logger.info("Student kullanicisi '{}' alanina (Index: {}) '{}' e-posta adresini girdi.", boxName, index, formattedEmail);
+    }
+
+    @When("Student kullanicisi {string} box kutusuna index {int} ile {string} telefon numarasini degistirir")
+    public void studentKullanicisiBoxKutusunaIndexIleTelefonNumarasiniDegistirir(String boxName, int index, String rawPhone) {
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HHmmss"));
+
+        // Feature dosyasından gelen "{timeStamp}" placeholder'ını dinamik zaman bilgisiyle değiştiriyoruz
+        String formattedPhone = rawPhone.contains("{timeStamp}")
+                ? rawPhone.replace("{timeStamp}", timestamp)
+                : rawPhone;
+
+        AndroidClickUtils.sendKeysToTextBoxByIndex(formattedPhone, index);
+
+        logger.info("Student kullanicisi '{}' alanina (Index: {}) '{}' telefon numarasini girdi.", boxName, index, formattedPhone);
+    }
+
+    @When("Student kullanicisi {string} ikonu islevsiz birakir")
+    public void studentKullanicisiButonunuIslevsizBirakir(String ikonName) {
+
+
+        WebElement sepetIkonu = driver.findElement(AppiumBy.androidUIAutomator(
+                "new UiSelector().className(\"android.widget.ImageView\").instance(2)"
+        ));
+
+        // GONE ile görünür alandan kaldır (alan kaplamaz, tıklanamaz)
+        driver.executeScript("mobile: setVisibility", Map.of(
+                "elementId", ((RemoteWebElement) sepetIkonu).getId(),
+                "visibility", "gone"
+        ));
+        System.out.println(ikonName + " ikonu GONE yapıldı.");
+
+    }
+
+    @When("Student kullanicisi {string} uyuglamadan ayrilma butonuna basar")
+    public void studentKullanicisiUyuglamadanAyrilmaButonunaBasar(String buttonName) {
+
+        WebElement button = driver.findElement(AppiumBy.androidUIAutomator(
+                "new UiSelector().description(\"" + buttonName + "\")"
+        ));
+
+        Rectangle rect = button.getRect();
+        int centerX = rect.getX() + rect.getWidth() / 2;
+        int centerY = rect.getY() + rect.getHeight() / 2;
+
+        // FAB'ın ekran üzerindeki konumu (XML'den: [614,2699][826,2912])
+        // Eğer butonun merkezi FAB'ın alanına denk geliyorsa sol tarafa kaydır
+        boolean overlapsFab = centerX >= 614 && centerX <= 826
+                && centerY >= 2699 && centerY <= 2912;
+
+        if (overlapsFab) {
+            // Sol tarafa tıkla, FAB'ı atla
+            int tapX = rect.getX() + 50;
+            int tapY = centerY;
+            Map<String, Object> args = new HashMap<>();
+            args.put("x", tapX);
+            args.put("y", tapY);
+            driver.executeScript("mobile: clickGesture", args);
+        } else {
+            // Çakışma yoksa normal tıkla
+            button.click();
+        }
+
+        logger.info("Student kullanicisi {} uyuglamadan ayrilma butonuna basar", buttonName);
     }
 }
 

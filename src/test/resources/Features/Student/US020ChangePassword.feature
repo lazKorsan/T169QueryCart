@@ -1,8 +1,8 @@
-@US020ChangePassword
+@US020ChangePasswordSt
 Feature: Kayıtlı bir kullanıcı olarak dashboard sayfamda sifre degistirme islemlerimi gerceklestirmek istiyorum
 
-  @ChangePasswordDynamic
-  Scenario: preCondition dynamic giris
+  @ChangePasswordDynamicSt
+  Scenario: Kullanici sifresini basarili bir sekilde degistirebilmeli
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "Profile" butona tiklar
     * Register kullanicisi "Sign Up" butona tiklar
@@ -18,7 +18,7 @@ Feature: Kayıtlı bir kullanıcı olarak dashboard sayfamda sifre degistirme is
     * Student kullanicisi "Save Changes" butona tiklar
     * Student kullanicisi "Success Change Password" toaster mesaji ile sifre degisikligini dogrular
 
-  @US020ChangePasswordTC01
+  @US020ChangePasswordTC01St
   Scenario: Dashboard sayfasında Change Password linki gorunur ve aktif olmalı
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "Profile" butona tiklar
@@ -32,7 +32,7 @@ Feature: Kayıtlı bir kullanıcı olarak dashboard sayfamda sifre degistirme is
     * Student kullanicisi "Confirm Password" yazi alaninin gorunur ve aktif oldugunu dogrular
     * Student kullanicisi "Save Changes" butonun gorunur ve aktif oldugunu dogrular
 
-  @US020ChangePasswordTC02
+  @US020ChangePasswordTC02St
   Scenario: Dashboard sayfasında Change Password linki gorunur ve aktif olmalı
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "Profile" butona tiklar
@@ -45,7 +45,7 @@ Feature: Kayıtlı bir kullanıcı olarak dashboard sayfamda sifre degistirme is
     * Student kullanicisi "Save Changes" butona tiklar
     * Student kullanicisi "Success Change Password" toaster mesaji ile sifre degisikligini dogrular
 
-  @US020ChangePasswordTC03
+  @US020ChangePasswordTC03St
   Scenario: preCondition dynamic giris
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "Profile" butona tiklar
@@ -54,6 +54,13 @@ Feature: Kayıtlı bir kullanıcı olarak dashboard sayfamda sifre degistirme is
     * Student kullanicisi "Success Register Successfully" toaster mesajinin gorunurlugunu dogrular
     * Student kullanicisi yeni bilgilerle siteye giris yapar
     * Student kullanicisi "Success Login Successfully" toaster mesajinin gorunurlugunu dogrular
+    * Student kullanicisi "Profile" butona tiklar
+    * Student kullanicisi "Change Password" butona tiklar
+    * Student kullanicisi "Old Password" box kutusuna index 0 ile "Query.2026!" yazar
+    * Student kullanicisi "New Password" box kutusuna index 1 ile "Query.2027!" yazar
+    * Student kullanicisi "Confirm Password" box kutusuna index 2 ile "Query.2027!" yazar
+    * Student kullanicisi "Save Changes" butona tiklar
+    * Student kullanicisi "Success Change Password" toaster mesaji ile sifre degisikligini dogrular
 
 
 
