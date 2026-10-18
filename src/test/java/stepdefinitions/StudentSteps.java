@@ -1013,6 +1013,12 @@ public class StudentSteps {
 
 
     }
+
+    @When("Student kullanicisi {string} toaster mesajinin gorunurlugunu dogrular")
+    public void studentKullanicisiToasterMesajininGorunurlugunuDogrular(String toasterMessageName) {
+
+
+    }
 }
 
 
