@@ -1,17 +1,19 @@
 package stepdefinitions;
 
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
 import io.cucumber.java.en.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import page.ManagerPage;
-import utilities.AndroidClickUtils;
-import utilities.Driver;
+import utilities.*;
 
 import java.time.Duration;
 
 import static utilities.Driver.getAppiumDriver;
+import static utilities.Driver.quitAppiumDriver;
 
 public class ManagerSteps {
 
@@ -37,24 +39,42 @@ public class ManagerSteps {
         managerPage.altBarIkonuGoruntulemeVeTiklama(ikon,true);
     }
     @Given("Manager kullanicisi ilgili {string} basligina yonlendirildigini dogrular")
-    public void manager_kullanicisi_ilgili_basligina_yonlendirildigini_dogrular(String string) {
+    public void manager_kullanicisi_ilgili_basligina_yonlendirildigini_dogrular(String sayfaAdi) {
+        managerPage.sayfaYonlendirmesiniDogrula(sayfaAdi);
+
+        if (sayfaAdi.equalsIgnoreCase("Home")) {
+            System.out.println("✨ Zaten Home (Ana Sayfa) doğrulandı, sonraki sayfaya geçiliyor.");
+        } else if (sayfaAdi.equalsIgnoreCase("Wishlist")) {
+            //AndroidDriver driver = (AndroidDriver) Driver.getAppiumDriver();
+           // driver.pressKey(new KeyEvent(AndroidKey.BACK));
+
+            AndroidClickUtils.KeyBack();
+
+            System.out.println("↩️ Android GERİ tuşuna basılarak ana sayfaya dönüldü.");
+        }
+        else {
+            managerPage.altBarIkonuGoruntulemeVeTiklama("Home",true);
+            System.out.println("🏠 Alt bardaki Home butonuna tıklanarak ana sayfaya dönüldü.");
+        }
+
+        logger.info("↩️ Ana sayfaya geri dönmek için Android GERİ tuşuna basıldı.");
 
     }
-    @Given("Manager kullanicisi ana sayfada {string} arama kutusunu goruntuler")
-    public void manager_kullanicisi_ana_sayfada_arama_kutusunu_goruntuler(String string) {
-
+    @Given("Manager kullanicisi ana sayfada buyutec simgesine tiklar")
+    public void manager_kullanicisi_ana_sayfada_buyutec_simgesine_tiklar() {
+       managerPage.buyutecSimgesi.click();
     }
-    @Given("Manager kullanicisi arama kutusuna test etmek istedigi bir urun adini yazar")
-    public void manager_kullanicisi_arama_kutusuna_test_etmek_istedigi_bir_urun_adini_yazar() {
-
+    @Given("Manager kullanicisi arama kutusunu goruntuler ve {string} yazarak arama yapar")
+    public void manager_kullanicisi_arama_kutusunu_goruntuler_ve_yazarak_arama_yapar(String aranacakKelime) {
+        AndroidClickUtils.sendKeysToTextBoxByIndex(aranacakKelime,0);
     }
     @Given("Manager kullanicisi klavyeden arama butonuna tiklar")
     public void manager_kullanicisi_klavyeden_arama_butonuna_tiklar() {
-
+        managerPage.klavyedenAraButonunaBas();
     }
     @Given("Manager kullanicisi arama sonuclarinin ekranda listelendigini dogrular")
     public void manager_kullanicisi_arama_sonuclarinin_ekranda_listelendigini_dogrular() {
-
+        managerPage.aramaSonuclariListelendiMi();
     }
 
     @Given("Manager kullanicisi Forgot Password sayfasini goruntulendigini dogrular")
