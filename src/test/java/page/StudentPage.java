@@ -30,6 +30,7 @@ public class StudentPage extends BasePage {
 
     private static final Logger logger = LogManager.getLogger(StudentPage.class);
     private final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+
     public StudentPage() {
         super();
     }
@@ -56,7 +57,7 @@ public class StudentPage extends BasePage {
     @AndroidFindBy(uiAutomator = "new UiSelector().className(\"android.widget.ImageView\").instance(1)")
     public WebElement serchBoxButton;
 
-    @AndroidFindBy(xpath ="//android.view.View[@content-desc=\"Flower Print Foil T-shirt\n" +
+    @AndroidFindBy(xpath = "//android.view.View[@content-desc=\"Flower Print Foil T-shirt\n" +
             "0 (0  Reviews)\n" +
             "$65.00\"]")
     public WebElement flowerPrintButton;
@@ -103,10 +104,18 @@ public class StudentPage extends BasePage {
     public By addToCartButton = AppiumBy.androidUIAutomator(
             "new UiSelector().descriptionContains(\"Add to Cart\")");
 
-@AndroidFindBy(uiAutomator = "new UiSelector().description(\"Change Password\n" +
-        "Password Updated Successfully\")")
-public WebElement successChangePasswordMessage; // success change password
+    @AndroidFindBy(uiAutomator = "new UiSelector().description(\"Change Password\n" +
+            "Password Updated Successfully\")")
+    public WebElement successChangePasswordMessage; // success change password
 
+    @AndroidFindBy(uiAutomator = "new UiSelector().description(\"Success\n" +
+            "Register Successfully.\")")
+    public WebElement successRegisterMessage; // success register successfully
+
+
+    @AndroidFindBy(uiAutomator = "new UiSelector().description(\"Success\n" +
+            "Login Successfully.\")")
+    public WebElement successLoginMessage; // success login successfully
 
     public WebElement getElementByName(String elementName) {
         if (elementName == null || elementName.isBlank()) {
@@ -117,7 +126,7 @@ public WebElement successChangePasswordMessage; // success change password
         return switch (normalized) {
             case "wishlist" -> wishlistButton;
             case "home" -> homeButton;
-            case "wishlist text"  -> wishlistTextElement;
+            case "wishlist text" -> wishlistTextElement;
             case "sign in text" -> signInTextElement;
             case "search box" -> serchBoxButton;
             case "flower print" -> flowerPrintButton;
@@ -130,6 +139,8 @@ public WebElement successChangePasswordMessage; // success change password
             case "new  password" -> newPasswordBox;
             case "comfirm password" -> comfirmPasswordBox;
             case "success change password" -> successChangePasswordMessage;
+            case "success register successfully" -> successRegisterMessage;
+            case "success login successfully" -> successLoginMessage;
             default -> null;
         };
     }
@@ -179,8 +190,6 @@ public WebElement successChangePasswordMessage; // success change password
         signInTextElement.click();
 
 
-
-
         logger.info("Açılışta gelen Telefon: '{}' | Şifre: '{}'", registeredPhoneNumber, password);
 
         if (registeredPhoneNumber == null || registeredPhoneNumber.trim().isEmpty()) {
@@ -205,15 +214,15 @@ public WebElement successChangePasswordMessage; // success change password
         actions.sendKeys(Keys.ENTER).perform();
         logger.info("remember me butonuna tiklandi");
 
-        WebElement loginPageSubmitButton= driver.findElement(
-                                AppiumBy.androidUIAutomator("new UiSelector().description(\"Sign In\").instance(1)")
-                        );
+        WebElement loginPageSubmitButton = driver.findElement(
+                AppiumBy.androidUIAutomator("new UiSelector().description(\"Sign In\").instance(1)")
+        );
 
         loginPageSubmitButton.click();
 
     }
 
-    public void verfiyPlusButtonFunctions(){
+    public void verfiyPlusButtonFunctions() {
         AndroidDriver driver = (AndroidDriver) Driver.getAppiumDriver();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
@@ -293,9 +302,9 @@ public WebElement successChangePasswordMessage; // success change password
         logger.info("✅ ASSERT BAŞARILI: Plus butonu çalışıyor ({} → {})", eskiQty, yeniQty);
     }
 
-    public void verifiyMinusButtonFunctions(){
+    public void verifiyMinusButtonFunctions() {
 
-        String buttonName="Minus";
+        String buttonName = "Minus";
 
         AndroidDriver driver = (AndroidDriver) Driver.getAppiumDriver();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
@@ -773,8 +782,6 @@ public WebElement successChangePasswordMessage; // success change password
         logger.info("{} kategorisi için toplanan fiyat listesi: {}", categoryName, priceList);
         return priceList;
     }
-
-
 
 
 }
