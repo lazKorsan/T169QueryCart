@@ -11,18 +11,24 @@ import page.TeacherPage;
 import utilities.ConfigReader;
 
 import java.util.List;
+import java.util.Map;
 
 import static utilities.Driver.getAppiumDriver;
+import static utilities.Driver.quitAppiumDriver;
 
 public class TeacherSteps {
 
     private static final Logger logger = LogManager.getLogger(TeacherSteps.class);
-    private final TeacherPage teacherPage = new TeacherPage();
-    private final RegisterPage registerPage = new RegisterPage();
+    private TeacherPage teacherPage;
+    private RegisterPage registerPage;
 
     @Given("Teacher kullanicisi uygulamayi acar")
     public void launchApp() {
+        // No hook quits the driver between scenarios, so restart it here to start each scenario logged out.
+        quitAppiumDriver();
         getAppiumDriver();
+        teacherPage = new TeacherPage();
+        registerPage = new RegisterPage();
         logger.info("Uygulama acildi");
     }
 
@@ -92,11 +98,33 @@ public class TeacherSteps {
 
     @When("Teacher kullanicisi {string} menusune tiklar")
     public void clickProfileMenuItem(String menuName) {
+        teacherPage.waitForProfileToLoad(ConfigReader.getProperty("phoneNumber"));
         teacherPage.clickElement(menuName);
     }
 
     @When("Teacher kullanicisi {string} butonuna tiklar")
     public void clickButton(String buttonName) {
         teacherPage.clickElement(buttonName);
+    }
+
+    @When("Teacher kullanicisi adres formunu asagidaki bilgilerle doldurur")
+    public void fillAddressForm(Map<String, String> formData) {
+        teacherPage.fillAddressForm(formData);
+    }
+
+    @When("Teacher kullanicisi adresi kaydeder")
+    public void saveAddress() {
+        teacherPage.clickElement("Add Address");
+    }
+
+    @Then("Teacher kullanicisi {string} adresinin listede gorunur oldugunu dogrular")
+    public void verifyAddressIsListed(String streetAddress) {
+        Assert.assertTrue(streetAddress + " adresi listede gorunmuyor",
+                teacherPage.isAddressDisplayed(streetAddress));
+    }
+
+    @When("Teacher kullanicisi {string} adresini siler")
+    public void deleteAddress(String streetAddress) {
+        teacherPage.deleteAddress(streetAddress);
     }
 }
