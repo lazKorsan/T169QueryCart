@@ -993,6 +993,15 @@ public class StudentSteps {
 
 
     }
+
+    @When("Student kullanicisi {string} yazi alaninin gorunur ve aktif oldugunu dogrular")
+    public void studentKullanicisiYaziAlanininGorunurVeAktifOldugunuDogrular(String boxName) {
+
+
+      // VerifyBox.verifyBox(studentPage.getElementByName(boxName), boxName);
+     VerifyElements.smartVerifyBox((AndroidDriver) getAppiumDriver(), boxName, () ->studentPage.getElementByName(boxName));
+
+    }
 }
 
 
