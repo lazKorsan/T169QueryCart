@@ -73,6 +73,15 @@ public class StudentPage extends BasePage {
     @AndroidFindBy(uiAutomator = "new UiSelector().className(\"android.widget.ImageView\").instance(2)")
     public WebElement filitreButton;
 
+    @AndroidFindBy(uiAutomator = "new UiSelector().className(\"android.widget.EditText\").instance(0)")
+    public WebElement oldPasswordBox;
+
+    @AndroidFindBy(uiAutomator = "new UiSelector().className(\"android.widget.EditText\").instance(1)")
+    public WebElement newPasswordBox;
+
+    @AndroidFindBy(uiAutomator = "new UiSelector().className(\"android.widget.EditText\").instance(2)")
+    public WebElement comfirmPasswordBox;
+
     public By mostPopularTitle = AppiumBy.androidUIAutomator(
             "new UiSelector().descriptionContains(\"Most Popular\")");
 
@@ -115,6 +124,9 @@ public class StudentPage extends BasePage {
             case "plus" -> plusButton;
             case "back" -> backButton;
             case "filitre" -> filitreButton;
+            case "old password" -> oldPasswordBox;
+            case "new  password" -> newPasswordBox;
+            case "comfirm password" -> comfirmPasswordBox;
             default -> null;
         };
     }
