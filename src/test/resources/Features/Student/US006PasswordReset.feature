@@ -1,14 +1,14 @@
-@US006PasswordReset
+@US006PasswordResetSt
 Feature: Kayıtlı bir kullanici olarak şifremi unuttugumda şifre değiştirme işlemi yapabilmek istiyorum
 
-  @US006PasswordResetTC01
+  @US006PasswordResetTC01St
   Scenario: SignIn sayfasında Forgot Password linki görünür ve aktif olmalı
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "Profile" butona tiklar
     * Student kullanicisi "Sign In" butona tiklar
     * Student kullanicisi "Forgot Password" butonun gorunur ve aktif oldugunu dogrular
 
-  @US006PasswordResetTC02
+  @US006PasswordResetTC02St
   Scenario: "Get OTP butonu" ve "Back to sign in" butonlari görünür ve aktif olmalıdır.
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "Profile" butona tiklar
@@ -17,7 +17,7 @@ Feature: Kayıtlı bir kullanici olarak şifremi unuttugumda şifre değiştirme
     * Student kullanicisi "Get OTP" butonun gorunur ve aktif oldugunu dogrular
     * Student kullanicisi "Back to sign in" butonun gorunur ve aktif oldugunu dogrular
 
-  @US006PasswordResetTC03
+  @US006PasswordResetTC03St
   Scenario: Forgot password sayfasında gecerli e-mail ya da telefon numarası girilerek şifre resetleme işlemi yapılabilmelidir.
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "Profile" butona tiklar

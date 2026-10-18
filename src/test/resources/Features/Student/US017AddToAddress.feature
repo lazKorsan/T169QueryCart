@@ -1,7 +1,7 @@
-@US017AddToAddress @platform16
+@US017AddToAddressSt @platform16
 Feature: Kayıtlı bir kullanıcı olarak sitede adres bilgilerimi yönetebilecegim bir sayfa olmasını istiyorum
 
-  @US017AddToAddressTC04
+  @US017AddToAddressTC04St
   Scenario: Add New Address butonu gorunur ve aktif olmalı
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "5435143814" telefon numarasi ve "Query.2027!" sifresi ile uyuglamaya giris yapar
@@ -14,7 +14,7 @@ Feature: Kayıtlı bir kullanıcı olarak sitede adres bilgilerimi yönetebilece
     * Student kullanicisi "Address" sayfasinda oldugunu dogrular
     * Student kullanicisi eklenen adress sahibinin "Ahmet" oldugunu dogrular
 
-  @US017AddToAddressTC01
+  @US017AddToAddressTC01St
   Scenario: Add New Address butonu gorunur ve aktif olmalı
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "5435143814" telefon numarasi ve "Query.2027!" sifresi ile uyuglamaya giris yapar
@@ -23,7 +23,7 @@ Feature: Kayıtlı bir kullanıcı olarak sitede adres bilgilerimi yönetebilece
     * Student kullanicisi "Address" butona tiklar
     * Student kullanicisi "Add New Address" butonun gorunur ve aktif oldugunu dogrular
 
-  @US017AddToAddressTC02
+  @US017AddToAddressTC02St
   Scenario: Add New Address butonu gorunur ve aktif olmalı
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "5435143814" telefon numarasi ve "Query.2027!" sifresi ile uyuglamaya giris yapar
@@ -33,7 +33,7 @@ Feature: Kayıtlı bir kullanıcı olarak sitede adres bilgilerimi yönetebilece
     * ReusableMethods bekle 3
     * Student kullanicisi "Add New Address" formunun gorunur oldugunu dogrular
 
-  @US017AddToAddressTC03
+  @US017AddToAddressTC03St
   Scenario: Add New Address butonu gorunur ve aktif olmalı
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "5435143814" telefon numarasi ve "Query.2027!" sifresi ile uyuglamaya giris yapar
@@ -45,7 +45,7 @@ Feature: Kayıtlı bir kullanıcı olarak sitede adres bilgilerimi yönetebilece
     * ReusableMethods bekle 7
     * Student kullanicisi "Address" sayfasinda oldugunu dogrular
 
-  @US017AddToAddressTC04
+  @US017AddToAddressTC04St
   Scenario: Add New Address butonu gorunur ve aktif olmalı
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "5435143814" telefon numarasi ve "Query.2027!" sifresi ile uyuglamaya giris yapar
@@ -58,7 +58,7 @@ Feature: Kayıtlı bir kullanıcı olarak sitede adres bilgilerimi yönetebilece
     * Student kullanicisi "Address" sayfasinda oldugunu dogrular
     * Student kullanicisi eklenen adress sahibinin "Ahmet" oldugunu dogrular
 
-  @preConditionAddToAddress
+  @preConditionAddToAddressSt
   Scenario: Add New Address butonu gorunur ve aktif olmalı
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "5435143814" telefon numarasi ve "Query.2027!" sifresi ile uyuglamaya giris yapar

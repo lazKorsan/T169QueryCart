@@ -1,7 +1,7 @@
-@US002VerifyBottomBar
+@US002VerifyBottomBarSt
 Feature: Bir kullanici olarak site ici islemlerini kolaylikla yapabilmek icin ana sayfa altbarında kolay linklerin bulunmasını istiyorum
 
-  @US002VerifyBottomBarTC01
+  @US002VerifyBottomBarTC01St
   Scenario: Site alt barinda kolay linkler (Home,Category,Wishlist, Profile) goruntulenmeli.
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "Home" butonun gorunur ve aktif oldugunu dogrular
@@ -9,7 +9,7 @@ Feature: Bir kullanici olarak site ici islemlerini kolaylikla yapabilmek icin an
     * Student kullanicisi "Wishlist" butonun gorunur ve aktif oldugunu dogrular
     * Student kullanicisi "Profile" butonun gorunur ve aktif oldugunu dogrular
 
-  @US002VerifyBottomBarTC02
+  @US002VerifyBottomBarTC02St
   Scenario:  Category linki ilgili sayfaya yonlendirme yapmalidir.
     * Student kullanicisi uygulamayi acar
     * Register kullanicisi "Profile" butona tiklar
@@ -17,7 +17,7 @@ Feature: Bir kullanici olarak site ici islemlerini kolaylikla yapabilmek icin an
     * Student kullanicisi "Category" butona tiklar
     * Student kullancisi "Men" butonun gorunurlugu ile istenen sayfaya ulasildigini dogrular
 
-  @US002VerifyBottomBarTC03
+  @US002VerifyBottomBarTC03St
   Scenario:  Home linki ilgili sayfaya yonlendirme yapmalidir.
     * Student kullanicisi uygulamayi acar
     * Register kullanicisi "Profile" butona tiklar
@@ -25,7 +25,7 @@ Feature: Bir kullanici olarak site ici islemlerini kolaylikla yapabilmek icin an
     * Student kullanicisi "Wishlist" butona tiklar
     * Student kullanicisi "Wishlist Text" elementinin gorunurlugu ile istenen sayfa ulasildigini dogrular
 
-  @US002VerifyBottomBarTC04A1
+  @US002VerifyBottomBarTC04A1St
   Scenario:  Profile linki ilgili sayfaya yonlendirme yapmalidir.
     * Student kullanicisi uygulamayi acar
     * Register kullanicisi "Profile" butona tiklar
@@ -33,7 +33,7 @@ Feature: Bir kullanici olarak site ici islemlerini kolaylikla yapabilmek icin an
     * Student kullanicisi "Profile" butona tiklar
     * Student kullancisi "My Account" butonun gorunurlugu ile istenen sayfaya ulasildigini dogrular
 
-  @US002VerifyBottomBarTC04A2
+  @US002VerifyBottomBarTC04A2St
   Scenario: preCondition dynamic giris
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "Profile" butona tiklar
@@ -43,7 +43,7 @@ Feature: Bir kullanici olarak site ici islemlerini kolaylikla yapabilmek icin an
     * Student kullanicisi "Profile" butona tiklar
     * Student kullancisi "My Account" butonun gorunurlugu ile istenen sayfaya ulasildigini dogrular
 
-  @DynamicTestBaslangici
+  @DynamicTestBaslangiciSt
   Scenario: preCondition dynamic giris
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "Profile" butona tiklar
@@ -54,7 +54,7 @@ Feature: Bir kullanici olarak site ici islemlerini kolaylikla yapabilmek icin an
     * Student kullancisi "My Account" butonun gorunurlugu ile istenen sayfaya ulasildigini dogrular
 
 
-  @US002SeacrhBox
+  @US002SeacrhBoxSt
   Scenario: Search Text Box goruntulenmeli ve arama yapilabilmeli.
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "Search Box" butona tiklar

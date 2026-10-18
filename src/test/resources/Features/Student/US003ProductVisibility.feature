@@ -1,12 +1,12 @@
-@US002ProductInspect
+@US002ProductInspectSt
 Feature: Bir kullanici olarak sitede kayıt olmadan urunleri inceleyip urun secebilmek ve sepete ekleyebilmek istiyorum
 
-  @US002ProductInspectTC01
+  @US002ProductInspectTC01St
   Scenario: Anasayfada urunler ve urun özellikleri gorunur olmalı
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "Most Popular" basligi altindaki urunlerin gorunur oldugunu dogrular
 
-  @US002ProductInspectTC02
+  @US002ProductInspectTC02St
   Scenario: Seçilen ürüne ait beden/renk ve adet özellikleri seçilebilir olmalı
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "Flower Print" butona tiklar
@@ -20,7 +20,7 @@ Feature: Bir kullanici olarak sitede kayıt olmadan urunleri inceleyip urun sece
     * Student kullanicisi ilk siparis vermede siparis edilen urun sayisinin arttigini dogrular
     * Student kullanicisi "Minus" butona tiklar
 
-  @US002ProductInspectTC03
+  @US002ProductInspectTC03St
   Scenario: Seçilen ürüne ait beden/renk ve adet özellikleri seçilebilir olmalı
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "Flower Print" butona tiklar

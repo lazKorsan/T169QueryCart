@@ -117,6 +117,14 @@ public class StudentPage extends BasePage {
             "Login Successfully.\")")
     public WebElement successLoginMessage; // success login successfully
 
+    @AndroidFindBy(uiAutomator = "new UiSelector().description(\"PROFILE_UPDATE\n" +
+            "Profile Updated Successfully\")")
+    public WebElement successUpdateProfileMessage; // profile updated successfully
+
+    @AndroidFindBy(uiAutomator = "new UiSelector().description(\"Success\n" +
+            "Logged Out Successfully.\")")
+    public WebElement successLogoutMessage; // success logged out successfully
+
     public WebElement getElementByName(String elementName) {
         if (elementName == null || elementName.isBlank()) {
             return null;
@@ -141,6 +149,8 @@ public class StudentPage extends BasePage {
             case "success change password" -> successChangePasswordMessage;
             case "success register successfully" -> successRegisterMessage;
             case "success login successfully" -> successLoginMessage;
+            case "profile updated successfully" -> successUpdateProfileMessage;
+            case "success logged out successfully" -> successLogoutMessage;
             default -> null;
         };
     }

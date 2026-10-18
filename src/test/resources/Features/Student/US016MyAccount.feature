@@ -1,8 +1,8 @@
-@US016MyAccount @platform16
+@US016MyAccountSt @platform16
 Feature: Kayitli bir kullanici olarak sitedeki islemlerimi ve ayarlarimi kontrol etmek icin sitede
   bana özel bir dashboard sayfasinin olmasini istiyorum.
 
-  @US016MyAccountTC01
+  @US016MyAccountTC01St
   Scenario: Dashboard sayfasinda kullanici icin My Account sayfasında  ozet bilgiler
   (Total Orders,Total Completed,Total Returnd,Wallet Balance) gorunur olmali.
     * Student kullanicisi uygulamayi acar
@@ -21,7 +21,7 @@ Feature: Kayitli bir kullanici olarak sitedeki islemlerimi ve ayarlarimi kontrol
     * Student kullanicisi "Total Returnd" alaninin gorunurlugunu dogrular
     * Student kullanicisi "Wallet Balance" alaninin gorunurlugunu dogrular
 
-  @US016MyAccountTC02
+  @US016MyAccountTC02St
   Scenario: Dashboard sayfasinda kullanici icin My Account sayfasında  ozet bilgiler
   (Total Orders,Total Completed,Total Returnd,Wallet Balance) gorunur olmali.
     * Student kullanicisi uygulamayi acar

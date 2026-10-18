@@ -1,13 +1,13 @@
-@US010VisibilityMostPopular
+@US010VisibilityMostPopularSt
 Feature: Bir kullanici olarak alisveris yaptigim sitede guncel urunleri takip edebilecegim bir sayfanin olmasini istiyorum.
 
-  @US010VisibilityMostPopularTC01
+  @US010VisibilityMostPopularTC01St
   Scenario: Ana sayfa navBar da Most Popular menu basligi ve "see All" iconu gorunur ve aktif olmali
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "Most Popular" butonun gorunur ve aktif oldugunu dogrular
     * Student kullanicisi "See All" butonun gorunur ve aktif oldugunu dogrular
 
-  @US010VisibilityMostPopularTC02
+  @US010VisibilityMostPopularTC02St
   Scenario: Most Popular baslıgı altında guncel urunler listenmeli
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "See All" butona tiklar

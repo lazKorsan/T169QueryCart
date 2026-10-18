@@ -1,7 +1,7 @@
-@US015WomanCategories
+@US015WomanCategoriesSt
 Feature: Kayıtlı bir  kullanici olarak ana sayfada Women menusune ait kategorileri ve urunleri gorebilmek istiyorum.
 
-  @US015WomanCategoriesTC01
+  @US015WomanCategoriesTC01St
   Scenario: Ana sayfa body bolumunde Women kategori penceresi ve alt kategorileri  goruntulenmeli.
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "Category" butona tiklar
@@ -14,7 +14,7 @@ Feature: Kayıtlı bir  kullanici olarak ana sayfada Women menusune ait kategori
     * ReusableMethods bekle 5
     * Student kullanicisi summary kısmındaki urun sayisini konsola yazdirir "({actualCount} Products Found)"
 
-  @US015WomanCategoriesTC02
+  @US015WomanCategoriesTC02St
   Scenario: Ana sayfa body bolumunde Women kategori penceresi ve alt kategorileri  goruntulenmeli.
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "Category" butona tiklar
@@ -25,7 +25,7 @@ Feature: Kayıtlı bir  kullanici olarak ana sayfada Women menusune ait kategori
     * ReusableMethods bekle 5
     * Student kullanicisi "Women" urunlerini listeler ve "({actualCount} Products Found)" yazi ile urun sayisini dogrular
 
-  @US015WomanCategoriesTC03
+  @US015WomanCategoriesTC03St
   Scenario: Women kategori sayfasındaki urunler uzerinde islemler (sepete ekleme, begenilenler listesine ekleme ve goruntuleme) yapilabilmeli.
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "5435143814" telefon numarasi ve "Query.2027!" sifresi ile uyuglamaya giris yapar
@@ -45,7 +45,7 @@ Feature: Kayıtlı bir  kullanici olarak ana sayfada Women menusune ait kategori
     * Student kullanicisi Wishlist sayfasinda oldugunu dogrular
     * Student kullanicisi urun isminin "(18, Wine Red) Womens Short Sleeve Tie Dye Blosue T-Shirt\n0 (0  Reviews)\n$21.00" oldugunu dogrular
 
-  @US015WomanCategoriesTC04
+  @US015WomanCategoriesTC04St
   Scenario: Filtreleme ikonları gorunur ve aktif olmalı
     * Student kullanicisi uygulamayi acar
     * Student kullanicisi "Category" butona tiklar
