@@ -127,4 +127,9 @@ public class TeacherSteps {
     public void deleteAddress(String streetAddress) {
         teacherPage.deleteAddress(streetAddress);
     }
+
+    @When("Teacher kullanicisi {string} adresini {string} olarak duzenler")
+    public void editAddress(String currentStreet, String newStreet) {
+        teacherPage.editAddress(currentStreet, newStreet);
+    }
 }

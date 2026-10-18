@@ -136,13 +136,17 @@ public class TeacherPage extends BasePage {
         clickElement(option);
     }
 
-    private void typeIntoStreetAddress(String value) {
+    private void scrollFormToBottom() {
         WebElement form = driver.findElement(
                 AppiumBy.androidUIAutomator("new UiSelector().scrollable(true)"));
         driver.executeScript("mobile: scrollGesture", Map.of(
                 "elementId", form,
                 "direction", "down",
                 "percent", 1.0));
+    }
+
+    private void typeIntoStreetAddress(String value) {
+        scrollFormToBottom();
 
         List<WebElement> fields = driver.findElements(AppiumBy.className("android.widget.EditText"));
         fields.get(fields.size() - 1).click();
@@ -171,5 +175,24 @@ public class TeacherPage extends BasePage {
                         + ".childSelector(new UiSelector().className(\"android.widget.ImageView\").instance(1))");
         wait.until(ExpectedConditions.elementToBeClickable(deleteIcon)).click();
         clickElement("Delete");
+    }
+
+    public void editAddress(String currentStreet, String newStreet) {
+        By editIcon = AppiumBy.androidUIAutomator(
+                "new UiSelector().descriptionContains(\"" + currentStreet + "\")"
+                        + ".childSelector(new UiSelector().className(\"android.widget.ImageView\").instance(0))");
+        wait.until(ExpectedConditions.elementToBeClickable(editIcon)).click();
+
+        By streetField = AppiumBy.androidUIAutomator(
+                "new UiSelector().className(\"android.widget.EditText\").text(\"" + currentStreet + "\")");
+        WebElement street = wait.until(ExpectedConditions.elementToBeClickable(streetField));
+        street.click();
+        street.clear();
+        typeIntoFocusedField(newStreet);
+        scrollFormToBottom();
+
+        By updateButton = AppiumBy.androidUIAutomator(
+                "new UiSelector().description(\"Update Address\").clickable(true)");
+        wait.until(ExpectedConditions.elementToBeClickable(updateButton)).click();
     }
 }
