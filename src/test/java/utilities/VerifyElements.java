@@ -189,4 +189,62 @@ VerifyElements.smartVerifyButton(driver, "Save Changes", () -> studentPage.getBu
 VerifyElements.verifyBox(studentPage.oldPasswordInput, "Old Password Box");
 VerifyElements.verifyButton("Submit");
      */
+
+    /**
+     * Toast mesajlarının hızlı kaybolma ihtimaline karşı 200 milisaniye aralıklarla
+     * hızlıca arama yapan ve toplam belirtilen sürede (ör. 3 saniye) görünürlüğünü doğrulayan akıllı metot.
+     */
+    public static void smartVerifyToast(AndroidDriver driver, String expectedToastMessage, Supplier<WebElement> elementSupplier) {
+        logger.info(GREEN + "=".repeat(60) + RESET);
+        logger.info(GREEN + "🍞 TOAST MESAJI DOĞRULAMA TESTİ: " + expectedToastMessage + RESET);
+        logger.info(GREEN + "=".repeat(60) + RESET);
+
+        boolean isFound = false;
+        long timeoutMillis = 3000; // Toplam bekleme süresi (3 saniye)
+        long pollingIntervalMillis = 200; // Kontrol aralığı (200 ms)
+        long startTime = System.currentTimeMillis();
+
+        // 1. Önce Page Class (Supplier) veya DOM üzerinden hızlı arama döngüsü
+        while ((System.currentTimeMillis() - startTime) < timeoutMillis) {
+            try {
+                // Page sınıfında tanımlı element varsa almayı dene
+                WebElement element = (elementSupplier != null) ? elementSupplier.get() : null;
+
+                if (element != null && element.isDisplayed()) {
+                    logger.info(GREEN + "🎯 Toast mesajı Page Class üzerinden yakalandı: '{}'" + RESET, expectedToastMessage);
+                    isFound = true;
+                    break;
+                }
+            } catch (Exception ignored) {
+                // Element henüz DOM'a gelmemiş veya silinmiş olabilir, polling devam eder
+            }
+
+            // Dinamik UiAutomator arama (Description veya Text kontrolü)
+            try {
+                String xpathQuery = "//*[contains(@text, '" + expectedToastMessage + "') or contains(@content-desc, '" + expectedToastMessage + "')]";
+                var elements = driver.findElements(AppiumBy.xpath(xpathQuery));
+
+                if (!elements.isEmpty() && elements.get(0).isDisplayed()) {
+                    logger.info(GREEN + "🎯 Toast mesajı XPath/Text üzerinden yakalandı: '{}'" + RESET, expectedToastMessage);
+                    isFound = true;
+                    break;
+                }
+            } catch (Exception ignored) {
+            }
+
+            try {
+                Thread.sleep(pollingIntervalMillis);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        if (isFound) {
+            logger.info(GREEN + "✅ '{}' Toast mesajı BAŞARIYLA DOĞRULANDI" + RESET, expectedToastMessage);
+            logger.info(GREEN + "=".repeat(60) + RESET);
+        } else {
+            logger.error(RED + "❌ '{}' Toast mesajı {} ms içerisinde EKRANDA GÖRÜLMEDİ!" + RESET, expectedToastMessage, timeoutMillis);
+            Assert.fail("Toast mesajı bulunamadı veya ekranda yakalanamadı: " + expectedToastMessage);
+        }
+    }
 }
