@@ -132,4 +132,10 @@ public class TeacherSteps {
     public void editAddress(String currentStreet, String newStreet) {
         teacherPage.editAddress(currentStreet, newStreet);
     }
+
+    @Then("Teacher kullanicisi {string} adresinin listede gorunmedigini dogrular")
+    public void verifyAddressIsNotListed(String streetAddress) {
+        Assert.assertTrue(streetAddress + " adresi silindikten sonra hala listede gorunuyor",
+                teacherPage.isAddressNotDisplayed(streetAddress));
+    }
 }

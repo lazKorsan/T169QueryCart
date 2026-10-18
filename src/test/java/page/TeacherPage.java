@@ -169,6 +169,16 @@ public class TeacherPage extends BasePage {
         }
     }
 
+    public boolean isAddressNotDisplayed(String streetAddress) {
+        By addressCard = AppiumBy.androidUIAutomator(
+                "new UiSelector().descriptionContains(\"" + streetAddress + "\")");
+        try {
+            return wait.until(ExpectedConditions.invisibilityOfElementLocated(addressCard));
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
     public void deleteAddress(String streetAddress) {
         By deleteIcon = AppiumBy.androidUIAutomator(
                 "new UiSelector().descriptionContains(\"" + streetAddress + "\")"
