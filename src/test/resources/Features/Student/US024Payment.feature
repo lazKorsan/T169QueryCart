@@ -47,6 +47,10 @@ Feature: Kayitli bir kullanici olarak kontrollerini sagladigim siparislerimin od
     * ReusableMethods bekle 7
     * Student kullanicisi "4242424242424242" ve "0234" ve "321" ve "12345" cart bilgileri ile odemeyi yapar
     * Student kullanicisi "Success Your payment has been confirmed" toaster mesajinin gorunurlugunu dogrular
+    * Student kullanicisi siparis olustugunu "Go to order details" butonunun gorunurlugu ile dogrular
+    # * Student kullanicisi "Go to order details" butona tiklar
+    #* Student kullanicisi "Order History" sayfasinda oldugunu dogrular
+
 
 
 
