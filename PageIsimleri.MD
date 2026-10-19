@@ -1,3 +1,12 @@
+
+---
+emulator aniden çokuyor appium server ile bağlantı kopuyorsa
+adb uninstall io.appium.uiautomator2.server
+adb uninstall io.appium.uiautomator2.server.test
+---
+
+
+
 1  : HomePage
 
 2 : UserPage
