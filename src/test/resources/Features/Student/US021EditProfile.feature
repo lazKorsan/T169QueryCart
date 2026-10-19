@@ -40,8 +40,8 @@ Feature: Kayıtlı bir kullanıcı olarak sitede kendi profil bilgilerimi duzenl
     * Student kullanicisi "Profile" butona tiklar
     * Student kullanicisi "Edit Profile" butonun gorunur ve aktif oldugunu dogrular
     * Student kullanicisi "Edit Profile" butona tiklar
-    * Student kullanicisi "Full Name" box kutusuna index 0 ile "selami" yazar
-    * Student kullanicisi "Email" box kutusuna index 1 ile "selami.customer@QueryCart.com" yazar
+    * Student kullanicisi "Full Name" box kutusuna index 0 ile "melek" yazar
+    * Student kullanicisi "Email" box kutusuna index 1 ile "melek.customer@QueryCart.com" yazar
     * Student kullanicisi "Phone" box kutusuna index 2 ile "05435412927" yazar
     * Student kullanicisi "Save Changes" butona tiklar
     * Student kullanicisi "Profile Updated Successfully" toaster mesajinin gorunurlugunu dogrular

@@ -195,6 +195,17 @@ public class OptionsMet {
             driver.context("NATIVE_APP");
         }
     }
+
+    public void hideKeyboard() {
+        try {
+            if (driver instanceof AndroidDriver) {
+                ((AndroidDriver) driver).hideKeyboard();
+            }
+        } catch (Exception e) {
+            // Klavye zaten kapalıysa Appium hata fırlatabilir, güvenli geçiş için catch ediyoruz
+            System.out.println("Klavye zaten kapalı veya gizlenemedi: " + e.getMessage());
+        }
+    }
 }
 
 

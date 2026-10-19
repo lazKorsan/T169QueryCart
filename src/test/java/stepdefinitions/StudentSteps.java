@@ -3,6 +3,8 @@ package stepdefinitions;
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.PressesKey;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -14,6 +16,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+
+
+import io.appium.java_client.android.nativekey.KeyEvent;
 
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -849,70 +854,89 @@ public class StudentSteps {
     public void studentKullanicisiFormunuIsmiIleDoldurur(String formName, String accountName) {
 
         logger.info("Student kullanicisi {} formunu doldurur", formName);
-        // fullNameBox
+
+        // Form alanları
         AndroidClickUtils.sendKeysToTextBoxByIndex(accountName, 0);
         ReusableMethods.wait(1);
-
-        // EmailBox
         AndroidClickUtils.sendKeysToTextBoxByIndex("ahmet.customer@QueryCart.com", 1);
-
-        // phoneBox
         AndroidClickUtils.sendKeysToTextBoxByIndex("1691696969", 2);
 
-        // countryButton
+        // Country Selection
         AndroidClickUtils.clickByDescription("Country");
-
-        // dropDown countryButton
         WebElement selectCountryBox = wait.until(ExpectedConditions.elementToBeClickable(
                 AppiumBy.androidUIAutomator("new UiSelector().className(\"android.widget.EditText\")")
         ));
         selectCountryBox.click();
         selectCountryBox.clear();
         selectCountryBox.sendKeys("Netherlands The");
-
-        // dropDown item select country
         AndroidClickUtils.clickByDescription("Netherlands The");
-        ReusableMethods.wait(2);
+        ReusableMethods.wait(1);
 
-        // stateButton
+        // State Selection
         AndroidClickUtils.clickByDescription("State");
-        ReusableMethods.wait(2);
-        // dropDown stateButton select item
+        ReusableMethods.wait(1);
         AndroidClickUtils.clickByDescription("Gelderland");
-        ReusableMethods.wait(2);
+        ReusableMethods.wait(1);
 
-        // cityButton
+        // City Selection
         AndroidClickUtils.clickByDescription("City");
-        ReusableMethods.wait(2);
-
-        // cityButton dropDownn select item
+        ReusableMethods.wait(1);
         AndroidClickUtils.clickByDescription("Ammerzoden");
-        ReusableMethods.wait(2);
+        ReusableMethods.wait(1);
+
+        // KLAVYEYİ GÜVENLİ KAPATMA (Android BACK Tuşu)
+        try {
+            driver.pressKey(new KeyEvent(AndroidKey.BACK));
+        } catch (Exception e) {
+            logger.warn("Klavye zaten kapalı veya kapatılamadı: " + e.getMessage());
+        }
 
         // zipCcode elementi
+        ReusableMethods.wait(2);
         WebElement zipCodeBox = wait.until(ExpectedConditions.elementToBeClickable(
                 AppiumBy.androidUIAutomator("new UiSelector().className(\"android.widget.EditText\").instance(3)")
         ));
-
         zipCodeBox.click();
         zipCodeBox.clear();
         zipCodeBox.sendKeys("12345");
 
+        // KLAVYEYİ GÜVENLİ KAPATMA (Android BACK Tuşu)
+        try {
+            driver.pressKey(new KeyEvent(AndroidKey.BACK));
+        } catch (Exception e) {
+            logger.warn("Klavye zaten kapalı veya kapatılamadı: " + e.getMessage());
+        }
         // streetBox elementi
+        ReusableMethods.wait(2);
         WebElement streetBOx = wait.until(ExpectedConditions.elementToBeClickable(
                 AppiumBy.androidUIAutomator("new UiSelector().className(\"android.widget.EditText\").instance(4)")
         ));
         streetBOx.click();
-        streetBOx.clear();
-        streetBOx.sendKeys("12345");
+        streetBOx.sendKeys("MaviEvler sitesi");
 
-        // hideKeyBar gerekebilir
+        // KLAVYEYİ GÜVENLİ KAPATMA (Android BACK Tuşu)
+        try {
+            driver.pressKey(new KeyEvent(AndroidKey.BACK));
+        } catch (Exception e) {
+            logger.warn("Klavye zaten kapalı veya kapatılamadı: " + e.getMessage());
+        }
 
-        // addAddressButton elementi
-        AndroidClickUtils.clickByDescription("Add Address");
+        // Güvenli Scroll ile 'Add Address' butonuna tıkla
+        try {
+            WebElement addAddressBtn = driver.findElement(
+                    AppiumBy.androidUIAutomator(
+                            "new UiScrollable(new UiSelector().scrollable(true))" +
+                                    ".scrollIntoView(new UiSelector().description(\"Add Address\"))"
+                    )
+            );
+            addAddressBtn.click();
+        } catch (Exception e) {
+            // Scroll gerekmiyorsa doğrudan tıkla
+            AndroidClickUtils.clickByDescription("Add Address");
+        }
+
         ReusableMethods.wait(2);
-
-        logger.error("Student kullanicisi {} formunu doldurur", formName);
+        logger.info("Student kullanicisi {} formunu başarıyla doldurdu", formName);
     }
 
     @When("Student kullanicisi siparis detaylarini konsola yazdirir")
@@ -1113,6 +1137,77 @@ public class StudentSteps {
 
         logger.info("Student kullanicisi {} uyuglamadan ayrilma butonuna basar", buttonName);
     }
+
+    @When("Student kullanicisi {string} ikonuna tiklar")
+    @When("Student kullanicisi {string} beden secer")
+    @When("Student kullanicisi adi {string} olan urunu secer")
+    public void studentKullanicisiAdiOlanUrunuSecer(String productName) {
+
+        AndroidClickUtils.smartClick((AndroidDriver) getAppiumDriver(), productName, () ->studentPage.getElementByName(productName));
+        logger.info("Student kullanicisi adi {string} olan urunu secer");
+
+    }
+
+    @When("Student kullanicisi  ekrani asagi {int}, {int} noktasindan yukari {int}, {int} noktsina kaydirir")
+    public void swipeFromBottomToTop(int sratX, int startY, int endX, int endY) {
+        ReusableMethods.wait(2);
+        TouchMethods.swipe(sratX, startY, endX, endY);
+    }
+
+    @When("Student kullanicisi address sinifindan kayitli ilk adresi secer")
+    public void studentKullanicisiAddressSinifindanKayitliIlkAdresiSecer() {
+
+        String className="android.widget.ImageView";
+        int index =3;
+
+        ReusableMethods.wait(3);
+        logger.info("{} class'ına ait sayfa genelindeki {}. elemente tıklıyor", className, index);
+        try {
+            AndroidDriver driver = (AndroidDriver) getAppiumDriver();
+            // Sayfa genelindeki tüm className elementlerini listeler ve gönderilen index'i (1 tabanlı) seçer
+            String xpath = String.format("(//%s)[%d]", className, index + 1);
+            WebElement element = driver.findElement(AppiumBy.xpath(xpath));
+            element.click();
+            logger.info("✅ {} class'ına ait index {}'li elemente tıklandı", className, index);
+        } catch (Exception e) {
+            logger.error("❌ Tıklama başarısız: {}", e.getMessage());
+            throw new RuntimeException("Elemente tıklanamadı!", e);
+        }
+    }
+
+    @When("Student kullanicisi {string} ve {string} ve {string} ve {string} cart bilgileri ile odemeyi yapar")
+    public void studentKullanicisiVeVeVeVerileriIleCartBilgisiGirer(String cartNumber, String endDate, String cvcNumber, String zipCode) {
+
+        WebDriverWait stripeWait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        WebElement confirmButton = stripeWait.until(
+                ExpectedConditions.elementToBeClickable(
+                        AppiumBy.androidUIAutomator("new UiSelector().resourceId(\"confirmBtn\")")
+        ));
+
+        confirmButton.isDisplayed();
+
+        AndroidClickUtils.sendKeysToTextBoxByIndex(cartNumber, 0);
+        ReusableMethods.wait(2);
+
+        AndroidClickUtils.sendKeysToTextBoxByIndex(endDate, 1);
+        ReusableMethods.wait(2);
+
+        AndroidClickUtils.sendKeysToTextBoxByIndex(cvcNumber, 2);
+        ReusableMethods.wait(2);
+
+        AndroidClickUtils.sendKeysToTextBoxByIndex(zipCode, 3);
+        ReusableMethods.wait(2);
+
+        WebElement confirmButton2 = stripeWait.until(
+                ExpectedConditions.elementToBeClickable(
+                        AppiumBy.androidUIAutomator("new UiSelector().resourceId(\"confirmBtn\")")
+                ));
+
+        confirmButton2.click();
+
+
+    }
+
 }
 
 

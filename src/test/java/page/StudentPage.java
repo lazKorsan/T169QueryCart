@@ -62,6 +62,9 @@ public class StudentPage extends BasePage {
             "$65.00\"]")
     public WebElement flowerPrintButton;
 
+    @AndroidFindBy(uiAutomator = "new UiSelector().description(\"Sign In\").instance(1)")
+    public WebElement submitButton;
+
     @AndroidFindBy(uiAutomator = "new UiSelector().className(\"android.widget.ImageView\").instance(8)")
     public WebElement minusButton;
 
@@ -125,6 +128,26 @@ public class StudentPage extends BasePage {
             "Logged Out Successfully.\")")
     public WebElement successLogoutMessage; // success logged out successfully
 
+    @AndroidFindBy(uiAutomator = "new UiSelector().className(\"android.widget.ImageView\").instance(17)")
+    public WebElement sepetIkon;
+
+    @AndroidFindBy(uiAutomator = "new UiSelector().description(\"Classic Cargo Shorts\n" +
+            "0 (0  Reviews)\n" +
+            "$40.00\")")
+    public WebElement classicCargoShorts; // classic cargo shorts
+
+
+    @AndroidFindBy(uiAutomator = "new UiSelector().className(\"android.widget.ImageView\").instance(12)")
+    public WebElement alisverisIkon;
+
+    @AndroidFindBy(uiAutomator = "new UiSelector().description(\"Success\n" +
+            "Your payment has been confirmed\")")
+    public WebElement successYourPaymentConfirmedMessage; // success your payment has been confirmed
+
+
+
+
+
     public WebElement getElementByName(String elementName) {
         if (elementName == null || elementName.isBlank()) {
             return null;
@@ -151,6 +174,11 @@ public class StudentPage extends BasePage {
             case "success login successfully" -> successLoginMessage;
             case "profile updated successfully" -> successUpdateProfileMessage;
             case "success logged out successfully" -> successLogoutMessage;
+            case "submit" -> submitButton;
+            case "sepet" -> sepetIkon;
+            case "alis veris" -> alisverisIkon;
+            case "classic cargo shorts" -> classicCargoShorts;
+            case "success your payment has been confirmed"  -> successYourPaymentConfirmedMessage;
             default -> null;
         };
     }
@@ -219,10 +247,10 @@ public class StudentPage extends BasePage {
         AndroidClickUtils.sendKeysToTextBoxByIndex(password, 1);
         logger.info("Student kullanicisi passwordBox kutusuna ******** degerini yazar");
 
-        Actions actions = new Actions(driver);
-        actions.sendKeys(Keys.TAB).perform();
-        actions.sendKeys(Keys.ENTER).perform();
-        logger.info("remember me butonuna tiklandi");
+        // Actions actions = new Actions(driver);
+        //        actions.sendKeys(Keys.TAB).perform();
+        //        actions.sendKeys(Keys.ENTER).perform();
+        //        logger.info("remember me butonuna tiklandi");
 
         WebElement loginPageSubmitButton = driver.findElement(
                 AppiumBy.androidUIAutomator("new UiSelector().description(\"Sign In\").instance(1)")
