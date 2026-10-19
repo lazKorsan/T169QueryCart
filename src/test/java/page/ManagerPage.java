@@ -5,11 +5,13 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.pagefactory.AndroidFindBy;
+import io.cucumber.java.en.*;
 import org.junit.Assert;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utilities.AndroidClickUtils;
+import utilities.ConfigReader;
 
 
 import java.time.Duration;
@@ -221,5 +223,4 @@ public class ManagerPage extends QueryCardPage {
                 urunSayisi > 0
         );
     }
-
 }
