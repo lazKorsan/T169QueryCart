@@ -181,4 +181,34 @@ public class TeacherSteps {
     public void verifyStripeFormIsOpened() {
         Assert.assertTrue("Stripe kart formu acilmadi", teacherPage.isStripeFormDisplayed());
     }
+
+    @When("Teacher kullanicisi Stripe kart formunu asagidaki bilgilerle doldurur")
+    public void fillStripeCardForm(Map<String, String> cardData) {
+        teacherPage.fillStripeCardForm(cardData);
+    }
+
+    @When("Teacher kullanicisi Stripe odemesini onaylar")
+    public void confirmStripePayment() {
+        teacherPage.confirmStripePayment();
+    }
+
+    @When("Teacher kullanicisi son siparisi acar")
+    public void openLatestOrder() {
+        teacherPage.openLatestOrder();
+    }
+
+    @Then("Teacher kullanicisi siparisin odeme durumunun {string} oldugunu dogrular")
+    public void verifyPaymentStatus(String expectedStatus) {
+        Assert.assertTrue(expectedStatus + " odeme durumu gorunmuyor", teacherPage.isHeadingDisplayed(expectedStatus));
+    }
+
+    @Then("Teacher kullanicisi siparisin odeme tipinin {string} oldugunu dogrular")
+    public void verifyPaymentType(String expectedType) {
+        Assert.assertTrue(expectedType + " odeme tipi gorunmuyor", teacherPage.isHeadingDisplayed(expectedType));
+    }
+
+    @Then("Teacher kullanicisi {string} mesajinin gorunur oldugunu dogrular")
+    public void verifyMessageIsVisible(String message) {
+        Assert.assertTrue(message + " mesaji gorunmuyor", teacherPage.isMessageDisplayed(message));
+    }
 }

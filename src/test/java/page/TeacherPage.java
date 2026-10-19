@@ -253,6 +253,9 @@ public class TeacherPage extends BasePage {
     @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"confirmBtn\")")
     private WebElement stripeConfirmButton;
 
+    @AndroidFindBy(uiAutomator = "new UiSelector().descriptionStartsWith(\"#\").clickable(true).instance(0)")
+    private WebElement latestOrderCard;
+
     public void searchProduct(String productName) {
         By successToast = AppiumBy.androidUIAutomator("new UiSelector().descriptionStartsWith(\"Success\")");
         wait.until(ExpectedConditions.invisibilityOfElementLocated(successToast));
@@ -271,5 +274,30 @@ public class TeacherPage extends BasePage {
 
     public boolean isStripeFormDisplayed() {
         return isVisible(stripeConfirmButton);
+    }
+
+    public void fillStripeCardForm(Map<String, String> cardData) {
+        typeIntoField(0, cardData.get("Card Number"));
+        typeIntoField(1, cardData.get("Expiry"));
+        typeIntoField(2, cardData.get("CVC"));
+        typeIntoField(3, cardData.get("ZIP"));
+    }
+
+    public void confirmStripePayment() {
+        wait.until(ExpectedConditions.elementToBeClickable(stripeConfirmButton)).click();
+    }
+
+    public void openLatestOrder() {
+        wait.until(ExpectedConditions.elementToBeClickable(latestOrderCard)).click();
+    }
+
+    public boolean isMessageDisplayed(String message) {
+        By messageElement = AppiumBy.androidUIAutomator(
+                "new UiSelector().descriptionContains(\"" + message + "\")");
+        try {
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(messageElement)).isDisplayed();
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 }
