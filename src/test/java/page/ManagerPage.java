@@ -57,7 +57,7 @@ public class ManagerPage extends QueryCardPage {
     @AndroidFindBy(xpath = "//android.view.View[@content-desc=\"*Use Phone Instead\"]")
     public WebElement phoneInsteadButon;
 
-    @AndroidFindBy(xpath = "//android.widget.EditText[2]")
+    @AndroidFindBy(xpath = "(//android.widget.EditText)[2]")
     public WebElement passwordGirisBox;
 
     @AndroidFindBy(xpath = "//android.view.View[@content-desc=\"Forgot Password\"]")
