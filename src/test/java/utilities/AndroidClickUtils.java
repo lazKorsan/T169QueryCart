@@ -325,7 +325,7 @@ public class AndroidClickUtils {
     /*
             // 1. AppiumBy.androidUIAutomator ile:
           clickButtonByListIndex(AppiumBy.androidUIAutomator("new UiSelector().className(\"android.widget.Button\")"), 0);
-
+kgf
            // 2. AppiumBy.accessibilityId ile:
           clickButtonByListIndex(AppiumBy.accessibilityId("Sign In"), 1);
 
