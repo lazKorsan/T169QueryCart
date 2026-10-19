@@ -104,7 +104,7 @@ public class TeacherSteps {
 
     @When("Teacher kullanicisi {string} butonuna tiklar")
     public void clickButton(String buttonName) {
-        teacherPage.clickElement(buttonName);
+        teacherPage.scrollAndClickElement(buttonName);
     }
 
     @When("Teacher kullanicisi adres formunu asagidaki bilgilerle doldurur")
@@ -137,5 +137,30 @@ public class TeacherSteps {
     public void verifyAddressIsNotListed(String streetAddress) {
         Assert.assertTrue(streetAddress + " adresi silindikten sonra hala listede gorunuyor",
                 teacherPage.isAddressNotDisplayed(streetAddress));
+    }
+
+    @When("Teacher kullanicisi {string} urununu arar")
+    public void searchProduct(String productName) {
+        teacherPage.searchProduct(productName);
+    }
+
+    @When("Teacher kullanicisi {string} urun secenegini secer")
+    public void selectProductOption(String optionName) {
+        teacherPage.clickElement(optionName);
+    }
+
+    @When("Teacher kullanicisi sepete gider")
+    public void goToCart() {
+        teacherPage.goToCart();
+    }
+
+    @When("Teacher kullanicisi ilk kayitli teslimat adresini secer")
+    public void selectFirstAddress() {
+        teacherPage.selectFirstAddress();
+    }
+
+    @Then("Teacher kullanicisi {string} sayfasinin acildigini dogrular")
+    public void verifyPageIsOpened(String pageTitle) {
+        Assert.assertTrue(pageTitle + " sayfasi acilmadi", teacherPage.isHeadingDisplayed(pageTitle));
     }
 }

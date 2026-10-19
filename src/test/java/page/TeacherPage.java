@@ -48,6 +48,35 @@ public class TeacherPage extends BasePage {
         wait.until(ExpectedConditions.visibilityOfElementLocated(profilePhone));
     }
 
+    public void scrollAndClickElement(String accessibilityId) {
+        By element = AppiumBy.accessibilityId(accessibilityId);
+        if (!isPresentWithin(element, Duration.ofSeconds(3))) {
+            boolean canScrollMore = true;
+            while (driver.findElements(element).isEmpty() && canScrollMore) {
+                canScrollMore = scrollPageDown();
+            }
+        }
+        wait.until(ExpectedConditions.elementToBeClickable(element)).click();
+    }
+
+    private boolean isPresentWithin(By locator, Duration timeout) {
+        try {
+            new WebDriverWait(driver, timeout).until(ExpectedConditions.presenceOfElementLocated(locator));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
+    private boolean scrollPageDown() {
+        WebElement page = driver.findElement(AppiumBy.androidUIAutomator("new UiSelector().scrollable(true)"));
+        Object canScrollMore = driver.executeScript("mobile: scrollGesture", Map.of(
+                "elementId", page,
+                "direction", "down",
+                "percent", 0.5));
+        return Boolean.TRUE.equals(canScrollMore);
+    }
+
     // ===================== Categories (US-004) =====================
 
     @AndroidFindBy(xpath = "//android.view.View[@content-desc='Categories']"
@@ -204,5 +233,32 @@ public class TeacherPage extends BasePage {
         By updateButton = AppiumBy.androidUIAutomator(
                 "new UiSelector().description(\"Update Address\").clickable(true)");
         wait.until(ExpectedConditions.elementToBeClickable(updateButton)).click();
+    }
+
+    // ===================== Payment (US-024) =====================
+
+    @AndroidFindBy(uiAutomator = "new UiSelector().className(\"android.widget.ImageView\").clickable(true).instance(0)")
+    private WebElement searchIcon;
+
+    @AndroidFindBy(xpath = "(//android.widget.ImageView[@clickable='true'])[last()]")
+    private WebElement cartIcon;
+
+    @AndroidFindBy(uiAutomator = "new UiSelector().descriptionContains(\"@\").clickable(true).instance(0)")
+    private WebElement firstAddressCard;
+
+    public void searchProduct(String productName) {
+        By successToast = AppiumBy.androidUIAutomator("new UiSelector().descriptionStartsWith(\"Success\")");
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(successToast));
+        wait.until(ExpectedConditions.elementToBeClickable(searchIcon)).click();
+        typeIntoFocusedField(productName);
+        driver.executeScript("mobile: performEditorAction", Map.of("action", "search"));
+    }
+
+    public void goToCart() {
+        wait.until(ExpectedConditions.elementToBeClickable(cartIcon)).click();
+    }
+
+    public void selectFirstAddress() {
+        wait.until(ExpectedConditions.elementToBeClickable(firstAddressCard)).click();
     }
 }
