@@ -900,21 +900,20 @@ public class StudentSteps {
         zipCodeBox.clear();
         zipCodeBox.sendKeys("12345");
 
-        // KLAVYEYİ GÜVENLİ KAPATMA (Android BACK Tuşu)
-        try {
-            driver.pressKey(new KeyEvent(AndroidKey.BACK));
-        } catch (Exception e) {
-            logger.warn("Klavye zaten kapalı veya kapatılamadı: " + e.getMessage());
-        }
+
+         if (driver.isKeyboardShown()) {
+                    driver.hideKeyboard();
+               }
+        logger.info(redWhite("Klavye kapatıldı"));
         // streetBox elementi
-        ReusableMethods.wait(2);
         WebElement streetBOx = wait.until(ExpectedConditions.elementToBeClickable(
-                AppiumBy.androidUIAutomator("new UiSelector().className(\"android.widget.EditText\").instance(4)")
+                AppiumBy.xpath("//android.widget.FrameLayout[@resource-id=\"android:id/content\"]/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View/android.view.View/android.view.View/android.widget.EditText[5]")
         ));
         streetBOx.click();
+        streetBOx.clear();
         streetBOx.sendKeys("MaviEvler sitesi");
 
-        // KLAVYEYİ GÜVENLİ KAPATMA (Android BACK Tuşu)
+
         try {
             driver.pressKey(new KeyEvent(AndroidKey.BACK));
         } catch (Exception e) {
@@ -1208,6 +1207,50 @@ public class StudentSteps {
 
     }
 
+    @When("Student kullanicisi siparis olustugunu {string} butonunun gorunurlugu ile dogrular")
+    public void studentKullanicisiSiparisOlustugunuButonununGorunurluguIleDogrular(String buttonName) {
+
+
+        boolean isOrderCompleted = false;
+        int maxRetries = 60;
+
+        for (int i = 1; i <= maxRetries; i++) {
+            try {
+
+                WebElement goToOrderDetailsPageButton = driver.findElement(AppiumBy.androidUIAutomator("new UiSelector().description(\"Go to order details\")"));
+
+                if (goToOrderDetailsPageButton.isDisplayed()) {
+                    System.out.println("✅ Sipariş tamamlandı! Detay sayfasına gidiliyor. (Deneme #" + i + ")");
+                    goToOrderDetailsPageButton.click();
+                    isOrderCompleted = true;
+                    break; // Döngüden çık
+                }
+            } catch (Exception e) {
+
+                System.out.println("⏳ Sipariş bekleniyor... Deneme #" + i + "/" + maxRetries);
+
+
+                if (i == 1) {
+
+                    System.out.println("Sipariş işleniyor, lütfen bekleyin...");
+                    logger.info(redWhite("Sipariş işleniyor, lütfen bekleyin..."));
+                }
+            }
+
+            ReusableMethods.wait(5);
+        }
+
+        if (!isOrderCompleted) {
+            Assert.fail("❌ Sipariş " + (maxRetries * 5) + " saniye içinde tamamlanamadı!");
+        }
+
+
+        System.out.println("✅ US024Payment.feature testi başarıyla tamamlandı!");
+        logger.info(turkuazwhite("✅ US024Payment.feature testi başarıyla tamamlandı!"));
+
+
+
+    }
 }
 
 

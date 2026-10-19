@@ -10,10 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import org.junit.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Pause;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
@@ -81,7 +78,7 @@ public class AndroidClickUtils {
                 logger.warn("Test devam ediyor...");
             }
 
-           // ReusableMethods.wait(2);
+            // ReusableMethods.wait(2);
 
         } catch (TimeoutException e) {
 
@@ -93,7 +90,7 @@ public class AndroidClickUtils {
 
             logger.warn("'{}' butonu DOM'da bulunamadı!", buttonName);
             logger.warn("Test devam ediyor...");
-           // ReusableMethods.wait(2);
+            // ReusableMethods.wait(2);
 
         } catch (Exception e) {
 
@@ -380,8 +377,32 @@ public class AndroidClickUtils {
     }
 
 
+    // spirntSonu Methodlar degerlendirilecek
+    public void hideKeyboardIfOpen() {
 
+        AndroidDriver driver = (AndroidDriver) getAppiumDriver();
+        try {
+            driver.hideKeyboard();
+        } catch (Exception e) {
+            // Klavye zaten kapalıysa hatayı yut
+        }
+    }
 
+    public void swipeUp() {
+        AndroidDriver driver = (AndroidDriver) getAppiumDriver();
+        Dimension size = driver.manage().window().getSize();
+        int startX = size.width / 2;
+        int startY = (int) (size.height * 0.7);
+        int endY = (int) (size.height * 0.3);
+
+        PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+        Sequence scroll = new Sequence(finger, 0);
+        scroll.addAction(finger.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), startX, startY));
+        scroll.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+        scroll.addAction(finger.createPointerMove(Duration.ofMillis(600), PointerInput.Origin.viewport(), startX, endY));
+        scroll.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+        driver.perform(List.of(scroll));
+    }
 
 
 }
