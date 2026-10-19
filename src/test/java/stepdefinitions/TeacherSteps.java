@@ -43,7 +43,7 @@ public class TeacherSteps {
     @Then("Teacher kullanicisi giris yapildigini dogrular")
     public void verifyUserIsLoggedIn() {
         Assert.assertTrue("Giris yapilamadi: anasayfada Categories basligi gorunmuyor",
-                teacherPage.isHeadingDisplayed("Categories"));
+                teacherPage.isTextDisplayed("Categories"));
     }
 
     @When("Teacher kullanicisi {string} sayfasina gider")
@@ -65,7 +65,7 @@ public class TeacherSteps {
 
     @Then("Teacher kullanicisi anasayfada {string} basliginin gorunur oldugunu dogrular")
     public void verifyHeadingIsVisible(String heading) {
-        Assert.assertTrue(heading + " basligi gorunmuyor", teacherPage.isHeadingDisplayed(heading));
+        Assert.assertTrue(heading + " basligi gorunmuyor", teacherPage.isTextDisplayed(heading));
     }
 
     @Then("Teacher kullanicisi Categories basligi altinda asagidaki kategorilerin gorunur oldugunu dogrular")
@@ -82,7 +82,7 @@ public class TeacherSteps {
 
     @Then("Teacher kullanicisi {string} kategorisine ait urunlerin listelendigini dogrular")
     public void verifyProductsAreListed(String categoryName) {
-        Assert.assertTrue(categoryName + " sayfa basligi gorunmuyor", teacherPage.isHeadingDisplayed(categoryName));
+        Assert.assertTrue(categoryName + " sayfa basligi gorunmuyor", teacherPage.isTextDisplayed(categoryName));
         Assert.assertTrue("Urun listesi gorunmuyor", teacherPage.isProductListDisplayed());
     }
 
@@ -93,7 +93,7 @@ public class TeacherSteps {
 
     @Then("Teacher kullanicisi {string} urununun detay sayfasinin acildigini dogrular")
     public void verifyProductDetailPageIsOpened(String productName) {
-        Assert.assertTrue(productName + " detay sayfasi acilmadi", teacherPage.isHeadingDisplayed(productName));
+        Assert.assertTrue(productName + " detay sayfasi acilmadi", teacherPage.isTextDisplayed(productName));
     }
 
     @When("Teacher kullanicisi {string} menusune tiklar")
@@ -161,14 +161,14 @@ public class TeacherSteps {
 
     @Then("Teacher kullanicisi {string} sayfasinin acildigini dogrular")
     public void verifyPageIsOpened(String pageTitle) {
-        Assert.assertTrue(pageTitle + " sayfasi acilmadi", teacherPage.isHeadingDisplayed(pageTitle));
+        Assert.assertTrue(pageTitle + " sayfasi acilmadi", teacherPage.isTextDisplayed(pageTitle));
     }
 
     @Then("Teacher kullanicisi {string} basligi altinda asagidaki odeme yontemlerinin gorunur oldugunu dogrular")
     public void verifyPaymentMethodsAreVisible(String heading, List<String> paymentMethods) {
-        Assert.assertTrue(heading + " basligi gorunmuyor", teacherPage.isHeadingDisplayed(heading));
+        Assert.assertTrue(heading + " basligi gorunmuyor", teacherPage.isTextDisplayed(heading));
         for (String method : paymentMethods) {
-            Assert.assertTrue(method + " odeme yontemi gorunmuyor", teacherPage.isHeadingDisplayed(method));
+            Assert.assertTrue(method + " odeme yontemi gorunmuyor", teacherPage.isTextDisplayed(method));
         }
     }
 
@@ -199,12 +199,12 @@ public class TeacherSteps {
 
     @Then("Teacher kullanicisi siparisin odeme durumunun {string} oldugunu dogrular")
     public void verifyPaymentStatus(String expectedStatus) {
-        Assert.assertTrue(expectedStatus + " odeme durumu gorunmuyor", teacherPage.isHeadingDisplayed(expectedStatus));
+        Assert.assertTrue(expectedStatus + " odeme durumu gorunmuyor", teacherPage.isTextDisplayed(expectedStatus));
     }
 
     @Then("Teacher kullanicisi siparisin odeme tipinin {string} oldugunu dogrular")
     public void verifyPaymentType(String expectedType) {
-        Assert.assertTrue(expectedType + " odeme tipi gorunmuyor", teacherPage.isHeadingDisplayed(expectedType));
+        Assert.assertTrue(expectedType + " odeme tipi gorunmuyor", teacherPage.isTextDisplayed(expectedType));
     }
 
     @Then("Teacher kullanicisi {string} mesajinin gorunur oldugunu dogrular")

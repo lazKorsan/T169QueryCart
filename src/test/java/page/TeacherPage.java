@@ -19,9 +19,9 @@ public class TeacherPage extends BasePage {
 
     // ===================== Common =====================
 
-    public boolean isHeadingDisplayed(String heading) {
+    public boolean isTextDisplayed(String text) {
         try {
-            return wait.until(ExpectedConditions.visibilityOfElementLocated(AppiumBy.accessibilityId(heading)))
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(AppiumBy.accessibilityId(text)))
                     .isDisplayed();
         } catch (TimeoutException e) {
             return false;
@@ -91,6 +91,9 @@ public class TeacherPage extends BasePage {
             + "/following-sibling::android.view.View[1]//android.view.View[@scrollable='true']")
     private WebElement categoryList;
 
+    @AndroidFindBy(uiAutomator = "new UiSelector().descriptionContains(\"Products Found\")")
+    private WebElement productsFoundLabel;
+
     public List<String> getAllCategoryNames() {
         List<String> names = new ArrayList<>(getVisibleCategoryNames());
         boolean canScrollMore = true;
@@ -129,9 +132,6 @@ public class TeacherPage extends BasePage {
         }
         wait.until(ExpectedConditions.elementToBeClickable(category)).click();
     }
-
-    @AndroidFindBy(uiAutomator = "new UiSelector().descriptionContains(\"Products Found\")")
-    private WebElement productsFoundLabel;
 
     public boolean isProductListDisplayed() {
         return isVisible(productsFoundLabel);
