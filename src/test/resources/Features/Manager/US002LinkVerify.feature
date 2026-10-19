@@ -1,4 +1,4 @@
-
+@US002
 Feature: Bir kullanici olarak site ici islemlerini kolaylikla yapabilmek
         icin ana sayfa altbarında kolay linklerin bulunmasını istiyorum
 
@@ -7,7 +7,6 @@ Feature: Bir kullanici olarak site ici islemlerini kolaylikla yapabilmek
 
   @US002_TC01
   Scenario: Alt bar bolumu linkleri dogrulama
-
     * Manager kullanicisi sayfa alt barinda "Home" ikonunun gorunur oldugunu dogrular
     * Manager kullanicisi sayfa alt barinda "Category" ikonunun gorunur oldugunu dogrular
     * Manager kullanicisi sayfa alt barinda "Wishlist" ikonunun gorunur oldugunu dogrular
@@ -25,12 +24,12 @@ Feature: Bir kullanici olarak site ici islemlerini kolaylikla yapabilmek
       | Home     | Home     |
       | Category | Category |
       | Wishlist | Wishlist |
-      | Cart     | Cart     |
       | Profile  | Profile  |
+      | Cart     | Cart     |
 
   @US002_TC03
   Scenario: Arama kutusunun gorunur ve arama yapilabildigini dorulama
-    * Manager kullanicisi ana sayfada "Search" arama kutusunu goruntuler
-    * Manager kullanicisi arama kutusuna test etmek istedigi bir urun adini yazar
+    * Manager kullanicisi ana sayfada buyutec simgesine tiklar
+    * Manager kullanicisi arama kutusunu goruntuler ve "Shoes" yazarak arama yapar
     * Manager kullanicisi klavyeden arama butonuna tiklar
     * Manager kullanicisi arama sonuclarinin ekranda listelendigini dogrular

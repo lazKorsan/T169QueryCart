@@ -1,17 +1,24 @@
 package stepdefinitions;
 
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
 import io.cucumber.java.en.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.Assert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import page.ManagerPage;
-import utilities.AndroidClickUtils;
-import utilities.Driver;
+import utilities.*;
 
+import java.lang.reflect.Field;
 import java.time.Duration;
 
 import static utilities.Driver.getAppiumDriver;
+import static utilities.Driver.quitAppiumDriver;
 
 public class ManagerSteps {
 
@@ -19,6 +26,10 @@ public class ManagerSteps {
     private final ManagerPage managerPage = new ManagerPage();
     private final AndroidDriver driver = (AndroidDriver) Driver.getAppiumDriver();
     private final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+    private static String currentPassword = ConfigReader.getProperty("password");
+    private static String newlyGeneratedPassword;
+    private static int passwordCounter = 1;
+
 
     @Given("Manager kullanicisi uygulamayi acar")
     public void manager_kullanicisi_uygulamayi_acar() {
@@ -37,41 +48,83 @@ public class ManagerSteps {
         managerPage.altBarIkonuGoruntulemeVeTiklama(ikon,true);
     }
     @Given("Manager kullanicisi ilgili {string} basligina yonlendirildigini dogrular")
-    public void manager_kullanicisi_ilgili_basligina_yonlendirildigini_dogrular(String string) {
+    public void manager_kullanicisi_ilgili_basligina_yonlendirildigini_dogrular(String sayfaAdi) {
+        managerPage.sayfaYonlendirmesiniDogrula(sayfaAdi);
+
+        if (sayfaAdi.equalsIgnoreCase("Home")) {
+            System.out.println("✨ Zaten Home (Ana Sayfa) doğrulandı, sonraki sayfaya geçiliyor.");
+        } else if (sayfaAdi.equalsIgnoreCase("Wishlist")) {
+            //AndroidDriver driver = (AndroidDriver) Driver.getAppiumDriver();
+           // driver.pressKey(new KeyEvent(AndroidKey.BACK));
+
+            AndroidClickUtils.KeyBack();
+
+            System.out.println("↩️ Android GERİ tuşuna basılarak ana sayfaya dönüldü.");
+        }
+        else {
+            managerPage.altBarIkonuGoruntulemeVeTiklama("Home",true);
+            System.out.println("🏠 Alt bardaki Home butonuna tıklanarak ana sayfaya dönüldü.");
+        }
+
+        logger.info("↩️ Ana sayfaya geri dönmek için Android GERİ tuşuna basıldı.");
 
     }
-    @Given("Manager kullanicisi ana sayfada {string} arama kutusunu goruntuler")
-    public void manager_kullanicisi_ana_sayfada_arama_kutusunu_goruntuler(String string) {
-
+    @Given("Manager kullanicisi ana sayfada buyutec simgesine tiklar")
+    public void manager_kullanicisi_ana_sayfada_buyutec_simgesine_tiklar() {
+       managerPage.buyutecSimgesi.click();
     }
-    @Given("Manager kullanicisi arama kutusuna test etmek istedigi bir urun adini yazar")
-    public void manager_kullanicisi_arama_kutusuna_test_etmek_istedigi_bir_urun_adini_yazar() {
-
+    @Given("Manager kullanicisi arama kutusunu goruntuler ve {string} yazarak arama yapar")
+    public void manager_kullanicisi_arama_kutusunu_goruntuler_ve_yazarak_arama_yapar(String aranacakKelime) {
+        AndroidClickUtils.sendKeysToTextBoxByIndex(aranacakKelime,0);
     }
     @Given("Manager kullanicisi klavyeden arama butonuna tiklar")
     public void manager_kullanicisi_klavyeden_arama_butonuna_tiklar() {
-
+        managerPage.klavyedenAraButonunaBas();
     }
     @Given("Manager kullanicisi arama sonuclarinin ekranda listelendigini dogrular")
     public void manager_kullanicisi_arama_sonuclarinin_ekranda_listelendigini_dogrular() {
-
+        managerPage.aramaSonuclariListelendiMi();
     }
 
     @Given("Manager kullanicisi Forgot Password sayfasini goruntulendigini dogrular")
     public void manager_kullanicisi_forgot_password_sayfasini_goruntulendigini_dogrular() {
-
+        Assert.assertTrue(managerPage.forgotPasswordButon.isDisplayed());
     }
 
     @Given("Manager kullanicisi dogrulama yontemi olarak {string} secenegini secer")
-    public void manager_kullanicisi_dogrulama_yontemi_olarak_secenegini_secer(String string) {
+    public void manager_kullanicisi_dogrulama_yontemi_olarak_secenegini_secer(String yontem) {
 
+        if (yontem.equalsIgnoreCase("E-posta")) {
+            System.out.println("[OTOMASYON] E-posta yöntemi seçildi. Linke tıklanıyor...");
+            managerPage.emailInsteadButon.click();
+
+        } else if (yontem.equalsIgnoreCase("Telefon")) {
+            System.out.println("[OTOMASYON] Telefon yöntemi seçildi.");
+        }
     }
     @Given("Manager kullanicisi ilgili alana {string} bilgisini girer")
-    public void manager_kullanicisi_ilgili_alana_bilgisini_girer(String string) {
+    public void manager_kullanicisi_ilgili_alana_bilgisini_girer(String iletisimBilgisi) {
+        String finalInputData;
+
+        // 1. Veriyi properties dosyasından güvenle çekiyoruz
+        if (iletisimBilgisi.equalsIgnoreCase("managerMail")) {
+            finalInputData = ConfigReader.getProperty("managerMail");
+        } else if (iletisimBilgisi.equalsIgnoreCase("phoneNumber")) {
+            finalInputData = ConfigReader.getProperty("phoneNumber");
+        } else {
+            finalInputData = iletisimBilgisi;
+        }
+
+        AndroidClickUtils.smartSendKeys(
+                driver,
+                "İletişim Bilgisi Kutusu",
+                finalInputData,
+                () -> managerPage.email_phoneGirisBox);
 
     }
     @Given("Manager kullanicisi Get OTP butonuna tiklar")
     public void manager_kullanicisi_get_otp_butonuna_tiklar() {
+        managerPage.getOTPButon.click();
 
     }
     @Given("Manager kullanicisi {string} kutusuna yeni sifreyi yazar")
@@ -84,32 +137,164 @@ public class ManagerSteps {
     }
 
     @Given("Manager kullanicisi {string} yazisini goruntuler ve islemin basariyla gerceklestigini dogrular")
-    public void manager_kullanicisi_yazisini_goruntuler_ve_islemin_basariyla_gerceklestigini_dogrular(String string) {
+    public void manager_kullanicisi_yazisini_goruntuler_ve_islemin_basariyla_gerceklestigini_dogrular(String beklenenMesaj) {
 
+           VerifyElements.smartVerifyToast(driver,
+                   beklenenMesaj,
+                   ()-> managerPage.toastSuccessMessage);
     }
+
     @Given("Manager kullanicisi {string} butonunun gorunur ve aktif oldugunu dogrular")
-    public void manager_kullanicisi_butonunun_gorunur_ve_aktif_oldugunu_dogrular(String string) {
+    public void manager_kullanicisi_butonunun_gorunur_ve_aktif_oldugunu_dogrular(String butonAdi) {
 
-    }
+                WebElement targetButton = null;
+
+                if (butonAdi.equalsIgnoreCase("Get OTP")) {
+                    targetButton = managerPage.getOTPButon;
+
+                } else if (butonAdi.equalsIgnoreCase("Back to sign in")) {
+                    targetButton = managerPage.backToSignInButon;
+                }
+
+                Assert.assertTrue("HATA: " + butonAdi + " butonu ekranda GÖRÜNMÜYOR!", targetButton.isDisplayed());
+                Assert.assertTrue("HATA: " + butonAdi+ " butonu AKTİF/TIKLANABİLİR DEĞİL!", targetButton.isEnabled());
+                System.out.println("[ASSERTION SUCCESS] " + butonAdi + " butonu hem görünür hem aktif! ✅");
+            }
     @Given("Manager kullanicisi {string} butonuna tiklar")
-    public void manager_kullanicisi_butonuna_tiklar(String string) {
+    public void manager_kullanicisi_butonuna_tiklar(String buton) {
 
+
+        String butonAdi = buton.trim();
+
+        try {
+            (driver).hideKeyboard();
+            System.out.println("[OTOMASYON] Android klavyesi güvenli bir şekilde gizlendi.");
+        } catch (Exception e) {
+
+        }
+        if (buton.equalsIgnoreCase("Sign In")) {
+            Assert.assertTrue(managerPage.signInGirisButon.isDisplayed());
+            AndroidClickUtils.smartClick(
+                    driver,
+                    "Sign In",
+                    () -> managerPage.signInGirisButon);
+
+        } else if (buton.equalsIgnoreCase("Profile")) {
+            wait.until(ExpectedConditions.elementToBeClickable(managerPage.profileGirisButon));
+
+            Assert.assertTrue(managerPage.profileGirisButon.isDisplayed());
+            AndroidClickUtils.smartClick(
+                    driver,
+                    "Profile",
+                    () -> managerPage.profileGirisButon);
+
+        } else if (buton.equalsIgnoreCase("Submit")) {
+            Assert.assertTrue(managerPage.resetSubmitButon.isDisplayed());
+            AndroidClickUtils.smartClick(
+                    driver,
+                    "Submit",
+                    () -> managerPage.resetSubmitButon);
+        } else {
+
+        throw new RuntimeException("HATA: '" + butonAdi + "' adında bir buton Java kodunda tanımlanmamış!");
     }
-    @Given("Manager kullanicisi password kutusuna {string} bilgisini girer")
-    public void manager_kullanicisi_password_kutusuna_bilgisini_girer(String string) {
-
+        System.out.println("[OTOMASYON] Akıllı metotla başarıyla tıklanan buton: " + butonAdi);
+    }
+    @Given("Manager kullanicisi password kutusuna sifre bilgisini girer")
+    public void manager_kullanicisi_password_kutusuna_sifre_bilgisini_girer() {
+        AndroidClickUtils.smartSendKeys(
+                driver,
+                "Sifre Giris Kutusu",
+                ConfigReader.getProperty("password"),
+                () -> managerPage.passwordGirisBox
+        );
     }
     @Given("Manager kullanicisi acilan dashboardda {string} linkini goruntuler ve tiklar")
-    public void manager_kullanicisi_acilan_dashboardda_linkini_goruntuler_ve_tiklar(String string) {
-
+    public void manager_kullanicisi_acilan_dashboardda_linkini_goruntuler_ve_tiklar(String dashboardYazi) {
+        managerPage.dashboardChangePasswordButon.click();
     }
     @Given("Manager kullanicisi old password alanina {string}, new password alanina {string} ve confirm alanina {string} yazar")
-    public void manager_kullanicisi_old_password_alanina_new_password_alanina_ve_confirm_alanina_yazar(String string, String string2, String string3) {
+    public void manager_kullanicisi_old_password_alanina_new_password_alanina_ve_confirm_alanina_yazar(String eskiSifre, String yeniSifre, String onaySifre) {
 
-    }
+
+            if (currentPassword == null) {
+                currentPassword = ConfigReader.getProperty("oldPassword"); // Örn: Learn.123
+            }
+
+            String finalOldPassword = eskiSifre.equalsIgnoreCase("oldPassword") ? currentPassword : eskiSifre;
+            String finalNewPassword;
+
+            if (yeniSifre.equalsIgnoreCase("newPassword") || onaySifre.equalsIgnoreCase("confirmPassword")) {
+
+                String prefix = ConfigReader.getProperty("passwordPrefix");
+                String suffix = ConfigReader.getProperty("passwordSuffix");
+                String uniqueTime = String.valueOf(System.currentTimeMillis()).substring(8);
+
+                newlyGeneratedPassword = prefix + uniqueTime + suffix;
+                finalNewPassword = newlyGeneratedPassword;
+            } else {
+                finalNewPassword = yeniSifre;
+            }
+        AndroidClickUtils.smartSendKeys(
+                driver,
+                "Eski Sifre Kutusu",
+                finalOldPassword,
+                () -> managerPage.oldPasswordChangePasswordBox
+        );
+        AndroidClickUtils.smartSendKeys(
+                driver,
+                "Yeni Sifre Kutusu",
+                finalNewPassword,
+                () -> managerPage.newPasswordChangePasswordBox
+        );
+        AndroidClickUtils.smartSendKeys(
+                driver,
+                "Onay Sifre Kutusu",
+                finalNewPassword,
+                () -> managerPage.confirmPasswordChangePasswordBox
+        );
+            currentPassword = newlyGeneratedPassword;
+        }
     @Given("Manager kullanicisi {string} butonunu goruntuler ve tiklar")
-    public void manager_kullanicisi_butonunu_goruntuler_ve_tiklar(String string) {
+    public void manager_kullanicisi_butonunu_goruntuler_ve_tiklar(String butonElementAdi) {
+
+        try {
+            // 1. Feature dosyasından gelen metne göre managerPage içindeki WebElement'i ismiyle buluyoruz
+            Field field = managerPage.getClass().getField(butonElementAdi.trim());
+            WebElement targetButton = (WebElement) field.get(managerPage);
+
+            AndroidClickUtils.smartClick(
+                    (AndroidDriver) driver,
+                    butonElementAdi + " Butonu",
+                    () -> targetButton
+            );
+
+            System.out.println("[REFLECTIVE SUCCESS] " + butonElementAdi + " elementine akıllıca tıklandı! ✅");
+
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException("HATA: managerPage sınıfı içinde '" + butonElementAdi + "' adında bir WebElement bulunamadı! İsimleri kontrol edin.");
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException("HATA: Elemente erişim izni sağlanamadı.");
+        }
 
     }
 
-}
+    @Given("Manager kullanicisi acilan dashboardda {string} linkini gorunur ve tiklanabilir oldugunu dogrular")
+    public void manager_kullanicisi_acilan_dashboardda_linkini_gorunur_ve_tiklanabilir_oldugunu_dogrular(String linkDogrulama) {
+
+                WebElement targetLink = null;
+
+                if (linkDogrulama.trim().equalsIgnoreCase("Change Password")) {
+                    targetLink = managerPage.dashboardChangePasswordButon;
+                }
+
+                Assert.assertNotNull("HATA: '" + linkDogrulama + "' adında bir link Java kodunda tanımlanmamış!", targetLink);
+                Assert.assertTrue("Get OTP butonu ekranda tespit edilemedi", targetLink.isDisplayed());
+                Assert.assertTrue("Get OTP butonu tıklanabilir (aktif) durumda değil", targetLink.isEnabled());
+
+                System.out.println("[ASSERTION SUCCESS] '" + linkDogrulama + "' linki başarıyla doğrulandı ve aktif! ✅");
+            }
+        }
+
+
+

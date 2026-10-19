@@ -2,24 +2,31 @@ package page;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.pagefactory.AndroidFindBy;
+import io.cucumber.java.en.*;
 import org.junit.Assert;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utilities.AndroidClickUtils;
+import utilities.ConfigReader;
 
 
 import java.time.Duration;
 
-public class ManagerPage extends QueryCardPage{
+import static utilities.AndroidClickUtils.smartClick;
+
+public class ManagerPage extends QueryCardPage {
 
     private final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+
     public AndroidDriver getDriver() {
         return this.driver;
     }
 
-    public ManagerPage(){
+    public ManagerPage() {
         super();
     }
 
@@ -98,36 +105,122 @@ public class ManagerPage extends QueryCardPage{
     @AndroidFindBy(xpath = "//android.widget.ImageView[@content-desc=\"Logout\"]")
     public WebElement logoutButon;
 
-    public void altBarIkonuGoruntulemeVeTiklama(String ikonAdi,boolean tiklamaYapilsinMi) {
+    @AndroidFindBy(xpath = "//android.view.View[@content-desc=\"Most Popular\"]")
+    public WebElement mostPopularYaziElementi;
+
+    @AndroidFindBy(xpath = "(//android.view.View)[6]")
+    public WebElement grupMenusuDogrulama;
+
+    @AndroidFindBy(xpath = "//android.view.View[@content-desc=\"Sing In To See Your Info\"]")
+    public WebElement profileSayfasiDogrulamaYazisi;
+
+    @AndroidFindBy(xpath = "//android.view.View[@content-desc=\"Sign in to continue shopping\"]")
+    public WebElement wishlistSayfasiDogrulamaYazisi;
+
+    @AndroidFindBy(xpath = "(//android.widget.ImageView)[2]")
+    public WebElement buyutecSimgesi;
+
+    @AndroidFindBy(xpath = "android.widget.EditText")
+    public WebElement searchbox;
+
+    @AndroidFindBy(xpath = "//android.view.View[contains(@content-desc, 'Products Found')]")
+    public WebElement aramaSonucYazisi;
+
+
+    public void altBarIkonuGoruntulemeVeTiklama(String ikonAdi, boolean tiklamaYapilsinMi) {
         String nihaiXpath;
 
-        if (ikonAdi.equalsIgnoreCase("cartButon")) {
-            nihaiXpath = "(//android.widget.ImageView)[11]";
+        if (ikonAdi.equalsIgnoreCase("Cart")) {
+            // En geniş katmanı veya mor butonun durduğu alanı hedeflesin
+            nihaiXpath = "//android.widget.ImageView[@content-desc='Category']/../preceding-sibling::android.view.View";
         } else {
             nihaiXpath = "//*[@content-desc='" + ikonAdi + "']";
         }
 
-        WebElement ikon = driver.findElement(AppiumBy.xpath(nihaiXpath));
-        Assert.assertTrue(ikonAdi + " ikonu barda görünmüyor!",ikon.isDisplayed());
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        WebElement ikon = wait.until(ExpectedConditions.elementToBeClickable(AppiumBy.xpath(nihaiXpath)));
+
+        Assert.assertTrue(ikonAdi + " ikonu barda görünmüyor!", ikon.isDisplayed());
+
         if (tiklamaYapilsinMi) {
-            ikon.click();
+            if (ikonAdi.equalsIgnoreCase("Cart")) {
+
+                // 🎯 KESİN ÇÖZÜM: Inspector'dan aldığımız bounds değerini buraya tam olarak yazıyoruz
+                String sepetBounds = "[614,2699][826,2912]";
+
+                // clickOnCenterOfBounds metodunun projenizde hangi class'ın içindeyse onun adını yazın
+                // (Örnek olarak 'ReusableMethods' yazdım, kendi sınıf adınızla değiştirin)
+                AndroidClickUtils.clickOnCenterOfBounds(driver, sepetBounds);
+
+                System.out.println("🚀 Cart butonuna fiziksel merkez koordinatından dokunuş yapıldı!");
+            } else {
+                // Standart ve sorunsuz diğer butonlar (Home, Wishlist vb.) için normal tıklama
+                ikon.click();
+            }
+            System.out.println("✅ " + ikonAdi + " ikonuna başarıyla tıklandı.");
         }
     }
-    public void verifyPasswordChangeSuccess() {
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(7));
-        WebElement toastElement = wait.until(
-                ExpectedConditions.presenceOfElementLocated(AppiumBy.xpath("//android.widget.Toast"))
-        );
 
-        String successYazisi = toastElement.getAttribute("name");
 
-        // Eğer 'name' içi boş dönerse alt satırdakini deneyebilirsiniz:
-        // String successYazisi = toastElement.getText();
+    public void sayfaYonlendirmesiniDogrula(String sayfaAdi) {
 
-        String beklenenMesaj = "Password updated successfully";
+        switch (sayfaAdi.toLowerCase()) {
+            case "home":
+                Assert.assertTrue("Most Popular yazısı ekranda görünmüyor!",
+                        mostPopularYaziElementi.isDisplayed());
+                break;
 
-        Assert.assertEquals("HATA: Başarı mesajı ekranda eşleşmedi!", beklenenMesaj, successYazisi);
+            case "category":
+                Assert.assertTrue("Kategori sayfasina gecis yapilamiyor",
+                        grupMenusuDogrulama.isEnabled());
+                break;
+
+            case "profile":
+                Assert.assertTrue("Profile sayfasina yonlendirilmedi",
+                        profileSayfasiDogrulamaYazisi.isDisplayed());
+                break;
+
+            case "wishlist":
+                Assert.assertTrue("Wishlist sayfasina yonlendirilmedi!",
+                        wishlistSayfasiDogrulamaYazisi.isDisplayed());
+                break;
+
+            case "cart":
+                WebElement sepetElementi = wait.until(ExpectedConditions.presenceOfElementLocated(
+                        AppiumBy.xpath("//*[contains(@content-desc, 'Cart') or contains(@text, 'Cart') or contains(@content-desc, 'Shopping') or contains(@content-desc, 'Checkout') or contains(@text, 'Bag')]")
+                ));
+
+                System.out.println("🛒 Sepet ekranında başarıyla yakalanan element açıklaması: " + sepetElementi.getAttribute("content-desc"));
+                Assert.assertTrue("Shopping cart sayfasına yönlendirilemedi!", sepetElementi.isDisplayed());
+                break;
+            default:
+
+                WebElement dinamikElement = wait.until(ExpectedConditions.presenceOfElementLocated(
+                        AppiumBy.xpath("//*[@text='" + sayfaAdi + "' or @content-desc='" + sayfaAdi + "']")
+                ));
+                Assert.assertTrue(sayfaAdi + " sayfasına yönlendirme başarısız oldu!", dinamikElement.isDisplayed());
+                break;
+        }
     }
 
+    public void klavyedenAraButonunaBas() {
+        driver.pressKey(new KeyEvent(AndroidKey.ENTER));
+    }
+
+    public void aramaSonuclariListelendiMi() {
+
+        wait.until(ExpectedConditions.visibilityOf(aramaSonucYazisi));
+
+        String bulunanUrunMetni = aramaSonucYazisi.getAttribute("content-desc");
+
+        String sadeceRakamlar = bulunanUrunMetni.replaceAll("[^0-9]", "");
+
+        int urunSayisi = Integer.parseInt(sadeceRakamlar);
+
+        Assert.assertTrue(
+                "HATA: Arama sonucunda hiç ürün bulunamadı! Ekranda yazan: " + bulunanUrunMetni,
+                urunSayisi > 0
+        );
+    }
 }
