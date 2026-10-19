@@ -28,6 +28,14 @@ public class TeacherPage extends BasePage {
         }
     }
 
+    private boolean isVisible(WebElement element) {
+        try {
+            return wait.until(ExpectedConditions.visibilityOf(element)).isDisplayed();
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
     public boolean isElementDisplayedAndEnabled(String accessibilityId) {
         try {
             WebElement element = wait.until(
@@ -126,11 +134,7 @@ public class TeacherPage extends BasePage {
     private WebElement productsFoundLabel;
 
     public boolean isProductListDisplayed() {
-        try {
-            return wait.until(ExpectedConditions.visibilityOf(productsFoundLabel)).isDisplayed();
-        } catch (TimeoutException e) {
-            return false;
-        }
+        return isVisible(productsFoundLabel);
     }
 
     public void selectProduct(String productName) {
@@ -246,6 +250,9 @@ public class TeacherPage extends BasePage {
     @AndroidFindBy(uiAutomator = "new UiSelector().descriptionContains(\"@\").clickable(true).instance(0)")
     private WebElement firstAddressCard;
 
+    @AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"confirmBtn\")")
+    private WebElement stripeConfirmButton;
+
     public void searchProduct(String productName) {
         By successToast = AppiumBy.androidUIAutomator("new UiSelector().descriptionStartsWith(\"Success\")");
         wait.until(ExpectedConditions.invisibilityOfElementLocated(successToast));
@@ -260,5 +267,9 @@ public class TeacherPage extends BasePage {
 
     public void selectFirstAddress() {
         wait.until(ExpectedConditions.elementToBeClickable(firstAddressCard)).click();
+    }
+
+    public boolean isStripeFormDisplayed() {
+        return isVisible(stripeConfirmButton);
     }
 }

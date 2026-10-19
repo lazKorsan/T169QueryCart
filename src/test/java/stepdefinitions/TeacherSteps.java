@@ -163,4 +163,22 @@ public class TeacherSteps {
     public void verifyPageIsOpened(String pageTitle) {
         Assert.assertTrue(pageTitle + " sayfasi acilmadi", teacherPage.isHeadingDisplayed(pageTitle));
     }
+
+    @Then("Teacher kullanicisi {string} basligi altinda asagidaki odeme yontemlerinin gorunur oldugunu dogrular")
+    public void verifyPaymentMethodsAreVisible(String heading, List<String> paymentMethods) {
+        Assert.assertTrue(heading + " basligi gorunmuyor", teacherPage.isHeadingDisplayed(heading));
+        for (String method : paymentMethods) {
+            Assert.assertTrue(method + " odeme yontemi gorunmuyor", teacherPage.isHeadingDisplayed(method));
+        }
+    }
+
+    @When("Teacher kullanicisi {string} odeme yontemini secer")
+    public void selectPaymentMethod(String paymentMethod) {
+        teacherPage.clickElement(paymentMethod);
+    }
+
+    @Then("Teacher kullanicisi Stripe kart formunun acildigini dogrular")
+    public void verifyStripeFormIsOpened() {
+        Assert.assertTrue("Stripe kart formu acilmadi", teacherPage.isStripeFormDisplayed());
+    }
 }
