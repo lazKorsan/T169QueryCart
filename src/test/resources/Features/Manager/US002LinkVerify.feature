@@ -7,7 +7,6 @@ Feature: Bir kullanici olarak site ici islemlerini kolaylikla yapabilmek
 
   @US002_TC01
   Scenario: Alt bar bolumu linkleri dogrulama
-
     * Manager kullanicisi sayfa alt barinda "Home" ikonunun gorunur oldugunu dogrular
     * Manager kullanicisi sayfa alt barinda "Category" ikonunun gorunur oldugunu dogrular
     * Manager kullanicisi sayfa alt barinda "Wishlist" ikonunun gorunur oldugunu dogrular
