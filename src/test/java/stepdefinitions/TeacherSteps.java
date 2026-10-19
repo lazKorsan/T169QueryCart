@@ -11,18 +11,24 @@ import page.TeacherPage;
 import utilities.ConfigReader;
 
 import java.util.List;
+import java.util.Map;
 
 import static utilities.Driver.getAppiumDriver;
+import static utilities.Driver.quitAppiumDriver;
 
 public class TeacherSteps {
 
     private static final Logger logger = LogManager.getLogger(TeacherSteps.class);
-    private final TeacherPage teacherPage = new TeacherPage();
-    private final RegisterPage registerPage = new RegisterPage();
+    private TeacherPage teacherPage;
+    private RegisterPage registerPage;
 
     @Given("Teacher kullanicisi uygulamayi acar")
     public void launchApp() {
+        // No hook quits the driver between scenarios, so restart it here to start each scenario logged out.
+        quitAppiumDriver();
         getAppiumDriver();
+        teacherPage = new TeacherPage();
+        registerPage = new RegisterPage();
         logger.info("Uygulama acildi");
     }
 
@@ -42,13 +48,19 @@ public class TeacherSteps {
 
     @When("Teacher kullanicisi {string} sayfasina gider")
     public void goToBottomTab(String tabName) {
-        teacherPage.clickBottomTab(tabName);
+        teacherPage.clickElement(tabName);
     }
 
     @Then("Teacher kullanicisi {string} menusunun gorunur ve aktif oldugunu dogrular")
     public void verifyProfileMenuIsActive(String menuName) {
         Assert.assertTrue(menuName + " menusu gorunur ve aktif degil",
-                teacherPage.isProfileMenuDisplayedAndEnabled(menuName));
+                teacherPage.isElementDisplayedAndEnabled(menuName));
+    }
+
+    @Then("Teacher kullanicisi {string} butonunun gorunur ve aktif oldugunu dogrular")
+    public void verifyButtonIsActive(String buttonName) {
+        Assert.assertTrue(buttonName + " butonu gorunur ve aktif degil",
+                teacherPage.isElementDisplayedAndEnabled(buttonName));
     }
 
     @Then("Teacher kullanicisi anasayfada {string} basliginin gorunur oldugunu dogrular")
@@ -82,5 +94,48 @@ public class TeacherSteps {
     @Then("Teacher kullanicisi {string} urununun detay sayfasinin acildigini dogrular")
     public void verifyProductDetailPageIsOpened(String productName) {
         Assert.assertTrue(productName + " detay sayfasi acilmadi", teacherPage.isHeadingDisplayed(productName));
+    }
+
+    @When("Teacher kullanicisi {string} menusune tiklar")
+    public void clickProfileMenuItem(String menuName) {
+        teacherPage.waitForProfileToLoad(ConfigReader.getProperty("phoneNumber"));
+        teacherPage.clickElement(menuName);
+    }
+
+    @When("Teacher kullanicisi {string} butonuna tiklar")
+    public void clickButton(String buttonName) {
+        teacherPage.clickElement(buttonName);
+    }
+
+    @When("Teacher kullanicisi adres formunu asagidaki bilgilerle doldurur")
+    public void fillAddressForm(Map<String, String> formData) {
+        teacherPage.fillAddressForm(formData);
+    }
+
+    @When("Teacher kullanicisi adresi kaydeder")
+    public void saveAddress() {
+        teacherPage.clickElement("Add Address");
+    }
+
+    @Then("Teacher kullanicisi {string} adresinin listede gorunur oldugunu dogrular")
+    public void verifyAddressIsListed(String streetAddress) {
+        Assert.assertTrue(streetAddress + " adresi listede gorunmuyor",
+                teacherPage.isAddressDisplayed(streetAddress));
+    }
+
+    @When("Teacher kullanicisi {string} adresini siler")
+    public void deleteAddress(String streetAddress) {
+        teacherPage.deleteAddress(streetAddress);
+    }
+
+    @When("Teacher kullanicisi {string} adresini {string} olarak duzenler")
+    public void editAddress(String currentStreet, String newStreet) {
+        teacherPage.editAddress(currentStreet, newStreet);
+    }
+
+    @Then("Teacher kullanicisi {string} adresinin listede gorunmedigini dogrular")
+    public void verifyAddressIsNotListed(String streetAddress) {
+        Assert.assertTrue(streetAddress + " adresi silindikten sonra hala listede gorunuyor",
+                teacherPage.isAddressNotDisplayed(streetAddress));
     }
 }

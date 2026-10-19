@@ -28,6 +28,26 @@ public class TeacherPage extends BasePage {
         }
     }
 
+    public boolean isElementDisplayedAndEnabled(String accessibilityId) {
+        try {
+            WebElement element = wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(AppiumBy.accessibilityId(accessibilityId)));
+            return element.isDisplayed() && element.isEnabled();
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
+    public void clickElement(String accessibilityId) {
+        wait.until(ExpectedConditions.elementToBeClickable(AppiumBy.accessibilityId(accessibilityId))).click();
+    }
+
+    public void waitForProfileToLoad(String phoneNumber) {
+        By profilePhone = AppiumBy.androidUIAutomator(
+                "new UiSelector().descriptionContains(\"" + phoneNumber + "\")");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(profilePhone));
+    }
+
     // ===================== Categories (US-004) =====================
 
     @AndroidFindBy(xpath = "//android.view.View[@content-desc='Categories']"
@@ -90,21 +110,99 @@ public class TeacherPage extends BasePage {
         wait.until(ExpectedConditions.elementToBeClickable(product)).click();
     }
 
-    // ===================== Bottom Navigation (Common) =====================
+    // ===================== Address (US-017) =====================
 
-    public void clickBottomTab(String tabName) {
-        wait.until(ExpectedConditions.elementToBeClickable(AppiumBy.accessibilityId(tabName))).click();
+    public void fillAddressForm(Map<String, String> formData) {
+        typeIntoField(0, formData.get("Full Name"));
+        typeIntoField(1, formData.get("Email"));
+        typeIntoField(2, formData.get("Phone"));
+        selectDropdownOption("Country", formData.get("Country"));
+        selectDropdownOption("State", formData.get("State"));
+        selectDropdownOption("City", formData.get("City"));
+        typeIntoField(3, formData.get("Zip Code"));
+        typeIntoStreetAddress(formData.get("Street Address"));
     }
 
-    // ===================== Profile Menu (Common) =====================
+    private void typeIntoField(int index, String value) {
+        By field = AppiumBy.androidUIAutomator(
+                "new UiSelector().className(\"android.widget.EditText\").instance(" + index + ")");
+        wait.until(ExpectedConditions.elementToBeClickable(field)).click();
+        typeIntoFocusedField(value);
+    }
 
-    public boolean isProfileMenuDisplayedAndEnabled(String menuName) {
+    private void selectDropdownOption(String dropdownName, String option) {
+        clickElement(dropdownName);
+        typeIntoField(0, option);
+        clickElement(option);
+    }
+
+    private void scrollFormToBottom() {
+        WebElement form = driver.findElement(
+                AppiumBy.androidUIAutomator("new UiSelector().scrollable(true)"));
+        driver.executeScript("mobile: scrollGesture", Map.of(
+                "elementId", form,
+                "direction", "down",
+                "percent", 1.0));
+    }
+
+    private void typeIntoStreetAddress(String value) {
+        scrollFormToBottom();
+
+        List<WebElement> fields = driver.findElements(AppiumBy.className("android.widget.EditText"));
+        fields.get(fields.size() - 1).click();
+        typeIntoFocusedField(value);
+    }
+
+    private void typeIntoFocusedField(String value) {
+        By focusedField = AppiumBy.androidUIAutomator(
+                "new UiSelector().className(\"android.widget.EditText\").focused(true)");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(focusedField)).sendKeys(value);
+    }
+
+    public boolean isAddressDisplayed(String streetAddress) {
+        By addressCard = AppiumBy.androidUIAutomator(
+                "new UiSelector().descriptionContains(\"" + streetAddress + "\")");
         try {
-            WebElement menu = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(AppiumBy.accessibilityId(menuName)));
-            return menu.isDisplayed() && menu.isEnabled();
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(addressCard)).isDisplayed();
         } catch (TimeoutException e) {
             return false;
         }
+    }
+
+    public boolean isAddressNotDisplayed(String streetAddress) {
+        By addressCard = AppiumBy.androidUIAutomator(
+                "new UiSelector().descriptionContains(\"" + streetAddress + "\")");
+        try {
+            return wait.until(ExpectedConditions.invisibilityOfElementLocated(addressCard));
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
+    public void deleteAddress(String streetAddress) {
+        By deleteIcon = AppiumBy.androidUIAutomator(
+                "new UiSelector().descriptionContains(\"" + streetAddress + "\")"
+                        + ".childSelector(new UiSelector().className(\"android.widget.ImageView\").instance(1))");
+        wait.until(ExpectedConditions.elementToBeClickable(deleteIcon)).click();
+        clickElement("Delete");
+    }
+
+    public void editAddress(String currentStreet, String newStreet) {
+        By editIcon = AppiumBy.androidUIAutomator(
+                "new UiSelector().descriptionContains(\"" + currentStreet + "\")"
+                        + ".childSelector(new UiSelector().className(\"android.widget.ImageView\").instance(0))");
+        wait.until(ExpectedConditions.elementToBeClickable(editIcon)).click();
+
+        By streetField = AppiumBy.androidUIAutomator(
+                "new UiSelector().className(\"android.widget.EditText\").text(\"" + currentStreet + "\")");
+        WebElement street = wait.until(ExpectedConditions.elementToBeClickable(streetField));
+        street.click();
+        street.clear();
+        typeIntoFocusedField(newStreet);
+        scrollFormToBottom();
+
+        By updateButton = AppiumBy.androidUIAutomator(
+                "new UiSelector().description(\"Update Address\").clickable(true)");
+        wait.until(ExpectedConditions.elementToBeClickable(updateButton)).click();
     }
 }
