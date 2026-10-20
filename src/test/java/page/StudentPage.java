@@ -144,6 +144,13 @@ public class StudentPage extends BasePage {
             "Your payment has been confirmed\")")
     public WebElement successYourPaymentConfirmedMessage; // success your payment has been confirmed
 
+    @AndroidFindBy(uiAutomator = "new UiSelector().className(\"android.view.View\").instance(13)")
+    public WebElement returnReasonButton; // return reason
+
+    @AndroidFindBy(uiAutomator = "new UiSelector().description(\"Request Return\").instance(1)")
+    public WebElement requestReturnButton; //  request return
+
+
 
 
 
@@ -179,6 +186,8 @@ public class StudentPage extends BasePage {
             case "alis veris" -> alisverisIkon;
             case "classic cargo shorts" -> classicCargoShorts;
             case "success your payment has been confirmed"  -> successYourPaymentConfirmedMessage;
+            case "return reason" -> returnReasonButton;
+            case "request return" -> requestReturnButton;
             default -> null;
         };
     }

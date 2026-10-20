@@ -2,9 +2,11 @@ package stepdefinitions;
 
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumBy;
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.PressesKey;
+import io.cucumber.core.backend.Pending;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -20,6 +22,9 @@ import org.openqa.selenium.WebElement;
 
 import io.appium.java_client.android.nativekey.KeyEvent;
 
+import org.openqa.selenium.interactions.Pause;
+import org.openqa.selenium.interactions.PointerInput;
+import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -35,6 +40,8 @@ import java.util.*;
 
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 import static page.StudentPage.getAllPopularBrands;
@@ -901,9 +908,9 @@ public class StudentSteps {
         zipCodeBox.sendKeys("12345");
 
 
-         if (driver.isKeyboardShown()) {
-                    driver.hideKeyboard();
-               }
+        if (driver.isKeyboardShown()) {
+            driver.hideKeyboard();
+        }
         logger.info(redWhite("Klavye kapatıldı"));
         // streetBox elementi
         WebElement streetBOx = wait.until(ExpectedConditions.elementToBeClickable(
@@ -1024,7 +1031,7 @@ public class StudentSteps {
     @When("Student kullanicisi {string} yazi alaninin gorunur ve aktif oldugunu dogrular")
     public void studentKullanicisiYaziAlanininGorunurVeAktifOldugunuDogrular(String boxName) {
 
-     VerifyElements.smartVerifyBox((AndroidDriver) getAppiumDriver(), boxName, () ->studentPage.getElementByName(boxName));
+        VerifyElements.smartVerifyBox((AndroidDriver) getAppiumDriver(), boxName, () -> studentPage.getElementByName(boxName));
 
     }
 
@@ -1142,7 +1149,7 @@ public class StudentSteps {
     @When("Student kullanicisi adi {string} olan urunu secer")
     public void studentKullanicisiAdiOlanUrunuSecer(String productName) {
 
-        AndroidClickUtils.smartClick((AndroidDriver) getAppiumDriver(), productName, () ->studentPage.getElementByName(productName));
+        AndroidClickUtils.smartClick((AndroidDriver) getAppiumDriver(), productName, () -> studentPage.getElementByName(productName));
         logger.info("Student kullanicisi adi {string} olan urunu secer");
 
     }
@@ -1156,8 +1163,8 @@ public class StudentSteps {
     @When("Student kullanicisi address sinifindan kayitli ilk adresi secer")
     public void studentKullanicisiAddressSinifindanKayitliIlkAdresiSecer() {
 
-        String className="android.widget.ImageView";
-        int index =3;
+        String className = "android.widget.ImageView";
+        int index = 3;
 
         ReusableMethods.wait(3);
         logger.info("{} class'ına ait sayfa genelindeki {}. elemente tıklıyor", className, index);
@@ -1181,7 +1188,7 @@ public class StudentSteps {
         WebElement confirmButton = stripeWait.until(
                 ExpectedConditions.elementToBeClickable(
                         AppiumBy.androidUIAutomator("new UiSelector().resourceId(\"confirmBtn\")")
-        ));
+                ));
 
         confirmButton.isDisplayed();
 
@@ -1249,7 +1256,92 @@ public class StudentSteps {
         logger.info(turkuazwhite("✅ US024Payment.feature testi başarıyla tamamlandı!"));
 
 
+    }
 
+    @When("Student kullanicisi status {string} olan urune tiklar")
+    public void studentKullanicisiStatusOlanUruneTiklar(String status) {
+
+        // status durumu Delivered olan ilk urune tıklamaklık
+        WebElement firstDeliveredOrder = wait.until(ExpectedConditions.elementToBeClickable(
+                AppiumBy.androidUIAutomator("new UiSelector().descriptionMatches(\"(?s).*" + status + ".*\").clickable(true)")
+        ));
+
+        firstDeliveredOrder.click();
+        logger.info(turkuazwhite("İlk Delivered durumundaki siparişe tıklandı."));
+
+
+    }
+
+    @When("Student kullanicisi iade etmek istedigi urunu dogrular")
+    public void studentKullanicisiIadeEtmekIstedigiUrunuDogrular() {
+
+        WebElement checkBox = wait.until(
+                ExpectedConditions.elementToBeClickable(
+                        AppiumBy.androidUIAutomator("new UiSelector().className(\"android.widget.ImageView\").instance(1)")
+                ));
+        checkBox.click();
+    }
+
+
+
+    @When("Student kullanicisi {string} isaretler")
+    public void studentKullanicisiIsaretler(String buttonName) {
+
+        String bounds = "[112,725][188,801]";
+
+        Pattern pattern = Pattern.compile("\\[(\\d+),(\\d+)\\]\\[(\\d+),(\\d+)\\]");
+        Matcher matcher = pattern.matcher(bounds);
+
+        if (matcher.matches()) {
+            // Koordinatları yakala
+            int x1 = Integer.parseInt(matcher.group(1));
+            int y1 = Integer.parseInt(matcher.group(2));
+            int x2 = Integer.parseInt(matcher.group(3));
+            int y2 = Integer.parseInt(matcher.group(4));
+
+            // Merkez noktayı hesapla
+            int centerX = (x1 + x2) / 2;
+            int centerY = (y1 + y2) / 2;
+
+            System.out.println("Hesaplanan merkez koordinatlara tıklanıyor: (" + centerX + ", " + centerY + ")");
+
+            // Modern Appium (W3C Actions) ile tıklama işlemi
+            PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+            Sequence tap = new Sequence(finger, 1);
+            tap.addAction(finger.createPointerMove(Duration.ofMillis(0), PointerInput.Origin.viewport(), centerX, centerY));
+            tap.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+            tap.addAction(new Pause(finger, Duration.ofMillis(100))); // Tıklama süresi
+            tap.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+
+            driver.perform(Collections.singletonList(tap));
+
+        } else {
+            // Eğer bounds formatı geçersizse hata fırlat
+            throw new IllegalArgumentException("Geçersiz bounds formatı. Beklenen format: '[x1,y1][x2,y2]', Gelen: " + bounds);
+        }
+
+        logger.info("Student kullanicisi {} isaretler", buttonName);
+
+
+    }
+
+    @When("Student kullanicisi klavyeyi guvenle kapatır")
+    public void studentKullanicisiKlavyeyiGuvenleKapatır() {
+
+        if (driver.isKeyboardShown()) {
+            driver.hideKeyboard();
+        }
+        logger.info(redWhite("Klavye kapatıldı"));
+    }
+
+    @When("Student kullanicisi urunun durumunun {string} oldugunu dogrular")
+    public void studentKullanicisiUrununDurumununOldugunuDogrular(String status) {
+
+        AndroidDriver driver = (AndroidDriver) Driver.getAppiumDriver();
+        String xpath = "//android.widget.ImageView[contains(@content-desc, 'Return Status') and contains(@content-desc, '" + status + "')]";
+        WebElement statusElement = driver.findElement(AppiumBy.xpath(xpath));
+
+        Assert.assertTrue("Sipariş durumu beklenen statüde ('" + status + "') görünmüyor!", statusElement.isDisplayed());
     }
 }
 
