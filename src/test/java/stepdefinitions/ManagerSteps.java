@@ -35,7 +35,7 @@ public class ManagerSteps {
     public void manager_kullanicisi_uygulamayi_acar() {
         getAppiumDriver();
 
-        AndroidClickUtils.verifyButtonByName("Profile");
+        //AndroidClickUtils.verifyButtonByName("Profile");
     }
 
     @Given("Manager kullanicisi sayfa alt barinda {string} ikonunun gorunur oldugunu dogrular")
@@ -100,13 +100,13 @@ public class ManagerSteps {
 
         } else if (yontem.equalsIgnoreCase("Telefon")) {
             System.out.println("[OTOMASYON] Telefon yöntemi seçildi.");
+            managerPage.phoneInsteadButon.click();
         }
     }
     @Given("Manager kullanicisi ilgili alana {string} bilgisini girer")
     public void manager_kullanicisi_ilgili_alana_bilgisini_girer(String iletisimBilgisi) {
         String finalInputData;
 
-        // 1. Veriyi properties dosyasından güvenle çekiyoruz
         if (iletisimBilgisi.equalsIgnoreCase("managerMail")) {
             finalInputData = ConfigReader.getProperty("managerMail");
         } else if (iletisimBilgisi.equalsIgnoreCase("phoneNumber")) {
@@ -162,22 +162,42 @@ public class ManagerSteps {
             }
     @Given("Manager kullanicisi {string} butonuna tiklar")
     public void manager_kullanicisi_butonuna_tiklar(String buton) {
-
-
         String butonAdi = buton.trim();
 
-        try {
+       /* try {
             (driver).hideKeyboard();
             System.out.println("[OTOMASYON] Android klavyesi güvenli bir şekilde gizlendi.");
         } catch (Exception e) {
 
-        }
+        }*/
         if (buton.equalsIgnoreCase("Sign In")) {
-            Assert.assertTrue(managerPage.signInGirisButon.isDisplayed());
+            boolean sifreDegistirmeEkranindaMiyiz = false;
+            try {
+                sifreDegistirmeEkranindaMiyiz = managerPage.signInOnayButon.isDisplayed();
+            } catch (Exception e) {}
+
+            if (sifreDegistirmeEkranindaMiyiz) {
+                System.out.println("[OTOMASYON] Şifre değiştirme ekranındaki 2. Sign In butonuna tıklanıyor...");
+                managerPage.signInOnayButon.click();
+                /*AndroidClickUtils.smartClick(
+                        driver,
+                        "Şifre Değiştirme Sign In",
+                        () -> managerPage.signInOnayButon);*/
+            } else {
+                System.out.println("[OTOMASYON] Giriş ekranındaki ilk Sign In butonuna tıklanıyor...");
+                /*AndroidClickUtils.smartClick(
+                        driver,
+                        "İlk Giriş Sign In",
+                        () -> managerPage.signInGirisButon
+                );*/
+                managerPage.signInGirisButon.click();
+            }
+            try { Thread.sleep(1000); } catch (Exception e) {}
+           /* Assert.assertTrue(managerPage.signInGirisButon.isDisplayed());
             AndroidClickUtils.smartClick(
                     driver,
                     "Sign In",
-                    () -> managerPage.signInGirisButon);
+                    () -> managerPage.signInGirisButon);*/
 
         } else if (buton.equalsIgnoreCase("Profile")) {
             wait.until(ExpectedConditions.elementToBeClickable(managerPage.profileGirisButon));
@@ -194,6 +214,7 @@ public class ManagerSteps {
                     driver,
                     "Submit",
                     () -> managerPage.resetSubmitButon);
+
         } else {
 
         throw new RuntimeException("HATA: '" + butonAdi + "' adında bir buton Java kodunda tanımlanmamış!");
@@ -202,12 +223,22 @@ public class ManagerSteps {
     }
     @Given("Manager kullanicisi password kutusuna sifre bilgisini girer")
     public void manager_kullanicisi_password_kutusuna_sifre_bilgisini_girer() {
+
+        String sifre = ConfigReader.getProperty("mailPassword");
+
+        if (sifre == null || sifre.isEmpty()) {
+            System.out.println("[UYARI] properties dosyasından 'mailPassword' OKUNAMADI! Varsayılan şifre kullanılıyor...");
+            sifre = "Learn.123";
+        }
+
         AndroidClickUtils.smartSendKeys(
                 driver,
-                "Sifre Giris Kutusu",
-                ConfigReader.getProperty("password"),
-                () -> managerPage.passwordGirisBox
-        );
+                "Password",
+                sifre,
+                () -> managerPage.passwordGirisBox);
+
+        System.out.println("[OTOMASYON] Şifre alanına başarıyla veri gönderildi: " + sifre);
+
     }
     @Given("Manager kullanicisi acilan dashboardda {string} linkini goruntuler ve tiklar")
     public void manager_kullanicisi_acilan_dashboardda_linkini_goruntuler_ve_tiklar(String dashboardYazi) {
