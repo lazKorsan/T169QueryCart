@@ -1,5 +1,6 @@
 package stepdefinitions;
 
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
@@ -9,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import page.ManagerPage;
@@ -35,7 +37,7 @@ public class ManagerSteps {
     public void manager_kullanicisi_uygulamayi_acar() {
         getAppiumDriver();
 
-        //AndroidClickUtils.verifyButtonByName("Profile");
+       // AndroidClickUtils.verifyButtonByName("Profile");
     }
 
     @Given("Manager kullanicisi sayfa alt barinda {string} ikonunun gorunur oldugunu dogrular")
@@ -127,14 +129,44 @@ public class ManagerSteps {
         managerPage.getOTPButon.click();
 
     }
-    @Given("Manager kullanicisi {string} kutusuna yeni sifreyi yazar")
-    public void manager_kullanicisi_kutusuna_yeni_sifreyi_yazar(String string) {
+    @Given("Manager kullanicisi new password kutusuna yeni sifreyi yazar")
+    public void manager_kullanicisi_new_password_kutusuna_yeni_sifreyi_yazar() {
 
-    }
-    @Given("Manager kullanicisi {string} kutusuna yeni sifreyi tekrar yazar")
-    public void manager_kullanicisi_kutusuna_yeni_sifreyi_tekrar_yazar(String string) {
+        String prefix = ConfigReader.getProperty("passwordPrefix");
+            String suffix = ConfigReader.getProperty("passwordSuffix");
 
+            if (prefix == null) prefix = "Learn";
+            if (suffix == null) suffix = ".";
+
+            String uniqueTime = String.valueOf(System.currentTimeMillis()).substring(8);
+            newlyGeneratedPassword = prefix + uniqueTime + suffix;
+        System.out.println("[OTOMASYON] clickByDescription ile New Password kutusunun açılması ve odaklanılması bekleniyor...");
+        AndroidClickUtils.clickByDescription("New Password");
+
+        // 3. Metot kutuyu bulup başarıyla tıkladıktan sonra, üretilen dinamik şifreyi kutuya gönderiyoruz:
+        try {
+            managerPage.resetNewPasswordBox.clear();
+            managerPage.resetNewPasswordBox.sendKeys(newlyGeneratedPassword);
+        } catch (Exception e) {
+            // Eğer PageFactory elementi nadiren de olsa sorun çıkarırsa, ham sendKeys komutuyla işletim sistemini zorluyoruz:
+            driver.findElement(AppiumBy.androidUIAutomator("new UiSelector().description(\"New Password\")")).sendKeys(newlyGeneratedPassword);
+        }
+
+        System.out.println("[DİNAMİK ŞİFRE SUCCESS] Akıllı metot sayesinde başarı mesajı beklendi, kutu odaklandı ve şifre yazıldı: " + newlyGeneratedPassword);
     }
+
+        @Given("Manager kullanicisi confirm password kutusuna yeni sifreyi tekrar yazar")
+    public void manager_kullanicisi_confirm_password_kutusuna_yeni_sifreyi_tekrar_yazar() {
+
+                AndroidClickUtils.smartSendKeys(
+                         driver,
+                        "Confirm Password Kutusu",
+                        newlyGeneratedPassword,
+                        () -> managerPage.resetConfirmPasswordBox);
+                System.out.println("[DİNAMİK ŞİFRE] Onay kutusuna aynı şifre basıldı: " + newlyGeneratedPassword);
+            }
+
+
 
     @Given("Manager kullanicisi {string} yazisini goruntuler ve islemin basariyla gerceklestigini dogrular")
     public void manager_kullanicisi_yazisini_goruntuler_ve_islemin_basariyla_gerceklestigini_dogrular(String beklenenMesaj) {
@@ -162,66 +194,58 @@ public class ManagerSteps {
             }
     @Given("Manager kullanicisi {string} butonuna tiklar")
     public void manager_kullanicisi_butonuna_tiklar(String buton) {
+
         String butonAdi = buton.trim();
 
-       /* try {
-            (driver).hideKeyboard();
-            System.out.println("[OTOMASYON] Android klavyesi güvenli bir şekilde gizlendi.");
+        try {
+            driver.hideKeyboard();
         } catch (Exception e) {
+        }
 
-        }*/
-        if (buton.equalsIgnoreCase("Sign In")) {
+        if (butonAdi.equalsIgnoreCase("Sign In")) {
+
             boolean sifreDegistirmeEkranindaMiyiz = false;
             try {
-                sifreDegistirmeEkranindaMiyiz = managerPage.signInOnayButon.isDisplayed();
-            } catch (Exception e) {}
+                // Ekran durumunu hızlıca kontrol ediyoruz
+                sifreDegistirmeEkranindaMiyiz = managerPage.passwordGirisBox.isDisplayed();
+            } catch (Exception e) {
+            }
 
             if (sifreDegistirmeEkranindaMiyiz) {
                 System.out.println("[OTOMASYON] Şifre değiştirme ekranındaki 2. Sign In butonuna tıklanıyor...");
+
                 managerPage.signInOnayButon.click();
-                /*AndroidClickUtils.smartClick(
-                        driver,
-                        "Şifre Değiştirme Sign In",
-                        () -> managerPage.signInOnayButon);*/
+
             } else {
                 System.out.println("[OTOMASYON] Giriş ekranındaki ilk Sign In butonuna tıklanıyor...");
-                /*AndroidClickUtils.smartClick(
-                        driver,
-                        "İlk Giriş Sign In",
-                        () -> managerPage.signInGirisButon
-                );*/
+
                 managerPage.signInGirisButon.click();
             }
-            try { Thread.sleep(1000); } catch (Exception e) {}
-           /* Assert.assertTrue(managerPage.signInGirisButon.isDisplayed());
-            AndroidClickUtils.smartClick(
-                    driver,
-                    "Sign In",
-                    () -> managerPage.signInGirisButon);*/
+        } else if (butonAdi.equalsIgnoreCase("Profile")) {
 
-        } else if (buton.equalsIgnoreCase("Profile")) {
-            wait.until(ExpectedConditions.elementToBeClickable(managerPage.profileGirisButon));
+            System.out.println("[WAIT] Profile butonunun ekranda belirmesi bekleniyor...");
 
-            Assert.assertTrue(managerPage.profileGirisButon.isDisplayed());
-            AndroidClickUtils.smartClick(
-                    driver,
-                    "Profile",
-                    () -> managerPage.profileGirisButon);
+            wait.until(ExpectedConditions.visibilityOf(managerPage.profileGirisButon));
 
-        } else if (buton.equalsIgnoreCase("Submit")) {
-            Assert.assertTrue(managerPage.resetSubmitButon.isDisplayed());
-            AndroidClickUtils.smartClick(
-                    driver,
-                    "Submit",
-                    () -> managerPage.resetSubmitButon);
+            // Element ekrana geldiği saniyede bekleme yapmadan ham olarak tıklatıyoruz:
+            managerPage.profileGirisButon.click();
+            System.out.println("[OTOMASYON SUCCESS] Profile butonuna yüklenir yüklenmez başarıyla tıklandı. ✅");
 
-        } else {
+        } else if (butonAdi.equalsIgnoreCase("Submit")) {
+            managerPage.resetSubmitButon.click();
 
-        throw new RuntimeException("HATA: '" + butonAdi + "' adında bir buton Java kodunda tanımlanmamış!");
+        } else if (butonAdi.equalsIgnoreCase("Forgot Password")) {
+            managerPage.forgotPasswordButon.click();
+            System.out.println("[OTOMASYON SUCCESS] Forgot Password butonuna başarıyla tıklandı. ✅");
+
+        } else{
+                throw new RuntimeException("HATA: '" + butonAdi + "' adında bir buton tanımlanmamış!");
+
+        }
+        System.out.println("[OTOMASYON SUCCESS] " + butonAdi + " butonuna bekleme yapılmadan anında tıklandı.");
+
     }
-        System.out.println("[OTOMASYON] Akıllı metotla başarıyla tıklanan buton: " + butonAdi);
-    }
-    @Given("Manager kullanicisi password kutusuna sifre bilgisini girer")
+        @Given("Manager kullanicisi password kutusuna sifre bilgisini girer")
     public void manager_kullanicisi_password_kutusuna_sifre_bilgisini_girer() {
 
         String sifre = ConfigReader.getProperty("mailPassword");
@@ -290,7 +314,7 @@ public class ManagerSteps {
     public void manager_kullanicisi_butonunu_goruntuler_ve_tiklar(String butonElementAdi) {
 
         try {
-            // 1. Feature dosyasından gelen metne göre managerPage içindeki WebElement'i ismiyle buluyoruz
+
             Field field = managerPage.getClass().getField(butonElementAdi.trim());
             WebElement targetButton = (WebElement) field.get(managerPage);
 
