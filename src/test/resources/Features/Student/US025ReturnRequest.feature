@@ -4,7 +4,7 @@ Feature: Kayıtlı bir kullanici olarak iade etmek istedigim siparisler ile ilgi
   @US025ReturnRequestStTC01
   Scenario: preCondtion Return Request
     * Student kullanicisi uygulamayi acar
-    * Student kullanicisi "3335134532" telefon numarasi ve "Query.2026!" sifresi ile uyuglamaya giris yapar
+    * Student kullanicisi "3335134808" telefon numarasi ve "Query.2026!" sifresi ile uyuglamaya giris yapar
     * Student kullanicisi "Profile" butona tiklar
     * ReusableMethods bekle 3
     * Student kullanicisi "Order History" butona tiklar
