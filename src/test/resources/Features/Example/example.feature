@@ -116,6 +116,15 @@ Feature: Arkadaslar ilk senaryoyu mutlaka calistirin. Bu bizim ortam degiskenler
     * Student kullanicisi "Success Change Password" toaster mesaji ile sifre degisikligini dogrular
 
 
+@exampleBannerUtils
+  Scenario: Test amacli degil. Sayfa yuklenme problemleri icin gecerli
+    * Badged kullanicisi uyugulamayi acar
+    * Badged kullanicisi "Yeni kayit olusturuluyor"
+    * Badged kullanicisi "ahmet" , "5671{timeStamp}" ve "Query.2026!" degerleri ile kayit olur ve giris yapar
+    * Badged kullanicisi "Add New Address Formu dolduruluyor"
+    * Badged kullanicisi "Add New Adress" formunu "Ahmet" ismi ile doldurur
+
+
 
 
 
