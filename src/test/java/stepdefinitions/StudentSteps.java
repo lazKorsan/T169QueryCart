@@ -2,11 +2,10 @@ package stepdefinitions;
 
 import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.AppiumBy;
-import io.appium.java_client.AppiumDriver;
+
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
-import io.appium.java_client.android.nativekey.PressesKey;
-import io.cucumber.core.backend.Pending;
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -1343,6 +1342,8 @@ public class StudentSteps {
 
         Assert.assertTrue("Sipariş durumu beklenen statüde ('" + status + "') görünmüyor!", statusElement.isDisplayed());
     }
+
+
 }
 
 

@@ -44,6 +44,73 @@ public class AndroidClickUtils {
         el1.click();
     }
 
+    /**
+     * Web elementini görünürlük ve tıklanabilirlik durumlarına göre kontrol ederek tıklar.
+     * Log4j ile tüm adımları ve olası hataları loglar.
+     *
+     * @param element Tıklanmak istenen WebElement
+     */
+    public static void clickElement(WebElement element) {
+        clickElement((AndroidDriver) Driver.getAppiumDriver(), element);
+    }
+
+    /**
+     * Parametre olarak gelen driver ile web elementini görünürlük ve tıklanabilirlik
+     * durumlarına göre kontrol ederek tıklar ve loglar.
+     *
+     * @param driver  AndroidDriver nesnesi
+     * @param element Tıklanmak istenen WebElement
+     */
+    public static void clickElement(AndroidDriver driver, WebElement element) {
+        logger.info(GREEN + "=".repeat(60) + RESET);
+        logger.info(GREEN + "🎯 ELEMENT TIKLAMA İŞLEMİ BAŞLATILDI" + RESET);
+        logger.info(GREEN + "=".repeat(60) + RESET);
+
+        try {
+            if (element == null) {
+                logger.error(RED + "❌ Tıklanmak istenen WebElement NULL geldi!" + RESET);
+                Assert.fail("Tıklanacak element null olduğu için işlem durduruldu.");
+                return;
+            }
+
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_TIMEOUT));
+
+            // 1. Görünürlük Kontrolü
+            logger.info(CYAN + "⏳ Elementin görünür olması bekleniyor..." + RESET);
+            wait.until(ExpectedConditions.visibilityOf(element));
+            logger.info(GREEN + "✅ Element görünür durumda" + RESET);
+
+            // 2. Tıklanabilirlik Kontrolü
+            logger.info(CYAN + "⏳ Elementin tıklanabilir olması bekleniyor..." + RESET);
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+            logger.info(GREEN + "✅ Element tıklanabilir durumda" + RESET);
+
+            // 3. Tıklama İşlemi
+            element.click();
+            logger.info(GREEN + "🚀 Elemente başarıyla tıklandı!" + RESET);
+            logger.info(GREEN + "=".repeat(60) + RESET);
+
+        } catch (TimeoutException e) {
+            logger.error(RED + "⏰ Element " + DEFAULT_TIMEOUT + " saniye içinde görünür veya tıklanabilir olmadı!" + RESET);
+            logger.error(RED + "Hata Detayı: " + e.getMessage() + RESET);
+            Assert.fail("TimeoutException: Element beklenen sürede tıklanabilir duruma gelmedi.");
+
+        } catch (ElementClickInterceptedException e) {
+            logger.error(RED + "💥 Element başka bir katman/element tarafından engellendiği için tıklanamadı!" + RESET);
+            logger.error(RED + "Hata Detayı: " + e.getMessage() + RESET);
+            Assert.fail("ElementClickInterceptedException: Elementin üzeri kapalı veya engelleniyor.");
+
+        } catch (StaleElementReferenceException e) {
+            logger.error(RED + "⚠️ Element DOM yapısından düştü (Stale Element)!" + RESET);
+            logger.error(RED + "Hata Detayı: " + e.getMessage() + RESET);
+            Assert.fail("StaleElementReferenceException: Element bayatladı, tekrar bulunması gerekiyor.");
+
+        } catch (Exception e) {
+            logger.error(RED + "💥 Element tıklanırken beklenmeyen bir hata oluştu: " + e.getMessage() + RESET);
+            Assert.fail("Tıklama işlemi sırasında beklenmeyen hata: " + e.getMessage());
+        }
+    }
+
 
     public static void clickByDescription(String buttonName) {
         // Yıldız (*) veya tırnak işaretlerinden arındırma
@@ -182,6 +249,70 @@ public class AndroidClickUtils {
         } catch (Exception e) {
             logger.error("❌ Index {}'li text box'a değer girilemedi: {}", index, e.getMessage());
             throw new RuntimeException("Text box'a değer girilemedi!", e);
+        }
+    }
+
+    /**
+     * Web elementini görünürlük durumuna göre kontrol eder, tıklar, temizler ve belirtilen metni yazar.
+     * Log4j ile tüm adımları ve olası hataları loglar.
+     *
+     * @param element Metin yazılmak istenen WebElement
+     * @param text    Yazılacak metin
+     */
+    public static void sendKeysElement(WebElement element, String text) {
+        sendKeysElement((AndroidDriver) Driver.getAppiumDriver(), element, text);
+    }
+
+    /**
+     * Parametre olarak gelen driver ile web elementini görünürlük durumuna göre kontrol eder,
+     * tıklar, temizler ve belirtilen metni yazar.
+     *
+     * @param driver  AndroidDriver nesnesi
+     * @param element Metin yazılmak istenen WebElement
+     * @param text    Yazılacak metin
+     */
+    public static void sendKeysElement(AndroidDriver driver, WebElement element, String text) {
+        logger.info(GREEN + "=".repeat(60) + RESET);
+        logger.info(GREEN + "✍️ ELEMENTE METIN YAZMA İŞLEMİ BAŞLATILDI" + RESET);
+        logger.info(GREEN + "=".repeat(60) + RESET);
+
+        try {
+            if (element == null) {
+                logger.error(RED + "❌ Metin yazılmak istenen WebElement NULL geldi!" + RESET);
+                Assert.fail("Yazı yazılacak element null olduğu için işlem durduruldu.");
+                return;
+            }
+
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(DEFAULT_TIMEOUT));
+
+            // 1. Görünürlük Kontrolü
+            logger.info(CYAN + "⏳ Elementin görünür olması bekleniyor..." + RESET);
+            wait.until(ExpectedConditions.visibilityOf(element));
+            logger.info(GREEN + "✅ Element görünür durumda" + RESET);
+
+            // 2. Metin Alanına Odaklanma ve Temizleme
+            element.click();
+            element.clear();
+            logger.info(CYAN + "🧹 Metin alanı temizlendi" + RESET);
+
+            // 3. Metin Gönderme
+            element.sendKeys(text);
+            logger.info(GREEN + "🚀 Elemente '{}' değeri başarıyla yazıldı!" + RESET, text);
+            logger.info(GREEN + "=".repeat(60) + RESET);
+
+        } catch (TimeoutException e) {
+            logger.error(RED + "⏰ Element " + DEFAULT_TIMEOUT + " saniye içinde görünür olmadı!" + RESET);
+            logger.error(RED + "Hata Detayı: " + e.getMessage() + RESET);
+            Assert.fail("TimeoutException: Element beklenen sürede görünür duruma gelmedi.");
+
+        } catch (StaleElementReferenceException e) {
+            logger.error(RED + "⚠️ Element DOM yapısından düştü (Stale Element)!" + RESET);
+            logger.error(RED + "Hata Detayı: " + e.getMessage() + RESET);
+            Assert.fail("StaleElementReferenceException: Element bayatladı, tekrar bulunması gerekiyor.");
+
+        } catch (Exception e) {
+            logger.error(RED + "💥 Elemente metin yazılırken beklenmeyen bir hata oluştu: " + e.getMessage() + RESET);
+            Assert.fail("Metin yazma işlemi sırasında beklenmeyen hata: " + e.getMessage());
         }
     }
 
