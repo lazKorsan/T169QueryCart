@@ -1178,6 +1178,8 @@ public class StudentSteps {
             logger.error("❌ Tıklama başarısız: {}", e.getMessage());
             throw new RuntimeException("Elemente tıklanamadı!", e);
         }
+
+
     }
 
     @When("Student kullanicisi {string} ve {string} ve {string} ve {string} cart bilgileri ile odemeyi yapar")
