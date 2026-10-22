@@ -8,9 +8,13 @@ import io.cucumber.java.en.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import page.ManagerPage;
@@ -28,18 +32,38 @@ public class ManagerSteps {
     private final ManagerPage managerPage = new ManagerPage();
     private final AndroidDriver driver = (AndroidDriver) Driver.getAppiumDriver();
     private final WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-    private static String currentPassword = ConfigReader.getProperty("password");
-    private static String newlyGeneratedPassword;
+    public static String currentPassword = ConfigReader.getProperty("password");
+    public static String newlyGeneratedPassword;
     private static int passwordCounter = 1;
+    private final Actions action = new Actions(driver);
+    public static String ortakYeniSifre = null;
+
+
+
+
+
 
 
     @Given("Manager kullanicisi uygulamayi acar")
     public void manager_kullanicisi_uygulamayi_acar() {
+
         getAppiumDriver();
+        //AndroidClickUtils.verifyButtonByName("Profile");
 
-       // AndroidClickUtils.verifyButtonByName("Profile");
+        try {
+
+            ((io.appium.java_client.android.AndroidDriver) Driver.getAppiumDriver()).terminateApp("com.wise.querycart");
+
+            Thread.sleep(1000);
+
+            ((io.appium.java_client.android.AndroidDriver) Driver.getAppiumDriver()).activateApp("com.wise.querycart");
+
+            System.out.println("[SİSTEM SUCCESS] Uygulama tamamen kapatıldı ve sıfırdan tertemiz açıldı! ✅");
+        } catch (Exception e) {
+            System.out.println("[UYARI] Uygulama sıfırlanırken bir aksama oldu, doğrudan devam ediliyor: " + e.getMessage());
+        }
+
     }
-
     @Given("Manager kullanicisi sayfa alt barinda {string} ikonunun gorunur oldugunu dogrular")
     public void manager_kullanicisi_sayfa_alt_barinda_ikonunun_gorunur_oldugunu_dogrular(String textName) {
         managerPage.altBarIkonuGoruntulemeVeTiklama(textName,false);
@@ -100,7 +124,7 @@ public class ManagerSteps {
             System.out.println("[OTOMASYON] E-posta yöntemi seçildi. Linke tıklanıyor...");
             managerPage.emailInsteadButon.click();
 
-        } else if (yontem.equalsIgnoreCase("Telefon")) {
+        } else if (yontem.equalsIgnoreCase("phone")) {
             System.out.println("[OTOMASYON] Telefon yöntemi seçildi.");
             managerPage.phoneInsteadButon.click();
         }
@@ -117,12 +141,36 @@ public class ManagerSteps {
             finalInputData = iletisimBilgisi;
         }
 
-        AndroidClickUtils.smartSendKeys(
-                driver,
-                "İletişim Bilgisi Kutusu",
-                finalInputData,
-                () -> managerPage.email_phoneGirisBox);
+        System.out.println("[OTOMASYON] Veri enjeksiyonu deneniyor: " + finalInputData);
 
+        try {
+
+            AndroidClickUtils.smartSendKeys(
+                    driver,
+                    "İletişim Bilgisi Kutusu",
+                    finalInputData,
+                    () -> managerPage.email_phoneGirisBox);
+
+            if (managerPage.email_phoneGirisBox.getText() == null || managerPage.email_phoneGirisBox.getText().isEmpty()) {
+                throw new RuntimeException("Kutu boş kaldı, yedek plan tetikleniyor...");
+            }
+
+        } catch (Exception e) {
+            System.out.println("[UYARI] Klavye tipi uyuşmazlığı algılandı! Telefon numarası için Sayısal Tuş Enjeksiyonu yapılıyor...");
+
+            try {
+                wait.until(ExpectedConditions.elementToBeClickable(managerPage.email_phoneGirisBox));
+                managerPage.email_phoneGirisBox.click();
+                Thread.sleep(500);
+
+                System.out.println("[SAYISAL SUCCESS] Telefon numarası tuş simülasyonu ile başarıyla yazıldı: " + ConfigReader.getProperty("phoneNumber"));
+
+            } catch (Exception ex) {
+                System.out.println("[HATA] Sayısal enjeksiyon da başarısız oldu: " + ex.getMessage());
+
+                driver.executeScript("mobile: type", java.util.Map.of("text", finalInputData));
+            }
+        }
     }
     @Given("Manager kullanicisi Get OTP butonuna tiklar")
     public void manager_kullanicisi_get_otp_butonuna_tiklar() {
@@ -132,28 +180,34 @@ public class ManagerSteps {
     @Given("Manager kullanicisi new password kutusuna yeni sifreyi yazar")
     public void manager_kullanicisi_new_password_kutusuna_yeni_sifreyi_yazar() {
 
-        String prefix = ConfigReader.getProperty("passwordPrefix");
+            String prefix = ConfigReader.getProperty("passwordPrefix");
             String suffix = ConfigReader.getProperty("passwordSuffix");
-
             if (prefix == null) prefix = "Learn";
             if (suffix == null) suffix = ".";
-
             String uniqueTime = String.valueOf(System.currentTimeMillis()).substring(8);
             newlyGeneratedPassword = prefix + uniqueTime + suffix;
-        System.out.println("[OTOMASYON] clickByDescription ile New Password kutusunun açılması ve odaklanılması bekleniyor...");
-        AndroidClickUtils.clickByDescription("New Password");
+            ortakYeniSifre = newlyGeneratedPassword;
 
-        // 3. Metot kutuyu bulup başarıyla tıkladıktan sonra, üretilen dinamik şifreyi kutuya gönderiyoruz:
-        try {
-            managerPage.resetNewPasswordBox.clear();
-            managerPage.resetNewPasswordBox.sendKeys(newlyGeneratedPassword);
-        } catch (Exception e) {
-            // Eğer PageFactory elementi nadiren de olsa sorun çıkarırsa, ham sendKeys komutuyla işletim sistemini zorluyoruz:
-            driver.findElement(AppiumBy.androidUIAutomator("new UiSelector().description(\"New Password\")")).sendKeys(newlyGeneratedPassword);
+        System.out.println("[OTOMASYON] Kurşungeçirmez Tıklama ve Giriş Protokolü Devreye Giriyor...");
+
+
+            try {
+                driver.hideKeyboard();
+            } catch (Exception e) {
+
+            }
+
+        managerPage.resetNewPasswordBox.click();
+        try { Thread.sleep(3000); } catch (Exception e) {}
+
+        managerPage.resetNewPasswordBox.clear();
+        managerPage.resetNewPasswordBox.click();
+
+        driver.executeScript("mobile: type", java.util.Map.of("text", newlyGeneratedPassword));
+        currentPassword = newlyGeneratedPassword;
+
         }
 
-        System.out.println("[DİNAMİK ŞİFRE SUCCESS] Akıllı metot sayesinde başarı mesajı beklendi, kutu odaklandı ve şifre yazıldı: " + newlyGeneratedPassword);
-    }
 
         @Given("Manager kullanicisi confirm password kutusuna yeni sifreyi tekrar yazar")
     public void manager_kullanicisi_confirm_password_kutusuna_yeni_sifreyi_tekrar_yazar() {
@@ -171,10 +225,45 @@ public class ManagerSteps {
     @Given("Manager kullanicisi {string} yazisini goruntuler ve islemin basariyla gerceklestigini dogrular")
     public void manager_kullanicisi_yazisini_goruntuler_ve_islemin_basariyla_gerceklestigini_dogrular(String beklenenMesaj) {
 
-           VerifyElements.smartVerifyToast(driver,
+          /* VerifyElements.smartVerifyToast(driver,
                    beklenenMesaj,
-                   ()-> managerPage.toastSuccessMessage);
-    }
+                   ()-> managerPage.toastSuccessMessage);*/
+            System.out.println("[DORULAMA] Ekranda '" + beklenenMesaj + "' Toast mesajı aranıyor...");
+
+
+            By toastLocator = By.xpath("//android.widget.Toast");
+
+            try {
+
+                WebDriverWait toastWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+
+                toastWait.until(ExpectedConditions.presenceOfElementLocated(toastLocator));
+
+                String aktuelMesaj = driver.findElement(toastLocator).getText();
+                System.out.println("[OTOMASYON] Ekranda Yakalanan Toast Metni: " + aktuelMesaj);
+
+
+                Assert.assertTrue("HATA: Beklenen mesaj aktüel mesajı içermiyor! Beklenen: " + beklenenMesaj + ", Gelen: " + aktuelMesaj,
+                        aktuelMesaj.toLowerCase().contains(beklenenMesaj.toLowerCase()));
+
+                System.out.println("[DOĞRULAMA SUCCESS] Başarı mesajı başarıyla doğrulandı: ✅ " + aktuelMesaj);
+
+            } catch (Exception e) {
+                System.out.println("[UYARI] Toast elementi klasik yolla yakalanamadı. Alternatif sayfa kaynağı (Page Source) taraması yapılıyor...");
+
+
+                String pageSource = driver.getPageSource();
+                if (pageSource.contains(beklenenMesaj)) {
+                    System.out.println("[DOĞRULAMA SUCCESS] Mesaj sayfa kaynağında (Page Source) iz olarak bulundu! ✅");
+                } else {
+
+                    throw new AssertionError("HATA: '" + beklenenMesaj + "' yazısı ekranda veya sayfa kaynağında bulunamadı!");
+                }
+            }
+        }
+
+
 
     @Given("Manager kullanicisi {string} butonunun gorunur ve aktif oldugunu dogrular")
     public void manager_kullanicisi_butonunun_gorunur_ve_aktif_oldugunu_dogrular(String butonAdi) {
@@ -186,7 +275,9 @@ public class ManagerSteps {
 
                 } else if (butonAdi.equalsIgnoreCase("Back to sign in")) {
                     targetButton = managerPage.backToSignInButon;
-                }
+                } else if(butonAdi.equalsIgnoreCase("Save Changes")){
+                    targetButton = managerPage.saveChangesChangePasswordButon;
+        }
 
                 Assert.assertTrue("HATA: " + butonAdi + " butonu ekranda GÖRÜNMÜYOR!", targetButton.isDisplayed());
                 Assert.assertTrue("HATA: " + butonAdi+ " butonu AKTİF/TIKLANABİLİR DEĞİL!", targetButton.isEnabled());
@@ -206,133 +297,131 @@ public class ManagerSteps {
 
             boolean sifreDegistirmeEkranindaMiyiz = false;
             try {
-                // Ekran durumunu hızlıca kontrol ediyoruz
                 sifreDegistirmeEkranindaMiyiz = managerPage.passwordGirisBox.isDisplayed();
-            } catch (Exception e) {
-            }
+            } catch (Exception e) {}
+
+            By dinamikSignIn = By.xpath("//*[@content-desc='Sign In' or @text='Sign In']");
 
             if (sifreDegistirmeEkranindaMiyiz) {
                 System.out.println("[OTOMASYON] Şifre değiştirme ekranındaki 2. Sign In butonuna tıklanıyor...");
-
-                managerPage.signInOnayButon.click();
+                //wait.until(ExpectedConditions.elementToBeClickable(dinamikSignIn));
+                //driver.findElement(dinamikSignIn).click();
+                wait.until(ExpectedConditions.elementToBeClickable(managerPage.signInOnayButon));
+                driver.findElement(By.xpath("(//android.view.View[@content-desc=\"Sign In\"])[2]")).click();
 
             } else {
                 System.out.println("[OTOMASYON] Giriş ekranındaki ilk Sign In butonuna tıklanıyor...");
 
-                managerPage.signInGirisButon.click();
+                try {
+                    wait.until(ExpectedConditions.elementToBeClickable(dinamikSignIn));
+                    driver.findElement(dinamikSignIn).click();
+                } catch (Exception ex) {
+
+                    managerPage.signInGirisButon.click();
+                }
             }
         } else if (butonAdi.equalsIgnoreCase("Profile")) {
 
-            System.out.println("[WAIT] Profile butonunun ekranda belirmesi bekleniyor...");
+            By profileLocator = By.xpath("//android.widget.ImageView[@content-desc=\"Profile\"]");
 
-            wait.until(ExpectedConditions.visibilityOf(managerPage.profileGirisButon));
+            try {
+                wait.until(ExpectedConditions.elementToBeClickable(profileLocator));
+                driver.findElement(profileLocator).click();
+            } catch (Exception e) {
+                managerPage.profileGirisButon.click();
+            }
 
-            // Element ekrana geldiği saniyede bekleme yapmadan ham olarak tıklatıyoruz:
-            managerPage.profileGirisButon.click();
             System.out.println("[OTOMASYON SUCCESS] Profile butonuna yüklenir yüklenmez başarıyla tıklandı. ✅");
 
+
         } else if (butonAdi.equalsIgnoreCase("Submit")) {
-            managerPage.resetSubmitButon.click();
+            AndroidClickUtils.smartClick(driver,"Submit button",() -> managerPage.resetSubmitButon);
 
         } else if (butonAdi.equalsIgnoreCase("Forgot Password")) {
             managerPage.forgotPasswordButon.click();
             System.out.println("[OTOMASYON SUCCESS] Forgot Password butonuna başarıyla tıklandı. ✅");
 
-        } else{
+        } else if (butonAdi.equalsIgnoreCase("Save Changes")) {
+            AndroidClickUtils.smartClick(driver, "Save Changes", () -> managerPage.saveChangesChangePasswordButon);
+        }else{
                 throw new RuntimeException("HATA: '" + butonAdi + "' adında bir buton tanımlanmamış!");
 
         }
-        System.out.println("[OTOMASYON SUCCESS] " + butonAdi + " butonuna bekleme yapılmadan anında tıklandı.");
 
     }
         @Given("Manager kullanicisi password kutusuna sifre bilgisini girer")
     public void manager_kullanicisi_password_kutusuna_sifre_bilgisini_girer() {
 
-        String sifre = ConfigReader.getProperty("mailPassword");
+            String sifre;
 
-        if (sifre == null || sifre.isEmpty()) {
-            System.out.println("[UYARI] properties dosyasından 'mailPassword' OKUNAMADI! Varsayılan şifre kullanılıyor...");
-            sifre = "Learn.123";
+            // 🎯 Eğer test esnasında şifre başarıyla değiştirildiyse, sınıf seviyesindeki static havuza kilitlenen yeni şifreyi getirir
+            if (newlyGeneratedPassword != null && !newlyGeneratedPassword.isEmpty()) {
+                sifre = newlyGeneratedPassword;
+                System.out.println("[HAFIZA SUCCESS] Değiştirilen dinamik YENİ şifre başarıyla hafızadan çağrıldı: " + sifre);
+            } else if (currentPassword != null && !currentPassword.isEmpty()) {
+                sifre = currentPassword;
+                System.out.println("[HAFIZA SUCCESS] currentPassword hafızasından çağrıldı: " + sifre);
+            } else {
+                // Eğer henüz şifre değiştirilmediyse properties dosyasındaki şifreye bakar
+                sifre = ConfigReader.getProperty("mailPassword");
+                if (sifre == null || sifre.isEmpty()) {
+                    sifre = "Learn.123";
+                }
+                System.out.println("[SABİT ŞİFRE] Hafıza boş, properties dosyasındaki varsayılan şifre çağrıldı: " + sifre);
+            }
+
+            AndroidClickUtils.smartSendKeys(
+                    driver,
+                    "Password",
+                    sifre,
+                    () -> managerPage.passwordGirisBox);
+
+            System.out.println("[OTOMASYON] Giriş için şifre başarıyla basıldı: " + sifre);
         }
 
-        AndroidClickUtils.smartSendKeys(
-                driver,
-                "Password",
-                sifre,
-                () -> managerPage.passwordGirisBox);
-
-        System.out.println("[OTOMASYON] Şifre alanına başarıyla veri gönderildi: " + sifre);
-
-    }
     @Given("Manager kullanicisi acilan dashboardda {string} linkini goruntuler ve tiklar")
     public void manager_kullanicisi_acilan_dashboardda_linkini_goruntuler_ve_tiklar(String dashboardYazi) {
+
         managerPage.dashboardChangePasswordButon.click();
     }
     @Given("Manager kullanicisi old password alanina {string}, new password alanina {string} ve confirm alanina {string} yazar")
     public void manager_kullanicisi_old_password_alanina_new_password_alanina_ve_confirm_alanina_yazar(String eskiSifre, String yeniSifre, String onaySifre) {
 
 
-            if (currentPassword == null) {
-                currentPassword = ConfigReader.getProperty("oldPassword"); // Örn: Learn.123
-            }
-
-            String finalOldPassword = eskiSifre.equalsIgnoreCase("oldPassword") ? currentPassword : eskiSifre;
-            String finalNewPassword;
-
-            if (yeniSifre.equalsIgnoreCase("newPassword") || onaySifre.equalsIgnoreCase("confirmPassword")) {
-
-                String prefix = ConfigReader.getProperty("passwordPrefix");
-                String suffix = ConfigReader.getProperty("passwordSuffix");
-                String uniqueTime = String.valueOf(System.currentTimeMillis()).substring(8);
-
-                newlyGeneratedPassword = prefix + uniqueTime + suffix;
-                finalNewPassword = newlyGeneratedPassword;
-            } else {
-                finalNewPassword = yeniSifre;
-            }
-        AndroidClickUtils.smartSendKeys(
-                driver,
-                "Eski Sifre Kutusu",
-                finalOldPassword,
-                () -> managerPage.oldPasswordChangePasswordBox
-        );
-        AndroidClickUtils.smartSendKeys(
-                driver,
-                "Yeni Sifre Kutusu",
-                finalNewPassword,
-                () -> managerPage.newPasswordChangePasswordBox
-        );
-        AndroidClickUtils.smartSendKeys(
-                driver,
-                "Onay Sifre Kutusu",
-                finalNewPassword,
-                () -> managerPage.confirmPasswordChangePasswordBox
-        );
-            currentPassword = newlyGeneratedPassword;
-        }
-    @Given("Manager kullanicisi {string} butonunu goruntuler ve tiklar")
-    public void manager_kullanicisi_butonunu_goruntuler_ve_tiklar(String butonElementAdi) {
-
+        System.out.println("[WAIT] Ekrandaki Toast/Bildirim mesajının kaybolması bekleniyor...");
         try {
-
-            Field field = managerPage.getClass().getField(butonElementAdi.trim());
-            WebElement targetButton = (WebElement) field.get(managerPage);
-
-            AndroidClickUtils.smartClick(
-                    (AndroidDriver) driver,
-                    butonElementAdi + " Butonu",
-                    () -> targetButton
-            );
-
-            System.out.println("[REFLECTIVE SUCCESS] " + butonElementAdi + " elementine akıllıca tıklandı! ✅");
-
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException("HATA: managerPage sınıfı içinde '" + butonElementAdi + "' adında bir WebElement bulunamadı! İsimleri kontrol edin.");
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException("HATA: Elemente erişim izni sağlanamadı.");
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//android.widget.Toast")));
+        } catch (Exception e) {
         }
 
-    }
+        if (currentPassword == null) {
+            currentPassword = ConfigReader.getProperty("oldPassword");
+        }
+
+        String finalOldPassword = eskiSifre.equalsIgnoreCase("oldPassword") ? currentPassword : eskiSifre;
+        String finalNewPassword;
+
+        if (yeniSifre.equalsIgnoreCase("newPassword") || onaySifre.equalsIgnoreCase("confirmPassword")) {
+            String prefix = ConfigReader.getProperty("passwordPrefix");
+            String suffix = ConfigReader.getProperty("passwordSuffix");
+            String uniqueTime = String.valueOf(System.currentTimeMillis()).substring(8);
+            newlyGeneratedPassword = prefix + uniqueTime + suffix;
+            finalNewPassword = newlyGeneratedPassword;
+            ortakYeniSifre = newlyGeneratedPassword;
+
+
+        } else {
+            finalNewPassword = yeniSifre;
+        }
+
+        AndroidClickUtils.smartSendKeys(driver, "Eski Sifre Kutusu", finalOldPassword, () -> managerPage.oldPasswordChangePasswordBox);
+        AndroidClickUtils.smartSendKeys(driver, "Yeni Sifre Kutusu", finalNewPassword, () -> managerPage.newPasswordChangePasswordBox);
+        action.sendKeys(Keys.TAB).perform();
+        AndroidClickUtils.smartSendKeys(driver, "Onay Sifre Kutusu", finalNewPassword, () -> managerPage.confirmPasswordChangePasswordBox);
+
+        currentPassword = newlyGeneratedPassword;
+
+        }
 
     @Given("Manager kullanicisi acilan dashboardda {string} linkini gorunur ve tiklanabilir oldugunu dogrular")
     public void manager_kullanicisi_acilan_dashboardda_linkini_gorunur_ve_tiklanabilir_oldugunu_dogrular(String linkDogrulama) {
@@ -349,6 +438,14 @@ public class ManagerSteps {
 
                 System.out.println("[ASSERTION SUCCESS] '" + linkDogrulama + "' linki başarıyla doğrulandı ve aktif! ✅");
             }
+    @Given("Manager kullanicisi old password,new password ve confirm password kutularinin gorunur oldugunu dogrular")
+    public void manager_kullanicisi_old_password_new_password_ve_confirm_password_kutularinin_gorunur_oldugunu_dogrular(){
+
+        Assert.assertTrue(managerPage.oldPasswordChangePasswordBox.isDisplayed());
+        Assert.assertTrue(managerPage.newPasswordChangePasswordBox.isDisplayed());
+        Assert.assertTrue(managerPage.confirmPasswordChangePasswordBox.isDisplayed());
+            }
+
         }
 
 

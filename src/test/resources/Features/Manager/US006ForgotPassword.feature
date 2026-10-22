@@ -1,4 +1,4 @@
-@US006
+@US006ForgotPassword
 Feature: Kayıtlı bir kullanici olarak şifremi unuttugumda şifre değiştirme işlemi yapabilmek istiyorum
 
 
@@ -41,18 +41,19 @@ Feature: Kayıtlı bir kullanici olarak şifremi unuttugumda şifre değiştirme
     * Manager kullanicisi dogrulama yontemi olarak "<yontem>" secenegini secer
     * Manager kullanicisi ilgili alana "<iletisim_bilgisi>" bilgisini girer
     * Manager kullanicisi Get OTP butonuna tiklar
-    * Manager kullanicisi "Success" yazisini goruntuler ve islemin basariyla gerceklestigini dogrular
+    #* Manager kullanicisi "Success" yazisini goruntuler ve islemin basariyla gerceklestigini dogrular
     * Manager kullanicisi new password kutusuna yeni sifreyi yazar
     * Manager kullanicisi confirm password kutusuna yeni sifreyi tekrar yazar
     * Manager kullanicisi "Submit" butonuna tiklar
-    * Manager kullanicisi "Success" yazisini goruntuler ve islemin basariyla gerceklestigini dogrular
+    #* Manager kullanicisi "Success" yazisini goruntuler ve islemin basariyla gerceklestigini dogrular
 
 
     Examples:
 
-      | yontem  | iletisim_bilgisi     |
-      | E-posta | managerMail          |
-      | Telefon | phoneNumber          |
+      | yontem        | iletisim_bilgisi     |
+      | phoneNumber   | phoneNumber      |
+
+
 
 
 

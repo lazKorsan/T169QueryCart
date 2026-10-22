@@ -96,7 +96,7 @@ public class ManagerPage extends QueryCardPage {
     @AndroidFindBy(xpath = "(//android.widget.EditText)[2]")
     public WebElement newPasswordChangePasswordBox;
 
-    @AndroidFindBy(xpath = "(//android.widget.EditText)[2]")
+    @AndroidFindBy(xpath = "(//android.widget.EditText)[3]")
     public WebElement confirmPasswordChangePasswordBox;
 
     @AndroidFindBy(xpath = "//android.view.View[@content-desc=\"Save Changes\"]")
