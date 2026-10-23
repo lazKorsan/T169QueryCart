@@ -77,9 +77,12 @@ public class TeacherPage extends BasePage {
     }
 
     private boolean scrollPageDown() {
-        WebElement page = driver.findElement(AppiumBy.androidUIAutomator("new UiSelector().scrollable(true)"));
+        List<WebElement> pages = driver.findElements(AppiumBy.androidUIAutomator("new UiSelector().scrollable(true)"));
+        if (pages.isEmpty()) {
+            return false;
+        }
         Object canScrollMore = driver.executeScript("mobile: scrollGesture", Map.of(
-                "elementId", page,
+                "elementId", pages.get(0),
                 "direction", "down",
                 "percent", 0.5));
         return Boolean.TRUE.equals(canScrollMore);
